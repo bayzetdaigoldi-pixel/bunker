@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0a0a0f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>🛡️ БУНКЕР</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00f5ff;
+            --neon-green: #00ff88;
+            --neon-yellow: #ffdd00;
+            --neon-orange: #ff6600;
+            --neon-red: #ff0055;
+            --neon-purple: #bb00ff;
+            --neon-pink: #ff00aa;
+            --bg-dark: #0a0a0f;
+            --bg-panel: #12121a;
+            --bg-card: #1a1a25;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: var(--bg-dark);
+            background-image: 
+                radial-gradient(ellipse at 20% 10%, rgba(0, 245, 255, 0.08) 0%, transparent 40%),
+                radial-gradient(ellipse at 80% 90%, rgba(0, 255, 136, 0.06) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 50%, rgba(187, 0, 255, 0.03) 0%, transparent 60%);
+            min-height: 100vh;
+            min-height: 100dvh;
+            font-family: 'Rajdhani', sans-serif;
+            color: #e0e0e0;
+            overflow-x: hidden;
+            padding: 8px;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(0, 245, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridMove 20s linear infinite;
+        }
+        
+        @keyframes gridMove {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(50px); }
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding: 12px;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .header {
+            text-align: center;
+            padding: 15px 10px;
+            background: linear-gradient(180deg, rgba(0,245,255,0.1) 0%, rgba(0,0,0,0) 100%);
+            border-bottom: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+            border-radius: 15px 15px 0 0;
+            margin-bottom: 10px;
+        }
+        
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            letter-spacing: 6px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan);
+            animation: titlePulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes titlePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.9; }
+        }
+        
+        .header .subtitle {
+            font-size: 0.75rem;
+            color: var(--neon-green);
+            letter-spacing: 3px;
+            margin-top: 5px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .main-btn {
+            width: 100%;
+            padding: 16px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border: 2px solid;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            touch-action: manipulation;
+            -webkit-appearance: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .main-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .main-btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-player {
+            background: linear-gradient(180deg, rgba(0,245,255,0.2) 0%, rgba(0,245,255,0.05) 100%);
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.4);
+        }
+        
+        .btn-player:active {
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.6);
+            transform: scale(0.98);
+        }
+        
+        .btn-bunker {
+            background: linear-gradient(180deg, rgba(0,255,136,0.2) 0%, rgba(0,255,136,0.05) 100%);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+        }
+        
+        .btn-bunker:active {
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.6);
+            transform: scale(0.98);
+        }
+        
+        .btn-disaster {
+            background: linear-gradient(180deg, rgba(255,102,0,0.2) 0%, rgba(255,102,0,0.05) 100%);
+            border-color: var(--neon-orange);
+            color: var(--neon-orange);
+            box-shadow: 0 0 20px rgba(255, 102, 0, 0.4);
+        }
+        
+        .btn-disaster:active {
+            box-shadow: 0 0 30px rgba(255, 102, 0, 0.6);
+            transform: scale(0.98);
+        }
+        
+        .btn-row {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn-row .main-btn {
+            flex: 1;
+            font-size: 0.8rem;
+            padding: 14px 12px;
+        }
+        
+        .card {
+            background: var(--bg-card);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid rgba(0, 245, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 245, 255, 0.1), inset 0 0 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            animation: scanline 3s linear infinite;
+        }
+        
+        @keyframes scanline {
+            0% { transform: translateY(0); opacity: 0.5; }
+            100% { transform: translateY(200px); opacity: 0; }
+        }
+        
+        .card-header {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 245, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .card-bunker .card-header {
+            color: var(--neon-green);
+            border-bottom-color: rgba(0, 255, 136, 0.3);
+            text-shadow: 0 0 10px var(--neon-green);
+        }
+        
+        .card-disaster .card-header {
+            color: var(--neon-orange);
+            border-bottom-color: rgba(255, 102, 0, 0.3);
+            text-shadow: 0 0 10px var(--neon-orange);
+        }
+        
+        .card-player .card-header {
+            color: var(--neon-cyan);
+            border-bottom-color: rgba(0, 245, 255, 0.3);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+        
+        .info-row {
+            display: flex;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            border-left: 3px solid var(--neon-cyan);
+            align-items: baseline;
+        }
+        
+        .card-bunker .info-row { border-left-color: var(--neon-green); }
+        .card-disaster .info-row { border-left-color: var(--neon-orange); }
+        
+        .info-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #888;
+            min-width: 110px;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 600;
+            word-break: break-word;
+        }
+        
+        .info-section {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px dashed rgba(0, 245, 255, 0.2);
+        }
+        
+        .card-bunker .info-section { border-top-color: rgba(0, 255, 136, 0.2); }
+        .card-disaster .info-section { border-top-color: rgba(255, 102, 0, 0.2); }
+        
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--neon-cyan);
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+        
+        .card-bunker .section-title { color: var(--neon-green); }
+        .card-disaster .section-title { color: var(--neon-orange); }
+        
+        .player-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .player-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            text-align: center;
+            padding: 12px;
+            background: linear-gradient(90deg, transparent, rgba(0, 245, 255, 0.2), transparent);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 245, 255, 0.4);
+            text-shadow: 0 0 10px var(--neon-cyan);
+            margin-bottom: 10px;
+        }
+        
+        .player-stat {
+            display: flex;
+            align-items: baseline;
+            gap: 8px;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(0, 245, 255, 0.2);
+        }
+        
+        .player-stat:last-child { border-bottom: none; }
+        
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--neon-cyan);
+            min-width: 90px;
+            flex-shrink: 0;
+        }
+        
+        .stat-value {
+            font-size: 0.85rem;
+            color: #e0e0e0;
+            word-break: break-word;
+        }
+        
+        .player-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 14px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            touch-action: manipulation;
+        }
+        
+        .btn-accept {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+        
+        .btn-accept:active {
+            background: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 25px rgba(0, 255, 136, 0.5);
+            transform: scale(0.96);
+        }
+        
+        .btn-reject {
+            background: rgba(255, 0, 85, 0.15);
+            border-color: var(--neon-red);
+            color: var(--neon-red);
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+        }
+        
+        .btn-reject:active {
+            background: rgba(255, 0, 85, 0.3);
+            box-shadow: 0 0 25px rgba(255, 0, 85, 0.5);
+            transform: scale(0.96);
+        }
+        
+        .team-card {
+            background: var(--bg-panel);
+            border: 1px solid rgba(187, 0, 255, 0.3);
+            box-shadow: 0 0 20px rgba(187, 0, 255, 0.2);
+        }
+        
+        .team-card .card-header {
+            color: var(--neon-purple);
+            border-bottom-color: rgba(187, 0, 255, 0.3);
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+        
+        .team-list {
+            list-style: none;
+            max-height: 200px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .team-list li {
+            padding: 10px 12px;
+            margin-bottom: 6px;
+            background: rgba(187, 0, 255, 0.1);
+            border-radius: 8px;
+            border-left: 3px solid var(--neon-purple);
+            font-size: 0.9rem;
+            color: #e0e0e0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .team-list li::before { content: '👤'; }
+        
+        .team-counter {
+            text-align: center;
+            padding: 10px;
+            margin-top: 10px;
+            background: rgba(187, 0, 255, 0.15);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--neon-purple);
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 30px 20px;
+            color: #666;
+            font-size: 0.95rem;
+            border: 2px dashed rgba(0, 245, 255, 0.2);
+            border-radius: 12px;
+            background: rgba(0, 245, 255, 0.03);
+        }
+        
+        .empty-state .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 15px;
+            margin-top: 10px;
+            font-size: 0.7rem;
+            color: #555;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-top: 1px solid rgba(0, 245, 255, 0.2);
+        }
+        
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; box-shadow: 0 0 10px var(--neon-cyan); }
+        
+        @media (max-width: 360px) {
+            .header h1 { font-size: 1.3rem; letter-spacing: 4px; }
+            .main-btn { font-size: 0.8rem; padding: 14px 16px; }
+            .card { padding: 12px; }
+            .player-name { font-size: 1.2rem; }
+            .stat-label { min-width: 80px; font-size: 0.65rem; }
+            .stat-value { font-size: 0.8rem; }
+            .info-label { min-width: 95px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ БУНКЕР</h1>
+            <div class="subtitle">Протокол выживания активирован</div>
+        </div>
+        
+        <div class="action-buttons">
+            <button class="main-btn btn-player" id="newPlayerBtn">👤 Создать выжившего</button>
+            <div class="btn-row">
+                <button class="main-btn btn-bunker" id="genBunkerBtn">🏗️ Бункер</button>
+                <button class="main-btn btn-disaster" id="genDisasterBtn">☢️ Катастрофа</button>
+            </div>
+        </div>
+        
+        <div class="card card-player" id="playerCardContainer">
+            <div class="empty-state">
+                <div class="icon">🎴</div>
+                <div>Нажмите "Создать выжившего"<br>для генерации карточки</div>
+            </div>
+        </div>
+        
+        <div class="card card-bunker" id="bunkerCard">
+            <div class="card-header"><span>🏗️</span> БУНКЕР</div>
+            <div class="info-grid">
+                <div class="info-row"><div class="info-label">Тип</div><div class="info-value" id="bunkerType">—</div></div>
+                <div class="info-row"><div class="info-label">Размер</div><div class="info-value" id="bunkerSize">—</div></div>
+                <div class="info-row"><div class="info-label">Глубина</div><div class="info-value" id="bunkerDepth">—</div></div>
+                <div class="info-row"><div class="info-label">Защита</div><div class="info-value" id="bunkerProtection">—</div></div>
+                <div class="info-section">
+                    <div class="section-title">📦 РЕСУРСЫ</div>
+                    <div class="info-row"><div class="info-label">Запасы</div><div class="info-value" id="bunkerSupplies">—</div></div>
+                    <div class="info-row"><div class="info-label">Вода</div><div class="info-value" id="bunkerWater">—</div></div>
+                    <div class="info-row"><div class="info-label">Еда</div><div class="info-value" id="bunkerFood">—</div></div>
+                    <div class="info-row"><div class="info-label">Медицина</div><div class="info-value" id="bunkerMedical">—</div></div>
+                </div>
+                <div class="info-section">
+                    <div class="section-title">⚡ СИСТЕМЫ</div>
+                    <div class="info-row"><div class="info-label">Энергия</div><div class="info-value" id="bunkerPower">—</div></div>
+                    <div class="info-row"><div class="info-label">Вентиляция</div><div class="info-value" id="bunkerVentilation">—</div></div>
+                    <div class="info-row"><div class="info-label">Связь</div><div class="info-value" id="bunkerComms">—</div></div>
+                </div>
+                <div class="info-section">
+                    <div class="section-title">🔧 ОСОБЕННОСТИ</div>
+                    <div class="info-row"><div class="info-label">Особенность</div><div class="info-value" id="bunkerFeature">—</div></div>
+                    <div class="info-row"><div class="info-label">Состояние</div><div class="info-value" id="bunkerCondition">—</div></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card card-disaster" id="disasterCard">
+            <div class="card-header"><span>☢️</span> КАТАСТРОФА</div>
+            <div class="info-grid">
+                <div class="info-row"><div class="info-label">Тип</div><div class="info-value" id="disasterType">—</div></div>
+                <div class="info-row"><div class="info-label">Причина</div><div class="info-value" id="disasterCause">—</div></div>
+                <div class="info-row"><div class="info-label">Масштаб</div><div class="info-value" id="disasterScale">—</div></div>
+                <div class="info-section">
+                    <div class="section-title">🌍 ПОСЛЕДСТВИЯ</div>
+                    <div class="info-row"><div class="info-label">Поверхность</div><div class="info-value" id="disasterSurface">—</div></div>
+                    <div class="info-row"><div class="info-label">Климат</div><div class="info-value" id="disasterClimate">—</div></div>
+                    <div class="info-row"><div class="info-label">Экология</div><div class="info-value" id="disasterEcology">—</div></div>
+                </div>
+                <div class="info-section">
+                    <div class="section-title">⚠️ УГРОЗЫ</div>
+                    <div class="info-row"><div class="info-label">Опасность</div><div class="info-value" id="disasterThreat">—</div></div>
+                    <div class="info-row"><div class="info-label">Мутации</div><div class="info-value" id="disasterMutations">—</div></div>
+                </div>
+                <div class="info-section">
+                    <div class="section-title">📡 СИТУАЦИЯ</div>
+                    <div class="info-row"><div class="info-label">Цивилизация</div><div class="info-value" id="disasterCivilization">—</div></div>
+                    <div class="info-row"><div class="info-label">Выжившие</div><div class="info-value" id="disasterSurvivors">—</div></div>
+                    <div class="info-row"><div class="info-label">Детали</div><div class="info-value" id="disasterDetail">—</div></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card team-card">
+            <div class="card-header"><span>👥</span> КОМАНДА БУНКЕРА</div>
+            <ul class="team-list" id="teamList"><li style="opacity:0.5;">Нет выживших</li></ul>
+            <div class="team-counter">Выживших: <span id="teamCounter">0</span></div>
+        </div>
+        
+        <footer>© 2026 Бункер: Расширенная версия</footer>
+    </div>
+
+<script>
+(function() {
+    const tg = window.Telegram.WebApp || {};
+    function initTelegram() {
+        if (tg && tg.expand) tg.expand();
+        if (tg && tg.ready) tg.ready();
+    }
+    initTelegram();
+
+    // ==================== ПРОФЕССИИ (100+) ====================
+    const professions = [
+        "Врач-хирург", "Терапевт", "Педиатр", "Кардиолог", "Невролог", "Психиатр", "Ветеринар",
+        "Медбрат/Медсестра", "Фельдшер", "Стоматолог", "Офтальмолог", "Дерматолог",
+        "Инженер-механик", "Инженер-электрик", "Инженер-строитель", "Инженер-химик",
+        "Инженер-ядерщик", "Инженер-эколог", "Инженер-связист", "Инженер-робототехник",
+        "Программист", "Системный администратор", "Веб-разработчик", "Аналитик данных",
+        "Специалист по кибербезопасности", "DevOps-инженер", "Тестировщик ПО",
+        "Архитектор", "Дизайнер интерьеров", "Градостроитель", "Ландшафтный дизайнер",
+        "Агроном", "Фермер", "Садовод", "Овощевод", "Виноградарь", "Пчеловод",
+        "Военный (пехота)", "Снайпер", "Пулемётчик", "Гранатомётчик", "Разведчик",
+        "Диверсант", "Парашютист-десантник", "Морской пехотинец", "Танкист",
+        "Лётчик-истребитель", "Пилот вертолёта", "Штурман", "Бортмеханик",
+        "Моряк подводник", "Капитан корабля", "Радист", "Гидроакустик",
+        "Полицейский", "Детектив", "Криминалист", "Охранник", "Телохранитель",
+        "Пожарный", "Спасатель МЧС", "Альпинист-спасатель", "Водолаз",
+        "Учитель физики", "Учитель математики", "Учитель химии", "Учитель биологии",
+        "Учитель истории", "Учитель литературы", "Учитель музыки", "Учитель физкультуры",
+        "Профессор университета", "Научный сотрудник", "Лаборант",
+        "Физик-теоретик", "Физик-экспериментатор", "Химик-органик", "Химик-неорганик",
+        "Биолог", "Генетик", "Микробиолог", "Вирусолог", "Эколог", "Зоолог", "Ботаник",
+        "Криптозоолог", "Палеонтолог", "Археолог", "Историк", "Архивариус",
+        "Библиотекарь", "Психолог", "Психоаналитик", "Социолог", "Философ",
+        "Журналист", "Редактор", "Корреспондент", "Фотожурналист",
+        "Писатель", "Поэт", "Сценарист", "Переводчик",
+        "Повар", "Шеф-повар", "Кондитер", "Пекарь", "Бармен",
+        "Сантехник", "Электрик", "Сварщик", "Слесарь", "Токарь", "Фрезеровщик",
+        "Столяр", "Плотник", "Резчик по дереву", "Мебельщик",
+        "Каменщик", "Штукатур", "Маляр", "Кровельщик", "Бетонщик",
+        "Кузнец", "Литейщик", "Гравировщик", "Ювелир", "Часовщик",
+        "Швея", "Портной", "Закройщик", "Вязальщица", "Сапожник",
+        "Парикмахер", "Визажист", "Массажист", "Косметолог",
+        "Водитель", "Механик", "Автомеханик", "Мотогонщик",
+        "Пилот дрона", "Оператор БПЛА", "Радист-связист",
+        "Охотник", "Рыбак", "Егерь", "Лесник", "Оленевод",
+        "Шахтёр", "Геолог", "Буровик", "Взрывник", "Маркшейдер",
+        "Музыкант", "Вокалист", "Дирижёр", "Композитор", "Звукорежиссёр",
+        "Художник", "Скульптор", "График", "Иллюстратор", "Дизайнер",
+        "Актёр", "Режиссёр", "Оператор", "Монтажёр", "Каскадёр",
+        "Спортсмен", "Тренер", "Инструктор", "Йог", "Мастер боевых искусств",
+        "Религиозный деятель", "Миссионер", "Теолог",
+        "Предприниматель", "Менеджер", "Бухгалтер", "Экономист", "Юрист",
+        "Продавец", "Торговый представитель", "Маркетолог", "Рекламщик"
+    ];
+
+    // ==================== ЗДОРОВЬЕ (60+) ====================
+    const healthPhysical = [
+        "Абсолютно здоров", "Крепкое здоровье", "Здоров", "Здоров, но слаб",
+        "Легкая простуда", "Хронический кашель", "Частые мигрени", "Бессонница",
+        "Хроническая усталость", "Анемия", "Авитаминоз", "Истощение",
+        "Хронический бронхит", "Астма", "Аллергический ринит", "Гайморит",
+        "Проблемы с сердцем", "Аритмия", "Гипертония", "Гипотония", "Варикоз",
+        "Диабет 1 типа", "Диабет 2 типа", "Проблемы с щитовидкой", "Ожирение",
+        "Эпилепсия", "Частые обмороки", "Вегетососудистая дистония",
+        "Артрит", "Артроз", "Остеохондроз", "Радикулит", "Грыжа позвоночника",
+        "Плохое зрение (очки -5 и более)", "Плохое зрение (очки до -5)", "Астигматизм",
+        "Дальтонизм", "Куриная слепота", "Косоглазие",
+        "Слабый слух", "Глухота на одно ухо", "Шум в ушах",
+        "Отсутствует палец на руке", "Отсутствует несколько пальцев", "Отсутствует кисть",
+        "Отсутствует стопа", "Хромает", "Ампутирована нога ниже колена",
+        "Перелом руки (заживает)", "Перелом ноги (заживает)", "Травма спины",
+        "Травма головы", "Сотрясение мозга (recent)", "Посттравматическая боль",
+        "Аллергия на пыль", "Аллергия на плесень", "Аллергия на пыльцу",
+        "Пищевая аллергия", "Аллергия на лекарства", "Анафилактический шок (риск)",
+        "Беременность (1 триместр)", "Беременность (2 триместр)", "Беременность (3 триместр)",
+        "Кормящая мать", "Недавно перенес операцию", "Восстанавливается после болезни",
+        "Ослаблен", "Иммунодефицит", "ВИЧ+", "Гепатит C", "Туберкулёз (спящий)"
+    ];
+
+    // ==================== ПСИХИКА (50+) ====================
+    const mentalTraits = [
+        "Психически здоров", "Устойчивая психика", "Спокойный", "Эмоционально стабильный",
+        "Нет фобий", "Лёгкие странности", "Эксцентричный",
+        "Клаустрофобия", "Агорафобия", "Боязнь темноты", "Боязнь высоты",
+        "Боязнь глубины", "Боязнь замкнутых пространств", "Боязнь открытых пространств",
+        "Боязнь крови", "Боязнь игл", "Боязнь врачей", "Боязнь смерти",
+        "Боязнь оружия", "Боязнь взрывов", "Боязнь насекомых", "Боязнь животных",
+        "Боязнь воды", "Боязнь огня", "Боязнь одиночества", "Боязнь людей",
+        "Панические атаки", "Тревожное расстройство", "Генерализованное тревожное расстройство",
+        "Депрессия", "Биполярное расстройство", "Циклотимия",
+        "ПТСР", "Острый стресс", "Эмоциональное выгорание",
+        "Шизофрения (легкая)", "Параноидальное расстройство", "Паранойя",
+        "Мания величия", "Нарциссизм", "Ипохондрия", "Дисморфофобия",
+        "ОКР", "Навязчивые движения", "Тики", "Заикание",
+        "Лунатизм", "Кошмары", "Бессонница хроническая",
+        "Диссоциация", "Дереализация", "Деперсонализация",
+        "Флешбэки", "Паника при стрессе", "Истерия",
+        "Агрессивный", "Вспыльчивый", "Импульсивный", "Непредсказуемый",
+        "Апатичный", "Ангедония", "Суицидальные мысли",
+        "Зависимость (алкоголь)", "Зависимость (никотин)", "Зависимость (лекарства)"
+    ];
+
+    // ==================== ХОББИ (60+) ====================
+    const hobbies = [
+        "Рыбалка", "Подводная рыбалка", "Охота", "Охота с луком", "Охота с ружьём",
+        "Сбор грибов", "Сбор ягод", "Сбор трав", "Травничество",
+        "Садоводство", "Огородничество", "Выращивание овощей", "Цветоводство",
+        "Кулинария", "Выпечка хлеба", "Консервирование", "Заготовка продуктов",
+        "Вязание", "Шитье", "Вышивание", "Пэчворк",
+        "Столярное дело", "Резьба по дереву", "Изготовление мебели", "Реставрация",
+        "Чтение", "Письмо", "Ведение дневника", "Поэзия",
+        "Рисование", "Живопись", "Граффити", "Скульптура", "Лепка",
+        "Фотография", "Видеосъёмка", "Монтаж видео",
+        "Музыка (гитара)", "Музыка (бас)", "Музыка (барабаны)", "Музыка (клавиши)",
+        "Музыка (гармонь)", "Музыка (скрипка)", "Музыка (духовые)", "Пение", "Рэп",
+        "Танцы", "Хип-хоп", "Бальные танцы", "Народные танцы",
+        "Йога", "Медитация", "Цигун", "Боевые искусства",
+        "Спорт (бег)", "Спорт (марафон)", "Спорт (тяжелая атлетика)", "Спорт (гимнастика)",
+        "Стрельба из лука", "Стрельба по мишеням", "Метание ножей",
+        "Разведение костров", "Выживание в дикой природе", "Ориентирование",
+        "Туризм", "Походы", "Альпинизм", "Скалолазание", "Спелеология",
+        "Картография", "Навигация", "Астрономия", "Наблюдение за птицами",
+        "Ремонт техники", "Ремонт электроники", "Пайка", "Радиолюбительство",
+        "Программирование", "Взлом замков", "Кардинг", "Криптография",
+        "Шахматы", "Шашки", "Го", "Покер", "Картёжные игры",
+        "Коллекционирование", "Нумизматика", "Филателия",
+        "Изучение языков", "Каллиграфия", "Оригами", "Фокусы",
+        "Вождение", "Мотоспорт", "Картинг", "Пилотирование",
+        "Плавание", "Ныряние", "Сёрфинг", "Гребля",
+        "Лыжи", "Сноуборд", "Коньки", "Велоспорт",
+        "Собаководство", "Коневодство", "Птицеводство", "Рыбоводство"
+    ];
+
+    // ==================== БАГАЖ (80+) ====================
+    const luggage = [
+        "Аптечка (полная)", "Аптечка (мини)", "Аптечка (расширенная)", "Набор медикаментов",
+        "Антибиотики (упаковка)", "Обезболивающие", "Жаропонижающие", "Антидепрессанты",
+        "Инсулин", "Адреналин (EpiPen)", "Шприцы", "Бинты (много)", "Бинты стерильные",
+        "Жгут кровоостанавливающий", "Перекись", "Йод", "Зелёнка", "Спирт",
+        "Топор", "Топорик", "Колун", "Нож", "Нож охотничий", "Нож кухонный",
+        "Мачете", "Мультитул", "Отвёртка", "Плоскогубцы", "Пассатижи",
+        "Молоток", "Гвозди", "Пила", "Пила цепная", "Бензопила",
+        "Лом", "Кувалда", "Гаечные ключи", "Набор инструментов",
+        "Пистолет (9мм)", "Пистолет (45 калибр)", "Револьвер", "Автомат",
+        "Винтовка", "Снайперская винтовка", "Дробовик", "Ружье",
+        "Патроны (мало)", "Патроны (средне)", "Патроны (много)", "Патроны (ящик)",
+        "Пули", "Порох", "Гильзы", "Капсюли",
+        "Лук", "Арбалет", "Стрелы", "Болты",
+        "Гранаты", "Дымовые шашки", "Светошумовые",
+        "Семена овощей", "Семена пшеницы", "Семена кукурузы", "Семена картофеля",
+        "Саженцы", "Удобрения", "Садовый инвентарь",
+        "Книги (выживание)", "Книги (медицина)", "Книги (техника)", "Книги (сельское хозяйство)",
+        "Книги (художественные)", "Учебники", "Энциклопедии", "Карты",
+        "Гитара", "Гармонь", "Укулеле", "Барабан", "Клавиши",
+        "Спички (50 коробков)", "Спички охотничьи", "Зажигалки (10 шт)", "Зажигалка Zippo",
+        "Огниво", "Кремень", "Факелы", "Сухое горючее",
+        "Фонарик (динамо)", "Фонарик (батарейки)", "Фонарик (аккумулятор)", "Прожектор",
+        "Батарейки", "Аккумуляторы", "Зарядное устройство",
+        "Рация (портативная)", "Рация (стационарная)", "Рация (дальняя)", "Приёмник",
+        "Рация CB", "Сканер частот", "Антенна", "Усилитель сигнала",
+        "Солнечная батарея", "Солнечная панель", "Ветрогенератор",
+        "Генератор (бензиновый)", "Генератор (дизельный)", "Инвертор",
+        "Канистра с бензином", "Канистра с дизелем", "Бочка топлива",
+        "Палатка", "Палатка (большая)", "Тент", "Трап",
+        "Спальник", "Спальник (зимний)", "Коврик туристический", "Надувной матрас",
+        "Рюкзак", "Рюкзак (большой)", "Сумка тактическая",
+        "Теплая одежда", "Термобельё", "Пуховик", "Куртка зимняя",
+        "Непромокаемая одежда", "Дождевик", "Плащ", "Гортекс",
+        "Запасная обувь", "Ботинки берцы", "Сапоги", "Кроссовки",
+        "Перчатки", "Шапка", "Шарф", "Носки (много)",
+        "Мыло", "Шампунь", "Зубная паста", "Туалетная бумага",
+        "Полотенца", "Одеяла", "Постельное бельё",
+        "Консервы (5 банок)", "Консервы (10 банок)", "Консервы (ящик)",
+        "Крупы (мешок)", "Рис", "Гречка", "Овсянка", "Макароны",
+        "Соль (большой запас)", "Сахар", "Мёд", "Специи",
+        "Вода (5 литров)", "Вода (10 литров)", "Вода (бочка)", "Фильтр для воды",
+        "Очиститель воды", "Таблетки для очистки воды",
+        "Сварочный аппарат", "Паяльная станция", "Верстак",
+        "Станок", "Тиски", "Наждак", "Дрель", "Шуруповёрт",
+        "Велосипед", "Самокат", "Тачка", "Санки"
+    ];
+
+    // ==================== ЧЕРТЫ ХАРАКТЕРА (50+) ====================
+    const personality = [
+        "Лидер", "Ведомый", "Независимый", "Командный игрок",
+        "Эгоист", "Альтруист", "Эгоцентрик", "Самоотверженный",
+        "Харизматичный", "Обаятельный", "Убедительный", "Вдохновляющий",
+        "Молчун", "Болтливый", "Разговорчивый", "Красноречивый",
+        "Оптимист", "Пессимист", "Реалист", "Циник", "Идеалист",
+        "Добряк", "Злой", "Жестокий", "Милосердный", "Сострадательный",
+        "Ранимый", "Чувствительный", "Эмоциональный", "Хладнокровный",
+        "Расчетливый", "Прагматичный", "Рациональный", "Логичный",
+        "Авантюрный", "Осторожный", "Безрассудный", "Рисковый",
+        "Ленивый", "Трудоголик", "Энергичный", "Активный",
+        "Нытик", "Ворчун", "Позитивный", "Весёлый",
+        "Шутник", "Серьёзный", "Ироничный", "Саркастичный",
+        "Честный", "Лживый", "Хитрый", "Коварный", "Прямолинейный",
+        "Терпеливый", "Вспыльчивый", "Раздражительный", "Спокойный",
+        "Щедрый", "Жадный", "Скупой", "Расточительный",
+        "Верный", "Предатель", "Надёжный", "Ненадёжный",
+        "Ответственный", "Безответственный", "Дисциплинированный", "Хаотичный",
+        "Творческий", "Креативный", "Изобретательный", "Консервативный",
+        "Открытый", "Замкнутый", "Интроверт", "Экстраверт",
+        "Мстительный", "Добропамятный", "Прощающий", "Памятливый"
+    ];
+
+    // ==================== ПОЛ/ВОЗРАСТ (30+) ====================
+    const genderAge = [
+        "Мужчина 18-20", "Мужчина 20-25", "Мужчина 25-30", "Мужчина 30-35",
+        "Мужчина 35-40", "Мужчина 40-45", "Мужчина 45-50", "Мужчина 50-55",
+        "Мужчина 55-60", "Мужчина 60-65", "Мужчина 65-70", "Мужчина 70+",
+        "Женщина 18-20", "Женщина 20-25", "Женщина 25-30", "Женщина 30-35",
+        "Женщина 35-40", "Женщина 40-45", "Женщина 45-50", "Женщина 50-55",
+        "Женщина 55-60", "Женщина 60-65", "Женщина 65-70", "Женщина 70+",
+        "Подросток (14-17) мальчик", "Подросток (14-17) девочка",
+        "Ребенок (10-14) мальчик", "Ребенок (10-14) девочка",
+        "Ребенок (5-10) мальчик", "Ребенок (5-10) девочка",
+        "Младенец (0-2)", "Близнецы (мальчики)", "Близнецы (девочки)", "Близнецы (разнополые)"
+    ];
+
+    // ==================== БУНКЕР - ТИПЫ (40+) ====================
+    const bunkerTypes = [
+        "Военный командный бункер", "Бункер гражданской обороны", "Семейное убежище",
+        "Подземный завод", "Шахтный бункер", "Метро-убежище", "Подземная база",
+        "Научный комплекс", "Медицинский бункер", "Хранилище данных",
+        "Бункер правительства", "Президентский бункер", "Полицейский участок",
+        "Тюрьма-бункер", "Военный склад", "Арсенал", "Гараж-бункер",
+        "Торговый бункер", "Складской комплекс", "Холодильник-бункер",
+        "Винохранилище", "Зернохранилище", "Овощебаза",
+        "Бункер-больница", "Изолятор", "Карантинная зона",
+        "Научная лаборатория", "Биолаборатория", "Химлаборатория",
+        "Серверная", "Дата-центр", "Радиоузел", "Телецентр",
+        "Электростанция", "Дизельная", "Атомный реактор (малый)",
+        "Водоочистная", "Насосная станция", "Вентиляционный узел",
+        "Транспортный тоннель", "Станция метро", "Ангар для техники",
+        "Ангар для самолётов", "Подводная база", "Пещерный комплекс"
+    ];
+
+    // ==================== БУНКЕР - РАЗМЕРЫ (30+) ====================
+    const bunkerSizes = [
+        "Крошечный (2x2 м)", "Тесный (3x3 м)", "Маленький (4x4 м)",
+        "Небольшой (5x5 м)", "Средний (6x6 м)", "Средний (8x8 м)",
+        "Просторный (10x10 м)", "Большой (12x12 м)", "Огромный (15x15 м)",
+        "Гигантский (20x20 м)", "Ангар (50x30 м)", "Заводской цех (100x50 м)",
+        "Многоэтажный (3 этажа)", "Многоэтажный (5 этажей)", "Многоэтажный (10 этажей)",
+        "Горизонтальный (100 м)", "Горизонтальный (500 м)", "Горизонтальный (1 км)",
+        "Лабиринт", "Сеть тоннелей", "Кольцевая структура",
+        "Вертикальная шахта", "Спиральный спуск", "Z-образный",
+        "Отдельные каюты", "Общежитие", "Коридорная система",
+        "Открытый зал", "Разделённый на отсеки", "Модульный"
+    ];
+
+    // ==================== БУНКЕР - ГЛУБИНА (20+) ====================
+    const bunkerDepths = [
+        "Поверхностный (0-5 м)", "Мелкий (5-10 м)", "Средний (10-20 м)",
+        "Глубокий (20-30 м)", "Очень глубокий (30-50 м)", "Экстремальный (50-100 м)",
+        "Сверхглубокий (100+ м)", "На уровне земли", "Полуподземный",
+        "В скале", "В горе", "Под зданием", "Под парковкой",
+        "Под метро", "Под рекой", "Под озером",
+        "В пещере", "В бывшей шахте", "В бункере ракеты",
+        "В заброшенной базе", "В секретном объекте"
+    ];
+
+    // ==================== БУНКЕР - ЗАЩИТА (25+) ====================
+    const bunkerProtections = [
+        "Стены (бетон 0.5м)", "Стены (бетон 1м)", "Стены (бетон 2м)",
+        "Стены (армированный бетон)", "Стены (сталь)", "Стены (титан)",
+        "Дверь (бронированная)", "Дверь (герметичная)", "Дверь (взрывостойкая)",
+        "Шлюзовая камера", "Тамбур", "Двойные двери",
+        "Защита от радиации (низкая)", "Защита от радиации (средняя)",
+        "Защита от радиации (высокая)", "Защита от радиации (максимальная)",
+        "Защита от EMP", "Защита от биологического оружия",
+        "Защита от химического оружия", "Защита от огня",
+        "Противопожарная система", "Система пожаротушения",
+        "Охранная система", "Видеонаблюдение", "Датчики движения",
+        "Сигнализация", "Вооружённая охрана", "Турели",
+        "Минное поле", "Колючая проволока", "Электрический забор"
+    ];
+
+    // ==================== БУНКЕР - ЗАПАСЫ (30+) ====================
+    const bunkerSupplies = [
+        "Пусто", "Минимум", "На неделю", "На 2 недели", "На месяц",
+        "На 2 месяца", "На квартал", "На полгода", "На год",
+        "На 2 года", "На 5 лет", "На 10 лет", "На 20 лет",
+        "Сухпайки", "Консервы", "Крупы", "Замороженные продукты",
+        "Свежие продукты (портятся)", "Сублиматы", "Энергобатончики",
+        "Детское питание", "Спортивное питание", "Витамины",
+        "Белковые запасы", "Углеводные запасы", "Разнообразное",
+        "Только вода", "Вода + еда", "Полный запас", "Избыток",
+        "Склад МТО", "Гуманитарная помощь", "Трофеи"
+    ];
+
+    // ==================== БУНКЕР - ВОДА (20+) ====================
+    const bunkerWater = [
+        "Нет воды", "Вода на день", "Вода на неделю", "Вода на месяц",
+        "Вода на год", "Вода на 5 лет", "Огромный запас",
+        "Водопровод (не работает)", "Водопровод (работает)",
+        "Скважина", "Колодец", "Подземная река", "Родник внутри",
+        "Система сбора дождя", "Конденсатор влаги", "Опреснитель",
+        "Фильтры (мало)", "Фильтры (много)", "Химия для очистки",
+        "Бассейн", "Резервуары", "Цистерны", "Бочки"
+    ];
+
+    // ==================== БУНКЕР - ЕДА (25+) ====================
+    const bunkerFood = [
+        "Нет еды", "Еда на день", "Еда на неделю", "Еда на месяц",
+        "Еда на год", "Еда на 5 лет", "Огромный запас",
+        "Только консервы", "Только крупы", "Только сублиматы",
+        "Разнообразная еда", "Роскошная еда", "Армейский паёк",
+        "Вегетарианская", "Мясная", "Рыбная", "Детское питание",
+        "Спортивное питание", "Диетическая", "Лечебное питание",
+        "Теплица внутри", "Грибная ферма", "Рыбная ферма",
+        "Живые животные", "Птичник", "Крольчатник"
+    ];
+
+    // ==================== БУНКЕР - МЕДИЦИНА (20+) ====================
+    const bunkerMedical = [
+        "Нет медицины", "Минимум (пластыри)", "Аптечка базовая",
+        "Аптечка расширенная", "Аптечка полная", "Набор медикаментов",
+        "Антибиотики", "Обезболивающие", "Противоядия",
+        "Вакцины", "Сыворотки", "Переливание крови",
+        "Хирургический набор", "Стоматологический набор",
+        "Диагностическое оборудование", "Рентген", "УЗИ",
+        "Аппарат ИВЛ", "Дефибриллятор", "Инкубатор",
+        "Морозильник для органов", "Лаборатория", "Полный госпиталь"
+    ];
+
+    // ==================== БУНКЕР - ЭНЕРГИЯ (25+) ====================
+    const bunkerPower = [
+        "Нет энергии", "Батарейки", "Аккумуляторы",
+        "Генератор (нет топлива)", "Генератор (бензин)", "Генератор (дизель)",
+        "Генератор (газ)", "Генератор (ядерный)",
+        "Солнечные панели (мало)", "Солнечные панели (много)",
+        "Ветрогенератор (малый)", "Ветрогенератор (большой)",
+        "Гидрогенератор", "Термогенератор", "Кинетический генератор",
+        "Топливные элементы", "Водородные элементы",
+        "Атомная батарея", "Изотопная батарея",
+        "Подключение к сети (не работает)", "Подключение к сети (работает)",
+        "Геотермальная", "Приливная", "Волновая",
+        "Реактор (малый)", "Реактор (средний)", "Полная энергонезависимость"
+    ];
+
+    // ==================== БУНКЕР - ВЕНТИЛЯЦИЯ (15+) ====================
+    const bunkerVentilation = [
+        "Нет вентиляции", "Естественная", "Принудительная (слабая)",
+        "Принудительная (средняя)", "Принудительная (мощная)",
+        "С фильтрами (нет)", "С фильтрами (есть)", "С фильтрами (замена нужна)",
+        "С фильтрами (новые)", "С защитой от радиации",
+        "С защитой от биологии", "С защитой от химии",
+        "С кондиционированием", "С обогревом", "С охлаждением",
+        "С рекуперацией", "С ионизацией", "С озонированием"
+    ];
+
+    // ==================== БУНКЕР - СВЯЗЬ (20+) ====================
+    const bunkerComms = [
+        "Нет связи", "Радио (приём)", "Радио (приём/передача)",
+        "Рация (короткая)", "Рация (дальняя)", "Спутниковая связь",
+        "Интернет (не работает)", "Интернет (работает)", "Интранет",
+        "Телефон (не работает)", "Телефон (работает)", "Внутренняя связь",
+        "Громкоговоритель", "Сирена", "Светофор",
+        "Антенна (внешняя)", "Антенна (внутренняя)", "Усилитель",
+        "Шифратор", "Дешифратор", "Сканер частот", "Глушилка"
+    ];
+
+    // ==================== БУНКЕР - ОСОБЕННОСТИ (40+) ====================
+    const bunkerFeatures = [
+        "Нет особенностей", "Тихое место", "Слышны звуки снаружи",
+        "Протекает крыша", "Повышенная влажность", "Сухой",
+        "Хорошая вентиляция", "Душно", "Холодно", "Жарко",
+        "Темно", "Есть освещение", "Естественное освещение",
+        "Радиация в норме", "Радиация повышена", "Радиация опасна",
+        "Есть транспорт", "Есть оружие", "Есть броня",
+        "Есть библиотека", "Есть компьютеры", "Есть лаборатория",
+        "Есть мастерская", "Есть теплица", "Есть бассейн",
+        "Есть спортзал", "Есть кинотеатр", "Есть бар",
+        "Есть тюрьма", "Есть морг", "Есть крематорий",
+        "Есть детский уголок", "Есть школа", "Есть церковь",
+        "Есть сад", "Есть парк", "Есть зоопарк",
+        "ИИ управляет", "Роботы помогают", "Криосон доступен",
+        "Телепорт", "Портал", "Лифт на поверхность", "Тайный выход"
+    ];
+
+    // ==================== БУНКЕР - СОСТОЯНИЕ (20+) ====================
+    const bunkerConditions = [
+        "Идеальное", "Отличное", "Хорошее", "Удовлетворительное",
+        "Требует ремонта", "Аварийное", "Разрушенное",
+        "Заброшенное", "Законсервированное", "На консервации",
+        "Работает", "Частично работает", "Не работает",
+        "Загрязнённое", "Заражённое", "Заражено плесенью",
+        "Захламлённое", "Чистое", "Стерильное",
+        "Обжитое", "Готовое к заселению", "Требует подготовки"
+    ];
+
+    // ==================== КАТАСТРОФА - ТИПЫ (50+) ====================
+    const disasterTypes = [
+        "Ядерная война", "Термоядерная война", "Локальный ядерный конфликт",
+        "Падение астероида", "Падение кометы", "Астероидный дождь",
+        "Извержение супервулкана", "Извержение вулкана", "Вулканическая зима",
+        "Зомби-апокалипсис", "Вирус бешенства", "Грибковая инфекция",
+        "Пандемия (вирус)", "Пандемия (бактерия)", "Пандемия (грибок)",
+        "Биологическое оружие", "Химическое оружие", "Радиологическое оружие",
+        "Нанотехнологическая катастрофа", "Серая слизь",
+        "Восстание ИИ", "Восстание роботов", "Восстание машин",
+        "Солнечная вспышка", "Геомагнитная буря", "Смена полюсов",
+        "Климатическая катастрофа", "Глобальное потепление", "Парниковый эффект",
+        "Ледниковый период", "Новый ледниковый период", "Вечная зима",
+        "Глобальное наводнение", "Подъём уровня моря", "Цунами",
+        "Засуха", "Великая засуха", "Пыльные бури",
+        "Экологический коллапс", "Вымирание видов", "Коллапс экосистемы",
+        "Кислотные дожди", "Озоновые дыры", "УФ-излучение",
+        "Вторжение пришельцев", "Инопланетная колонизация", "Похищения",
+        "Открытие портала", "Демоны", "Магическая катастрофа",
+        "Квантовая катастрофа", "Разрыв реальности", "Мультивселенная",
+        "Гравитационная аномалия", "Антигравитация", "Чёрные дыры"
+    ];
+
+    // ==================== КАТАСТРОФА - ПРИЧИНЫ (40+) ====================
+    const disasterCauses = [
+        "Человеческий фактор", "Техническая ошибка", "Сбой системы",
+        "Диверсия", "Терроризм", "Военный конфликт",
+        "Гонка вооружений", "Недостаточное финансирование", "Коррупция",
+        "Жадность корпораций", "Политические решения", "Лоббирование",
+        "Научный эксперимент", "Военный эксперимент", "Неудачный тест",
+        "Природный цикл", "Космическое событие", "Солнечная активность",
+        "Вулканическая активность", "Тектонический сдвиг", "Изменение орбиты",
+        "Эволюция вируса", "Мутация патогена", "Утечка из лаборатории",
+        "Преднамеренный выпуск", "Случайная утечка", "Кража",
+        "ИИ вышел из-под контроля", "Программная ошибка", "Вирус в системе",
+        "Вмешательство извне", "Высшие силы", "Божья кара",
+        "Карма", "Наказание за грехи", "Испытание",
+        "Неизбежность", "Судьба", "Рок",
+        "Заговор", "Тайное общество", "Древнее пророчество"
+    ];
+
+    // ==================== КАТАСТРОФА - МАСШТАБ (15+) ====================
+    const disasterScales = [
+        "Локальный (город)", "Региональный (область)", "Национальный (страна)",
+        "Континентальный", "Глобальный (планета)", "Солнечная система",
+        "Галактический", "Вселенский",
+        "Краткосрочный (дни)", "Среднесрочный (месяцы)", "Долгосрочный (годы)",
+        "Постоянный", "Циклический", "Нарастающий", "Затухающий"
+    ];
+
+    // ==================== КАТАСТРОФА - ПОВЕРХНОСТЬ (25+) ====================
+    const disasterSurfaces = [
+        "Полностью непригодна", "Почти непригодна", "Опасно",
+        "Требует защиты", "Можно кратковременно", "Можно днём",
+        "Можно ночью", "Можно в защите", "Безопасные зоны есть",
+        "50% территории", "25% территории", "10% территории",
+        "Полярные регионы", "Горные регионы", "Подземелье",
+        "Под водой", "На деревьях", "На крышах",
+        "В бункерах", "В метро", "В пещерах",
+        "В горах", "На островах", "В Антарктиде",
+        "Открытый космос", "Другая планета"
+    ];
+
+    // ==================== КАТАСТРОФА - КЛИМАТ (30+) ====================
+    const disasterClimates = [
+        "Нормальный", "Тёплый", "Жаркий", "Экстремально жаркий",
+        "Холодный", "Ледяной", "Экстремально холодный",
+        "Сухой", "Влажный", "Тропический", "Пустынный",
+        "Умеренный", "Континентальный", "Морской",
+        "Вечная ночь", "Вечный день", "Вечные сумерки",
+        "Кислотные дожди", "Радиоактивные дожди", "Пепельные дожди",
+        "Пыльные бури", "Песчаные бури", "Снежные бури",
+        "Ураганы", "Торнадо", "Грозы",
+        "Туман", "Смог", "Радиационный туман",
+        "Аномальные явления", "Странная погода", "Непредсказуемо"
+    ];
+
+    // ==================== КАТАСТРОФА - ЭКОЛОГИЯ (25+) ====================
+    const disasterEcologies = [
+        "Нормальная", "Нарушена", "Разрушена", "Мёртвая",
+        "Восстанавливается", "Мутирует", "Эволюционирует",
+        "Растения вымерли", "Растения мутировали", "Растения агрессивны",
+        "Животные вымерли", "Животные мутировали", "Животные агрессивны",
+        "Насекомые гиганты", "Грибная жизнь", "Новые виды",
+        "Вода загрязнена", "Вода токсична", "Вода радиоактивна",
+        "Почва загрязнена", "Почва токсична", "Почва радиоактивна",
+        "Воздух загрязнён", "Воздух токсичен", "Воздух радиоактивен",
+        "Озоновый слой разрушен", "Парниковый эффект"
+    ];
+
+    // ==================== КАТАСТРОФА - УГРОЗЫ (30+) ====================
+    const disasterThreats = [
+        "Нет угроз", "Минимальные", "Низкие", "Средние", "Высокие",
+        "Экстремальные", "Смертельные",
+        "Радиация", "Токсины", "Химикаты",
+        "Хищники", "Мутанты", "Зомби",
+        "Банды", "Мародёры", "Каннибалы",
+        "Роботы", "Дроны", "Турели",
+        "Пришельцы", "Демоны", "Нежить",
+        "Ловушки", "Мины", "Растяжки",
+        "Обвалы", "Наводнения", "Пожары",
+        "Болезни", "Паразиты", "Насекомые"
+    ];
+
+    // ==================== КАТАСТРОФА - МУТАЦИИ (25+) ====================
+    const disasterMutations = [
+        "Нет мутаций", "Единичные", "Редкие", "Частые",
+        "Массовые", "Всеобщие",
+        "У животных", "У растений", "У людей",
+        "У насекомых", "У грибов", "У бактерий",
+        "Физические", "Психические", "Поведенческие",
+        "Полезные", "Вредные", "Смертельные",
+        "Быстрые", "Медленные", "Необратимые",
+        "Наследственные", "Приобретённые", "Спонтанные",
+        "Контролируемые", "Дикие"
+    ];
+
+    // ==================== КАТАСТРОФА - ЦИВИЛИЗАЦИЯ (20+) ====================
+    const disasterCivilizations = [
+        "Полный коллапс", "Нет цивилизации", "Каменный век",
+        "Средневековье", "Индустриальная эра", "Постиндустриальная",
+        "Осколки прошлого", "Руины технологий", "Техно-варварство",
+        "Новая цивилизация", "Возрождение", "Ренессанс",
+        "Военная диктатура", "Теократия", "Корпоратократия",
+        "Анархия", "Племенной строй", "Феодализм",
+        "Коммунизм", "Капитализм", "Технократия"
+    ];
+
+    // ==================== КАТАСТРОФА - ВЫЖИВШИЕ (25+) ====================
+    const disasterSurvivors = [
+        "Нет выживших", "Единицы", "Десятки", "Сотни",
+        "Тысячи", "Миллионы", "Миллиарды",
+        "В бункерах", "В горах", "Под землёй",
+        "Под водой", "В космосе", "На островах",
+        "Объединены", "Разрознены", "Воюют",
+        "Торгуют", "Помогают", "Убивают",
+        "Кочуют", "Оседлые", "Скрытные",
+        "Открытые", "Агрессивные", "Дружелюбные",
+        "Нейтральные", "Загадочные"
+    ];
+
+    // ==================== КАТАСТРОФА - ДЕТАЛИ (40+) ====================
+    const disasterDetails = [
+        "Правительство пало", "Правительство скрылось", "Правительство контролирует",
+        "Военные на периметре", "Военные контролируют", "Военные исчезли",
+        "Банды в руинах", "Банды правят", "Банды воюют",
+        "Общины выживших", "Города выживших", "Фермы выживших",
+        "Слухи о чистой зоне", "Легенды о рае", "Мифы о спасении",
+        "Радио молчит", "Радио передаёт", "Радио зовёт",
+        "Слышны взрывы", "Слышны выстрелы", "Слышны крики",
+        "Замечена активность", "Замечены следы", "Замечены огни",
+        "Мутанты нападают", "Мутанты избегают", "Мутанты помогают",
+        "Техника работает", "Техника глючит", "Техника мертва",
+        "Призраки прошлого", "Голоса из ниоткуда", "Странные сигналы",
+        "Кто-то наблюдает", "Кто-то помогает", "Кто-то мешает",
+        "Надежда есть", "Надежды нет", "Всё кончено", "Всё начинается"
+    ];
+
+    // ==================== СОСТОЯНИЕ ====================
+    let team = [];
+    let currentPlayer = null;
+    let currentBunker = {};
+    let currentDisaster = {};
+
+    // ==================== DOM ====================
+    const newPlayerBtn = document.getElementById('newPlayerBtn');
+    const genBunkerBtn = document.getElementById('genBunkerBtn');
+    const genDisasterBtn = document.getElementById('genDisasterBtn');
+    const playerCardContainer = document.getElementById('playerCardContainer');
+    const teamListEl = document.getElementById('teamList');
+    const teamCounter = document.getElementById('teamCounter');
+
+    function randomFrom(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function generateBunker() {
+        return {
+            type: randomFrom(bunkerTypes),
+            size: randomFrom(bunkerSizes),
+            depth: randomFrom(bunkerDepths),
+            protection: randomFrom(bunkerProtections),
+            supplies: randomFrom(bunkerSupplies),
+            water: randomFrom(bunkerWater),
+            food: randomFrom(bunkerFood),
+            medical: randomFrom(bunkerMedical),
+            power: randomFrom(bunkerPower),
+            ventilation: randomFrom(bunkerVentilation),
+            comms: randomFrom(bunkerComms),
+            feature: randomFrom(bunkerFeatures),
+            condition: randomFrom(bunkerConditions)
+        };
+    }
+
+    function generateDisaster() {
+        return {
+            type: randomFrom(disasterTypes),
+            cause: randomFrom(disasterCauses),
+            scale: randomFrom(disasterScales),
+            surface: randomFrom(disasterSurfaces),
+            climate: randomFrom(disasterClimates),
+            ecology: randomFrom(disasterEcologies),
+            threat: randomFrom(disasterThreats),
+            mutations: randomFrom(disasterMutations),
+            civilization: randomFrom(disasterCivilizations),
+            survivors: randomFrom(disasterSurvivors),
+            detail: randomFrom(disasterDetails)
+        };
+    }
+
+    function generatePlayer(name) {
+        return {
+            name: name,
+            genderAge: randomFrom(genderAge),
+            profession: randomFrom(professions),
+            health: randomFrom(healthPhysical),
+            mental: randomFrom(mentalTraits),
+            hobby: randomFrom(hobbies),
+            luggage: randomFrom(luggage),
+            personality: randomFrom(personality)
+        };
+    }
+
+    function updateWorldInfo() {
+        // Бункер
+        document.getElementById('bunkerType').textContent = currentBunker.type || '—';
+        document.getElementById('bunkerSize').textContent = currentBunker.size || '—';
+        document.getElementById('bunkerDepth').textContent = currentBunker.depth || '—';
+        document.getElementById('bunkerProtection').textContent = currentBunker.protection || '—';
+        document.getElementById('bunkerSupplies').textContent = currentBunker.supplies || '—';
+        document.getElementById('bunkerWater').textContent = currentBunker.water || '—';
+        document.getElementById('bunkerFood').textContent = currentBunker.food || '—';
+        document.getElementById('bunkerMedical').textContent = currentBunker.medical || '—';
+        document.getElementById('bunkerPower').textContent = currentBunker.power || '—';
+        document.getElementById('bunkerVentilation').textContent = currentBunker.ventilation || '—';
+        document.getElementById('bunkerComms').textContent = currentBunker.comms || '—';
+        document.getElementById('bunkerFeature').textContent = currentBunker.feature || '—';
+        document.getElementById('bunkerCondition').textContent = currentBunker.condition || '—';
+        
+        // Катастрофа
+        document.getElementById('disasterType').textContent = currentDisaster.type || '—';
+        document.getElementById('disasterCause').textContent = currentDisaster.cause || '—';
+        document.getElementById('disasterScale').textContent = currentDisaster.scale || '—';
+        document.getElementById('disasterSurface').textContent = currentDisaster.surface || '—';
+        document.getElementById('disasterClimate').textContent = currentDisaster.climate || '—';
+        document.getElementById('disasterEcology').textContent = currentDisaster.ecology || '—';
+        document.getElementById('disasterThreat').textContent = currentDisaster.threat || '—';
+        document.getElementById('disasterMutations').textContent = currentDisaster.mutations || '—';
+        document.getElementById('disasterCivilization').textContent = currentDisaster.civilization || '—';
+        document.getElementById('disasterSurvivors').textContent = currentDisaster.survivors || '—';
+        document.getElementById('disasterDetail').textContent = currentDisaster.detail || '—';
+    }
+
+    function renderPlayerCard(player) {
+        if (!player) return;
+        playerCardContainer.innerHTML = `
+            <div class="card-header"><span>👤</span> ДОСЬЕ ВЫЖИВШЕГО</div>
+            <div class="player-name">${player.name}</div>
+            <div class="player-card">
+                <div class="player-stat"><span class="stat-label">Пол/возраст:</span><span class="stat-value">${player.genderAge}</span></div>
+                <div class="player-stat"><span class="stat-label">Профессия:</span><span class="stat-value">${player.profession}</span></div>
+                <div class="player-stat"><span class="stat-label">Здоровье:</span><span class="stat-value">${player.health}</span></div>
+                <div class="player-stat"><span class="stat-label">Психика:</span><span class="stat-value">${player.mental}</span></div>
+                <div class="player-stat"><span class="stat-label">Хобби:</span><span class="stat-value">${player.hobby}</span></div>
+                <div class="player-stat"><span class="stat-label">Характер:</span><span class="stat-value">${player.personality}</span></div>
+                <div class="player-stat"><span class="stat-label">Багаж:</span><span class="stat-value">${player.luggage}</span></div>
+            </div>
+            <div class="player-actions">
+                <button class="action-btn btn-accept" id="acceptBtn">✅ Принять</button>
+                <button class="action-btn btn-reject" id="rejectBtn">❌ Отказать</button>
+            </div>
+        `;
+        document.getElementById('acceptBtn').addEventListener('click', acceptCurrent);
+        document.getElementById('rejectBtn').addEventListener('click', rejectCurrent);
+    }
+
+    function acceptCurrent() {
+        if (currentPlayer) {
+            if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('success');
+            team.push(currentPlayer.name);
+            renderTeam();
+            clearCard();
+        }
+    }
+
+    function rejectCurrent() {
+        if (tg && tg.HapticFeedback) tg.HapticFeedback.notificationOccurred('error');
+        clearCard();
+    }
+
+    function clearCard() {
+        currentPlayer = null;
+        playerCardContainer.innerHTML = `
+            <div class="empty-state">
+                <div class="icon">🎴</div>
+                <div>Нажмите "Создать выжившего"<br>для генерации карточки</div>
+            </div>
+        `;
+    }
+
+    function renderTeam() {
+        if (team.length === 0) {
+            teamListEl.innerHTML = '<li style="opacity:0.5;">Нет выживших</li>';
+        } else {
+            teamListEl.innerHTML = team.map(name => `<li>${name}</li>`).join('');
+        }
+        teamCounter.textContent = team.length;
+        teamListEl.scrollTop = teamListEl.scrollHeight;
+    }
+
+    newPlayerBtn.addEventListener('click', function() {
+        if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('medium');
+        let defaultName = 'Странник';
+        if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+            defaultName = tg.initDataUnsafe.user.first_name || 'Странник';
+        }
+        const rawName = prompt('Введите имя выжившего:', defaultName);
+        if (rawName === null) return;
+        const finalName = rawName.trim() || 'Безымянный';
+        currentBunker = generateBunker();
+        currentDisaster = generateDisaster();
+        currentPlayer = generatePlayer(finalName);
+        updateWorldInfo();
+        renderPlayerCard(currentPlayer);
+        playerCardContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    genBunkerBtn.addEventListener('click', function() {
+        if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+        currentBunker = generateBunker();
+        updateWorldInfo();
+        document.getElementById('bunkerCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    genDisasterBtn.addEventListener('click', function() {
+        if (tg && tg.HapticFeedback) tg.HapticFeedback.impactOccurred('light');
+        currentDisaster = generateDisaster();
+        updateWorldInfo();
+        document.getElementById('disasterCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    (function init() {
+        currentBunker = generateBunker();
+        currentDisaster = generateDisaster();
+        updateWorldInfo();
+        renderTeam();
+    })();
+})();
+</script>
+</body>
+</html>
