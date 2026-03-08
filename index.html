@@ -1260,14 +1260,22 @@ const voteForPlayer = async (targetId, voteType) => {
 // UI ФУНКЦИИ
 // ============================================
 const updateUI = (gameData) => {
-    if (!gameData) return;
+    if (!gameData) {
+        console.log('❌ updateUI: gameData пустой');
+        return;
+    }
+    
+    console.log('🔵 updateUI вызван, phase:', gameData.phase);
 
     const players = Object.values(gameData.players || {}).filter(p => p);
     const myPlayer = players.find(p => p.id === state.playerId);
     const isHost = gameData.hostId === state.playerId;
+    
+    console.log('🔵 isHost:', isHost, 'hostId:', gameData.hostId, 'state.playerId:', state.playerId);
 
     // === ЛОББИ ===
     if ($('lobbyScreen').classList.contains('hidden') === false) {
+        console.log('🔵 updateUI: Лобби активно');
         $('lobbyRoomCode').textContent = formatRoomCode(gameData.roomId);
         $('lobbyPlayersCount').textContent = players.length;
 
@@ -1280,6 +1288,8 @@ const updateUI = (gameData) => {
 
         $('hostControls').classList.toggle('hidden', !isHost);
         $('waitMessage').classList.toggle('hidden', isHost);
+        
+        console.log('🔵 hostControls hidden:', $('hostControls').classList.contains('hidden'));
     }
 
     // === ИГРА ===
@@ -1454,25 +1464,36 @@ const renderVoting = (players, gameData) => {
 // СОБЫТИЯ
 // ============================================
 const setupEvents = () => {
-    $('createRoomBtn').onclick = () => { haptic.impact(); createRoom(); };
+    console.log('🔵 setupEvents вызван');
     
-    $('showJoinBtn').onclick = () => $('joinSection').classList.remove('hidden');
-    $('cancelJoinBtn').onclick = () => $('joinSection').classList.add('hidden');
+    $('createRoomBtn').onclick = () => { 
+        console.log('🔵 createRoomBtn клик');
+        haptic.impact(); 
+        createRoom(); 
+    };
+
+    $('showJoinBtn').onclick = () => {
+        console.log('🔵 showJoinBtn клик');
+        $('joinSection').classList.remove('hidden');
+    };
     
+    $('cancelJoinBtn').onclick = () => {
+        console.log('🔵 cancelJoinBtn клик');
+        $('joinSection').classList.add('hidden');
+    };
+
     $('joinRoomBtn').onclick = () => {
+        console.log('🔵 joinRoomBtn клик');
         const code = normalizeRoomCode($('roomCodeInput').value);
         const name = $('playerNameInput').value.trim() || 'Игрок';
         if (code) joinRoom(code, name);
     };
-    
-    $('startGameBtn').onclick = () => { haptic.impact(); startGame(); };
-    $('leaveLobbyBtn').onclick = () => { haptic.impact(); leaveRoom(); };
-    $('leaveGameBtn').onclick = () => { haptic.impact(); leaveRoom(); };
-    
-    $('startVoteBtn').onclick = () => { haptic.impact(); startVote(); };
-    $('finishVoteBtn').onclick = () => { haptic.impact(); finishVote(); };
-    
-    $('readyBtn').onclick = () => { haptic.success(); setReady(); };
+
+    $('startGameBtn').onclick = () => { 
+        console.log('🔵 startGameBtn клик');
+        haptic.impact(); 
+        startGame(); 
+    };
     
     $('newGameBtn').onclick = () => { haptic.impact(); resetState(); };
     
