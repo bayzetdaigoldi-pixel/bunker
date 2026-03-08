@@ -1495,6 +1495,18 @@ const setupEvents = () => {
         startGame(); 
     };
     
+    $('leaveLobbyBtn').onclick = () => { 
+        console.log('🔵 leaveLobbyBtn клик');
+        haptic.impact(); 
+        leaveRoom(); 
+    };
+    
+    $('leaveGameBtn').onclick = () => { 
+        console.log('🔵 leaveGameBtn клик');
+        haptic.impact(); 
+        leaveRoom(); 
+    };
+    
     $('newGameBtn').onclick = () => { haptic.impact(); resetState(); };
     
     // Обработчик для модального окна присоединения
