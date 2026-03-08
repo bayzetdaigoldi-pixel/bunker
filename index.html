@@ -4,22 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0a0a0a">
-    <title>🛡️ БУНКЕР — Финальная версия</title>
+    <title>🛡️ БУНКЕР — Для компании</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #ff6b35;
-            --primary-dark: #cc5522;
+            --primary-dark: #b85e1a;
+            --primary-glow: rgba(255, 107, 53, 0.4);
             --success: #00ff88;
             --danger: #ff4757;
-            --warning: #ffd700;
             --bg-dark: #0a0a0a;
             --bg-card: #1a1a1a;
-            --bg-panel: rgba(30, 30, 30, 0.6);
-            --border: rgba(255, 107, 53, 0.25);
+            --bg-tile: rgba(30, 30, 30, 0.8);
+            --bg-tile-open: rgba(255, 107, 53, 0.15);
+            --border: rgba(255, 107, 53, 0.3);
             --text: #e0e0e0;
             --text-muted: #888888;
+            --text-hidden: #555555;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -28,991 +30,550 @@
             background: var(--bg-dark);
             background-image: 
                 radial-gradient(ellipse at 20% 10%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 90%, rgba(139, 69, 19, 0.06) 0%, transparent 50%);
+                radial-gradient(ellipse at 80% 90%, rgba(184, 94, 26, 0.06) 0%, transparent 50%);
             min-height: 100vh;
+            min-height: 100dvh;
             font-family: 'Inter', sans-serif;
             color: var(--text);
-            padding: 10px;
-            line-height: 1.5;
+            overflow-x: hidden;
+            padding: 12px;
         }
 
-        .container { max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .container { max-width: 480px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
 
         .header {
             text-align: center;
-            padding: 15px 10px;
+            padding: 20px 10px 15px;
             border-bottom: 1px solid var(--border);
         }
         .header h1 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: 700;
-            letter-spacing: 6px;
+            letter-spacing: 8px;
             background: linear-gradient(135deg, var(--primary) 0%, #ff8c5a 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .subtitle { font-size: 0.7rem; color: var(--text-muted); margin-top: 5px; letter-spacing: 2px; text-transform: uppercase; }
-
-        .panel {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-        }
-        .panel-header {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            font-weight: 600;
+        .subtitle {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 6px;
             letter-spacing: 2px;
-            color: var(--primary);
-            margin-bottom: 10px;
             text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
         }
-        .panel-header::after { content: '▼'; font-size: 0.7rem; transition: transform 0.3s; }
-        .panel-header.collapsed::after { transform: rotate(-90deg); }
-        .panel-content { overflow: hidden; transition: max-height 0.3s ease-out; }
-        .panel-content.collapsed { max-height: 0 !important; }
-
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .info-item { background: rgba(0, 0, 0, 0.3); padding: 8px; border-radius: 6px; font-size: 0.7rem; }
-        .info-label { color: var(--text-muted); text-transform: uppercase; font-size: 0.6rem; }
-        .info-value { color: var(--text); font-weight: 500; margin-top: 2px; font-size: 0.75rem; }
+        .counter {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 12px;
+            padding: 6px 14px;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
 
         .btn {
             width: 100%;
-            padding: 16px 20px;
+            padding: 16px 24px;
             font-family: 'Inter', sans-serif;
             font-size: 0.9rem;
             font-weight: 600;
             letter-spacing: 1px;
             text-transform: uppercase;
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
         }
         .btn:active { transform: scale(0.98); }
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
         .btn-primary {
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
             color: #fff;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-        }
-        .btn-success {
-            background: linear-gradient(135deg, var(--success) 0%, #00cc66 100%);
-            color: #000;
-        }
-        .btn-danger {
-            background: linear-gradient(135deg, var(--danger) 0%, #cc3344 100%);
-            color: #fff;
+            box-shadow: 0 4px 20px var(--primary-glow);
         }
         .btn-secondary {
-            background: transparent;
+            background: var(--bg-tile);
             color: var(--primary);
             border: 1px solid var(--primary);
         }
-        .btn-group { display: flex; flex-direction: column; gap: 8px; }
-        .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .btn-group { display: flex; flex-direction: column; gap: 10px; }
 
-        .my-card {
-            background: linear-gradient(135deg, rgba(255, 107, 53, 0.08) 0%, rgba(0, 0, 0, 0.4) 100%);
-            border: 2px solid var(--border);
-            border-radius: 12px;
+        .character-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 16px;
             padding: 16px;
+            margin-top: 10px;
         }
-        .my-card-title {
+        .character-name {
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             text-align: center;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             color: var(--primary);
             letter-spacing: 2px;
         }
-        .stats-list { display: flex; flex-direction: column; gap: 6px; }
-        .stat-row {
-            display: flex;
-            padding: 8px 10px;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 6px;
-            border-left: 2px solid var(--primary);
-        }
-        .stat-label { font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); min-width: 90px; }
-        .stat-value { font-size: 0.8rem; color: var(--text); font-weight: 500; }
 
-        .players-section { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
-        .players-list { display: flex; flex-direction: column; gap: 6px; }
-        .player-row {
+        .trait-tile {
+            background: var(--bg-tile);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 10px;
-            background: rgba(0, 0, 0, 0.25);
-            border-radius: 6px;
-            font-size: 0.8rem;
         }
-        .player-row.is-you { border-left: 2px solid var(--success); }
-        .player-status { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: rgba(255, 255, 255, 0.1); }
-        .player-status.ready { background: rgba(0, 255, 136, 0.2); color: var(--success); }
-        .player-status.waiting { background: rgba(136, 136, 136, 0.2); color: var(--text-muted); }
-        .player-status.accepted { background: rgba(0, 255, 136, 0.3); color: var(--success); font-weight: 600; }
-        .player-status.rejected { background: rgba(255, 71, 87, 0.2); color: var(--danger); }
+        .trait-tile.hidden {
+            background: rgba(30, 30, 30, 0.5);
+            border-color: rgba(255, 107, 53, 0.15);
+        }
+        .trait-tile.hidden .trait-value { color: var(--text-hidden); }
+        .trait-tile.open {
+            background: var(--bg-tile-open);
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.2);
+        }
+        .trait-tile.open .trait-value { color: var(--text); font-weight: 600; }
+        .trait-tile:active { transform: scale(0.98); }
 
-        .vote-section { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
-        .vote-player { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
-        .vote-player-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .vote-player-name { font-weight: 600; font-size: 0.8rem; }
-        .vote-player-profession { font-size: 0.65rem; color: var(--primary); }
-        .vote-buttons { display: flex; gap: 6px; }
-        .vote-btn { flex: 1; padding: 10px; font-size: 0.7rem; border-radius: 6px; border: 2px solid transparent; cursor: pointer; font-weight: 600; }
-        .vote-btn-yes { background: rgba(0, 255, 136, 0.1); border-color: rgba(0, 255, 136, 0.3); color: var(--success); }
-        .vote-btn-yes.active { background: var(--success); color: #000; border-color: var(--success); }
-        .vote-btn-no { background: rgba(255, 71, 87, 0.1); border-color: rgba(255, 71, 87, 0.3); color: var(--danger); }
-        .vote-btn-no.active { background: var(--danger); color: #fff; border-color: var(--danger); }
-        .vote-count { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-muted); margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
+        .trait-left { display: flex; align-items: center; gap: 12px; flex: 1; }
+        .trait-icon { font-size: 1.4rem; min-width: 28px; }
+        .trait-content { flex: 1; }
+        .trait-label { font-size: 0.7rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 4px; }
+        .trait-value { font-size: 0.9rem; }
+        .trait-status { font-size: 1.2rem; min-width: 24px; text-align: right; }
 
-        .room-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 10px; }
-        .room-code { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--primary); }
-        .room-info { font-size: 0.7rem; color: var(--text-muted); }
+        .screen { display: none; }
+        .screen.active { display: block; }
 
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
-        .modal-overlay.active { display: flex; }
-        .modal { background: var(--bg-card); border: 2px solid var(--border); border-radius: 12px; padding: 20px; width: 100%; max-width: 320px; }
-        .modal h2 { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; text-align: center; margin-bottom: 15px; color: var(--primary); }
-        .modal input { width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; text-align: center; }
-        .modal input:focus { outline: none; border-color: var(--primary); }
+        .start-screen { text-align: center; padding: 40px 20px; }
+        .start-icon { font-size: 4rem; margin-bottom: 20px; }
+        .start-title { font-size: 1.1rem; color: var(--text); margin-bottom: 10px; }
+        .start-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 30px; }
 
-        .toast-container { position: fixed; top: 10px; right: 10px; z-index: 200; max-width: 320px; }
-        .toast { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.75rem; animation: slideIn 0.3s ease-out; }
+        .instructions {
+            background: rgba(255, 107, 53, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 15px;
+        }
+        .instructions-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            color: var(--primary);
+            margin-bottom: 12px;
+        }
+        .instructions-list { font-size: 0.75rem; color: var(--text-muted); line-height: 1.8; }
+        .instructions-list li { margin-bottom: 6px; list-style: none; padding-left: 20px; position: relative; }
+        .instructions-list li::before { content: '▸'; position: absolute; left: 0; color: var(--primary); }
+
+        .progress-container {
+            margin-top: 15px;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+        }
+        .progress-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+        }
+        .progress-bar { height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            transition: width 0.5s;
+        }
+
+        .reset-btn {
+            margin-top: 15px;
+            padding: 12px;
+            font-size: 0.8rem;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .toast-container { position: fixed; top: 10px; right: 10px; z-index: 200; max-width: 280px; }
+        .toast {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 14px;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            animation: slideIn 0.3s;
+        }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .toast.success { border-left: 3px solid var(--success); }
         .toast.error { border-left: 3px solid var(--danger); }
-        .toast.warning { border-left: 3px solid var(--warning); }
         .toast.info { border-left: 3px solid var(--primary); }
 
-        .hidden { display: none !important; }
-        .text-center { text-align: center; }
-        .mt-2 { margin-top: 10px; }
-
-        .phase-indicator { display: flex; justify-content: center; gap: 6px; margin-bottom: 10px; }
-        .phase-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); transition: all 0.3s; }
-        .phase-dot.active { background: var(--primary); box-shadow: 0 0 10px var(--primary); transform: scale(1.2); }
-        .phase-dot.done { background: var(--success); }
-
-        .accepted-section { background: rgba(0, 255, 136, 0.05); border: 1px solid var(--success); border-radius: 10px; padding: 12px; }
-        .accepted-title { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: var(--success); margin-bottom: 8px; text-align: center; text-transform: uppercase; }
-        .accepted-list { display: flex; flex-wrap: wrap; gap: 6px; }
-        .accepted-badge { background: rgba(0, 255, 136, 0.15); border: 1px solid var(--success); padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; }
-
-        .vote-progress { background: rgba(0, 0, 0, 0.3); border-radius: 6px; padding: 8px 12px; margin-bottom: 10px; font-size: 0.7rem; }
-        .vote-progress-bar { height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; margin-top: 6px; overflow: hidden; }
-        .vote-progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--success)); border-radius: 3px; transition: width 0.3s; }
-
-        footer { text-align: center; padding: 15px; margin-top: 10px; font-size: 0.65rem; color: var(--text-muted); border-top: 1px solid var(--border); }
+        footer { text-align: center; padding: 20px; margin-top: 10px; font-size: 0.65rem; color: var(--text-muted); border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>БУНКЕР</h1>
-            <div class="subtitle">Финальная версия</div>
+            <div class="subtitle">версия для компании</div>
+            <div class="counter" id="counter">
+                <span>📖</span>
+                <span id="counterText">ОТКРЫТО: 0/8</span>
+            </div>
         </div>
 
         <div class="toast-container" id="toastContainer"></div>
 
-        <!-- ЭКРАН ВХОДА -->
-        <div id="loginScreen">
-            <div class="panel">
-                <div class="panel-header">👤 Вход в бункер</div>
-                <div style="margin-bottom:10px;">
-                    <label style="font-size:0.7rem;color:var(--text-muted);display:block;margin-bottom:5px;">ВАШЕ ИМЯ</label>
-                    <input type="text" id="playerNameInput" placeholder="Как вас называть?" maxlength="20" style="width:100%;padding:12px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;">
+        <!-- СТАРТОВЫЙ ЭКРАН -->
+        <div id="startScreen" class="screen active">
+            <div class="start-screen">
+                <div class="start-icon">🎭</div>
+                <div class="start-title">Сгенерируй персонажа<br>для игры в Бункер</div>
+                <div class="start-desc">
+                    Нажми кнопку ниже, чтобы получить случайного персонажа с 8 характеристиками.
+                    Открывай их по одной во время представления!
                 </div>
                 <div class="btn-group">
-                    <button class="btn btn-primary" id="createRoomBtn"><span>🏠</span> Создать комнату</button>
-                    <button class="btn btn-secondary" id="showJoinBtn"><span>🚪</span> Присоединиться</button>
+                    <button class="btn btn-primary" id="generateBtn">
+                        <span>🎲</span> Сгенерировать персонажа
+                    </button>
                 </div>
-            </div>
-            
-            <div id="joinSection" class="panel mt-2 hidden">
-                <div class="panel-header">🔑 Код комнаты</div>
-                <input type="text" id="roomCodeInput" placeholder="ABC-123" maxlength="8" style="width:100%;padding:12px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:2px;">
-                <div style="font-size:0.65rem;color:var(--text-muted);margin-top:-5px;margin-bottom:10px;">Введите код без пробелов</div>
-                <div class="btn-row">
-                    <button class="btn btn-primary" id="joinRoomBtn">Войти</button>
-                    <button class="btn btn-danger" id="cancelJoinBtn">Отмена</button>
+                <div class="instructions">
+                    <div class="instructions-title">📋 Как играть</div>
+                    <ul class="instructions-list">
+                        <li>Все игроки генерируют персонажей</li>
+                        <li>По очереди представляйтесь в круге</li>
+                        <li>Нажимай на плитки, чтобы открыть характеристику</li>
+                        <li>Рассказывай о себе, открывая нужное</li>
+                        <li>После всех — голосование, кто идёт в бункер</li>
+                    </ul>
                 </div>
             </div>
         </div>
 
-        <!-- ЭКРАН ЛОББИ -->
-        <div id="lobbyScreen" class="hidden">
-            <div class="room-bar">
-                <span class="room-code" id="lobbyRoomCode">----</span>
-                <span class="room-info">👥 <span id="lobbyPlayersCount">0</span></span>
+        <!-- ЭКРАН ПЕРСОНАЖА -->
+        <div id="characterScreen" class="screen">
+            <div class="character-card">
+                <div class="character-name" id="characterName">Выживший</div>
+                <div id="traitsList"></div>
             </div>
 
-            <div class="players-section">
-                <div class="panel-header" onclick="togglePanel('lobbyPlayersList')">👥 Игроки</div>
-                <div id="lobbyPlayersList" class="players-list"></div>
-            </div>
-
-            <div class="panel" style="background:rgba(255,215,0,0.05);border-color:var(--warning);">
-                <div style="font-size:0.75rem;color:var(--text-muted);">
-                    <strong>📋 Правила:</strong><br>
-                    1. Каждый видит ТОЛЬКО свою карту<br>
-                    2. Все голосуют ЗА/ПРОТИВ каждого<br>
-                    3. Большинство ЗА = принят в бункер
+            <div class="progress-container">
+                <div class="progress-label">
+                    <span>Прогресс</span>
+                    <span id="progressPercent">0%</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%"></div>
                 </div>
             </div>
 
-            <div id="hostControls" class="btn-group hidden">
-                <button class="btn btn-success" id="startGameBtn"><span>▶️</span> Начать игру</button>
+            <div class="btn-group">
+                <button class="btn btn-secondary" id="newCharacterBtn">
+                    <span>🔄</span> Новый персонаж
+                </button>
+                <button class="btn btn-secondary" id="resetProgressBtn">
+                    <span>🔒</span> Сбросить всё
+                </button>
             </div>
 
-            <div id="waitMessage" class="panel text-center hidden">
-                <div style="font-size:0.8rem;color:var(--text-muted);">⏳ Ожидание...</div>
-                <div style="font-size:0.75rem;color:var(--primary);margin-top:5px;">Создатель начнёт игру</div>
-            </div>
-
-            <button class="btn btn-danger" id="leaveLobbyBtn"><span>🚪</span> Покинуть лобби</button>
+            <button class="btn reset-btn" id="backToStartBtn">
+                <span>🏠</span> В меню
+            </button>
         </div>
 
-        <!-- ИГРОВОЙ ЭКРАН -->
-        <div id="gameScreen" class="hidden">
-            <div class="phase-indicator">
-                <div class="phase-dot" id="phase1"></div>
-                <div class="phase-dot" id="phase2"></div>
-                <div class="phase-dot" id="phase3"></div>
-            </div>
-
-            <div class="room-bar">
-                <span class="room-code" id="gameRoomCode">----</span>
-                <span class="room-info" id="gamePhaseText">Лобби</span>
-            </div>
-
-            <!-- Бункер и катастрофа -->
-            <div class="panel hidden" id="infoPanel">
-                <div class="panel-header" onclick="togglePanel('infoContent')">🌍 Обстановка</div>
-                <div id="infoContent" class="panel-content">
-                    <div class="info-grid mt-2">
-                        <div class="info-item">
-                            <div class="info-label">🏗️ Бункер</div>
-                            <div class="info-value" id="bunkerType">-</div>
-                            <div class="info-value" id="bunkerSlots">-</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">☢️ Катастрофа</div>
-                            <div class="info-value" id="disasterType">-</div>
-                            <div class="info-value" id="disasterScale">-</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">📦 Запасы</div>
-                            <div class="info-value" id="bunkerSupplies">-</div>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-label">⚠️ Угрозы</div>
-                            <div class="info-value" id="disasterThreats">-</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- МОЯ КАРТА -->
-            <div id="myCardSection" class="my-card hidden">
-                <div class="my-card-title">📋 МОЯ КАРТА</div>
-                <div class="stats-list" id="myCharacterStats"></div>
-                <button class="btn btn-primary mt-2" id="readyBtn"><span>✅</span> Я изучил карту</button>
-                <div id="readyMessage" class="text-center hidden" style="margin-top:10px;padding:10px;background:rgba(0,255,136,0.1);border-radius:8px;color:var(--success);font-size:0.8rem;">✅ Вы готовы к голосованию</div>
-            </div>
-
-            <!-- ГОЛОСОВАНИЕ -->
-            <div id="voteSection" class="vote-section hidden">
-                <div class="panel-header" onclick="togglePanel('voteContent')">🗳️ Голосование</div>
-                <div id="voteContent" class="panel-content">
-                    <div class="vote-progress mt-2">
-                        <div>Голосов: <span id="voteCount">0</span> из <span id="voteTotal">0</span></div>
-                        <div class="vote-progress-bar">
-                            <div class="vote-progress-fill" id="voteProgressFill" style="width:0%"></div>
-                        </div>
-                    </div>
-                    <div id="votePlayersList"></div>
-                </div>
-            </div>
-
-            <!-- СПИСОК ИГРОКОВ -->
-            <div class="players-section">
-                <div class="panel-header" onclick="togglePanel('gamePlayersList')">
-                    👥 Статус игроков
-                    <span id="readyProgress" style="font-size:0.65rem;color:var(--text-muted);"></span>
-                </div>
-                <div id="gamePlayersList" class="players-list"></div>
-            </div>
-
-            <!-- ПРИНЯТЫЕ -->
-            <div id="acceptedSection" class="accepted-section hidden">
-                <div class="accepted-title">✅ Приняты в бункер</div>
-                <div class="accepted-list" id="acceptedPlayersList"></div>
-            </div>
-
-            <!-- КНОПКИ УПРАВЛЕНИЯ -->
-            <div id="gameControls" class="btn-group hidden">
-                <button class="btn btn-primary" id="startVoteBtn"><span>🗳️</span> Начать голосование</button>
-                <button class="btn btn-success" id="finishVoteBtn"><span>✅</span> Завершить голосование</button>
-            </div>
-
-            <button class="btn btn-danger" id="leaveGameBtn"><span>🚪</span> Покинуть игру</button>
-        </div>
-
-        <!-- ЭКРАН КОНЦА ИГРЫ -->
-        <div id="endScreen" class="hidden">
-            <div class="panel">
-                <div class="panel-header">🏆 Игра окончена</div>
-                <div class="text-center" style="padding:20px;">
-                    <div style="font-size:3rem;margin-bottom:10px;">🎭</div>
-                    <div id="endMessage" style="font-size:1rem;margin-bottom:15px;"></div>
-                </div>
-            </div>
-            <div id="endAcceptedSection" class="accepted-section">
-                <div class="accepted-title">📋 Выжившие</div>
-                <div class="accepted-list" id="endAcceptedList"></div>
-            </div>
-            <button class="btn btn-primary mt-2" id="newGameBtn"><span>🔄</span> В меню</button>
-        </div>
-
-        <footer>© 2026 БУНКЕР • Финальная версия</footer>
+        <footer>© 2026 БУНКЕР • Для компании</footer>
     </div>
 
-    <div class="modal-overlay" id="joinModal">
-        <div class="modal">
-            <h2>Вход в комнату</h2>
-            <input type="text" id="joinRoomCodeInput" placeholder="ABC-123" maxlength="8" style="text-transform:uppercase;letter-spacing:2px;">
-            <div style="font-size:0.65rem;color:var(--text-muted);margin-top:-5px;margin-bottom:10px;text-align:center;">Введите код без пробелов</div>
-            <input type="text" id="joinPlayerNameInput" placeholder="Ваше имя" maxlength="20">
-            <div class="btn-row">
-                <button class="btn btn-primary" id="confirmJoinBtn">Войти</button>
-                <button class="btn btn-danger" id="cancelJoinBtn">Отмена</button>
-            </div>
-        </div>
-    </div>
-
-<script type="module">
-// ============================================
-// 🔥 FIREBASE CONFIG
-// ============================================
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
-import { getFirestore, doc, setDoc, getDoc, updateDoc, onSnapshot, deleteDoc } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';
-
-const FIREBASE_CONFIG = {
-    apiKey: "AIzaSyBw0hrrgD8Z9SJBLovx845UY06RlGdlrkg",
-    authDomain: "bunker-37f0f.firebaseapp.com",
-    projectId: "bunker-37f0f",
-    storageBucket: "bunker-37f0f.firebasestorage.app",
-    messagingSenderId: "1061927034590",
-    appId: "1:1061927034590:web:af9f92e7afb3b0aab6ec4f",
-    measurementId: "G-8SEBBE34XF"
-};
-
-let db;
-let firebaseConnected = false;
-
-try {
-    const app = initializeApp(FIREBASE_CONFIG);
-    db = getFirestore(app);
-    firebaseConnected = true;
-    console.log('✅ Firebase подключён');
-} catch (e) {
-    console.error('❌ Ошибка Firebase:', e);
-}
-
+<script>
 // ============================================
 // TELEGRAM WEBAPP
 // ============================================
 const isTelegram = window.Telegram && window.Telegram.WebApp;
 const tg = isTelegram ? window.Telegram.WebApp : null;
-const tgVersion = tg?.version ? parseFloat(tg.version) : 0;
-const supportsHaptic = tgVersion >= 6.1;
 
-if (tg) {
-    console.log('✅ Telegram WebApp detected');
-    console.log(`📱 Telegram version: ${tg.version}`);
-    console.log(`🔔 HapticFeedback: ${supportsHaptic ? '✅ supported' : '❌ not supported (need 6.1+)'}`);
-    try { tg.expand(); tg.ready(); } catch (e) { console.warn('Telegram init error:', e); }
-} else {
-    console.log('ℹ️ Running in browser (not Telegram)');
-}
+if (tg) { try { tg.expand(); tg.ready(); } catch(e) {} }
 
 // ============================================
 // УТИЛИТЫ
 // ============================================
 const $ = (id) => document.getElementById(id);
+
 const random = (arr) => arr[Math.floor(Math.random() * arr.length)];
 
-const generateRoomId = () => {
-    const letters = 'ABCDEFGHJKMNPQRSTUVWXZ';
-    const digits = '23456789';
-    let result = '';
-    for (let i = 0; i < 3; i++) result += letters[Math.floor(Math.random() * letters.length)];
-    for (let i = 0; i < 3; i++) result += digits[Math.floor(Math.random() * digits.length)];
-    return result;
-};
-
-const normalizeRoomCode = (code) => {
-    if (!code) return '';
-    return code.toUpperCase().replace(/[\s\-\.\_]/g, '').replace(/O/g, '0').replace(/I/g, '1').replace(/L/g, '1');
-};
-
-const formatRoomCode = (code) => {
-    if (!code) return '';
-    const normalized = normalizeRoomCode(code);
-    if (normalized.length >= 6) return normalized.slice(0, 3) + '-' + normalized.slice(3, 6);
-    return normalized;
-};
-
-const haptic = {
-    success: () => { if (supportsHaptic && tg?.HapticFeedback) try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {} },
-    error: () => { if (supportsHaptic && tg?.HapticFeedback) try { tg.HapticFeedback.notificationOccurred('error'); } catch(e) {} },
-    impact: (type = 'medium') => { if (supportsHaptic && tg?.HapticFeedback) try { tg.HapticFeedback.impactOccurred(type); } catch(e) {} },
-    selection: () => { if (supportsHaptic && tg?.HapticFeedback) try { tg.HapticFeedback.selectionChanged(); } catch(e) {} }
+const shuffle = (arr) => {
+    const shuffled = [...arr];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
 };
 
 const toast = (message, type = 'info') => {
     const container = $('toastContainer');
+    if (!container) return;
     const el = document.createElement('div');
     el.className = `toast ${type}`;
-    el.innerHTML = `<span>${type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️'}</span><span>${message}</span>`;
+    el.innerHTML = `<span>${type === 'success' ? '✅' : type === 'error' ? '❌' : 'ℹ️'}</span><span>${message}</span>`;
     container.appendChild(el);
-    setTimeout(() => el.remove(), 4000);
+    setTimeout(() => el.remove(), 2500);
 };
 
 const showScreen = (screenId) => {
-    ['loginScreen', 'lobbyScreen', 'gameScreen', 'endScreen'].forEach(id => $(id).classList.add('hidden'));
-    $(screenId).classList.remove('hidden');
-};
-
-const togglePanel = (contentId) => {
-    const content = $(contentId);
-    const header = content.previousElementSibling;
-    if (content && header) {
-        content.classList.toggle('collapsed');
-        header.classList.toggle('collapsed');
-    }
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const screen = $(screenId);
+    if (screen) screen.classList.add('active');
 };
 
 // ============================================
 // ДАННЫЕ
 // ============================================
 const DATA = {
-    professions: ["Врач", "Инженер", "Военный", "Повар", "Сантехник", "Программист", "Химик", "Биолог", "Фермер", "Охотник", "Рыбак", "Шахтер", "Плотник", "Механик", "Электрик", "Водитель", "Журналист", "Полицейский", "Пожарный", "Спасатель"],
-    health: ["Здоров", "Крепкое здоровье", "Астма", "Диабет", "Проблемы с сердцем", "Гипертония", "Артрит", "Плохое зрение", "Аллергия", "Беременность", "Ослаблен"],
-    mental: ["Нет фобий", "Клаустрофобия", "Боязнь темноты", "Боязнь крови", "Панические атаки", "Депрессия", "Паранойя", "Тревожность", "Боязнь высоты", "ОКР"],
-    hobbies: ["Рыбалка", "Охота", "Садоводство", "Кулинария", "Чтение", "Музыка", "Спорт", "Фотография", "Шахматы", "Рисование", "Ориентирование"],
-    luggage: ["Аптечка", "Топор", "Нож", "Пистолет", "Патроны", "Семена", "Книги", "Спички", "Фонарик", "Рация", "Консервы", "Вода", "Инструменты"],
-    personality: ["Лидер", "Ведомый", "Эгоист", "Альтруист", "Харизматичный", "Молчун", "Оптимист", "Пессимист", "Циник", "Расчетливый"],
-    genderAge: ["Мужчина, 25 лет", "Мужчина, 32 года", "Мужчина, 45 лет", "Женщина, 23 года", "Женщина, 29 лет", "Женщина, 38 лет", "Подросток, 17 лет"],
-    bunkerTypes: ["Военный бункер", "Гражданское убежище", "Метро станция", "Подвальный комплекс", "Частный бункер"],
-    bunkerSizes: ["Тесный (5 мест)", "Средний (10 мест)", "Просторный (15 мест)"],
-    bunkerSupplies: ["Пусто", "На неделю", "На месяц", "На полгода", "На год"],
-    disasterTypes: ["Ядерная война", "Зомби-вирус", "Пандемия", "Восстание ИИ", "Астероид", "Вулкан"],
-    disasterScales: ["Локальный", "Региональный", "Глобальный"],
-    disasterThreats: ["Нет угроз", "Мутанты", "Банды", "Радиация", "Токсины"]
+    professions: [
+        "Врач-хирург", "Инженер-механик", "Военный", "Агроном", "Учитель", "Музыкант", "Строитель", "Повар",
+        "Ветеринар", "Фармацевт", "Стоматолог", "Сварщик", "Сантехник", "Автомеханик", "Столяр", "Плотник",
+        "Электрик", "Слесарь", "Офицер", "Солдат", "Снайпер", "Полицейский", "Охранник", "Фермер",
+        "Шахтёр", "Лесоруб", "Охотник", "Рыбак", "Биолог", "Химик", "Физик", "Геолог", "Кузнец", "Пекарь",
+        "Портной", "Водитель", "Лётчик", "Моряк", "Психолог", "Связист", "Картограф", "Архитектор"
+    ],
+    health: [
+        "Абсолютно здоров", "Отличное здоровье", "Крепкое здоровье",
+        "Хронический бронхит", "Язва желудка", "Гипертония", "Гипотония",
+        "Диабет", "Эпилепсия", "Астма", "Артрит",
+        "Плохое зрение (очки)", "Частичная слепота", "Глухота",
+        "Хромота", "Аллергия"
+    ],
+    mental: [
+        "Уравновешенный", "Стрессоустойчивый",
+        "Клаустрофобия", "Агорафобия", "Акрофобия", "Гемофобия",
+        "Тревожность", "Панические атаки", "Депрессия",
+        "Паранойя"
+    ],
+    character: [
+        "Лидер", "Ведомый", "Харизматичный", "Молчун", "Общительный",
+        "Альтруист", "Эгоист", "Циник", "Добрый", "Жестокий",
+        "Оптимист", "Пессимист", "Реалист", "Вспыльчивый", "Спокойный",
+        "Ответственный", "Ленивый", "Надёжный"
+    ],
+    skills: [
+        "Разведение костра", "Ориентирование", "Чтение карт", "Поиск воды",
+        "Первая помощь", "Шитьё", "Столярное дело", "Кузнечное дело",
+        "Плавание", "Борьба", "Кулинария", "Ремонт"
+    ],
+    luggage: [
+        "Аптечка", "Топор", "Нож", "Пистолет", "Ружьё",
+        "Патроны", "Мультитул", "Верёвка", "Консервы",
+        "Палатка", "Спальник", "Фонарик", "Рация", "Спички"
+    ],
+    backstory: [
+        "Потерял семью", "Выжил один", "Спас ребёнка", "Сидел в тюрьме",
+        "Был бездомным", "Был сталкером", "Работал в морге"
+    ],
+    features: [
+        "Татуировки", "Шрамы на лице", "Нет глаза", "Нет пальцев",
+        "Низкий рост", "Высокий рост", "Заикается"
+    ]
 };
 
-// ============================================
-// ГЕНЕРАТОРЫ
-// ============================================
-const Generators = {
-    character: (name) => ({
-        name,
-        profession: random(DATA.professions),
-        health: random(DATA.health),
-        mental: random(DATA.mental),
-        hobby: random(DATA.hobbies),
-        luggage: random(DATA.luggage),
-        personality: random(DATA.personality),
-        genderAge: random(DATA.genderAge)
-    }),
-    bunker: () => {
-        const size = random(DATA.bunkerSizes);
-        const slots = parseInt(size.match(/\d+/)[0]);
-        return { type: random(DATA.bunkerTypes), size, slots, supplies: random(DATA.bunkerSupplies) };
-    },
-    disaster: () => ({
-        type: random(DATA.disasterTypes),
-        scale: random(DATA.disasterScales),
-        threat: random(DATA.disasterThreats)
-    })
-};
+const TRAIT_TYPES = [
+    { key: 'profession', label: 'Профессия', icon: '💼' },
+    { key: 'health', label: 'Здоровье', icon: '❤️' },
+    { key: 'mental', label: 'Психика', icon: '🧠' },
+    { key: 'character', label: 'Характер', icon: '🎭' },
+    { key: 'skills', label: 'Навыки', icon: '🔧' },
+    { key: 'luggage', label: 'Багаж', icon: '🎒' },
+    { key: 'backstory', label: 'Прошлое', icon: '📜' },
+    { key: 'features', label: 'Особенности', icon: '👤' }
+];
 
 // ============================================
 // СОСТОЯНИЕ
 // ============================================
 let state = {
-    playerId: null,
-    playerName: '',
-    roomId: null,
-    isHost: false,
-    unsubscribe: null,
-    isVoting: false,
-    isStartingGame: false
+    character: null,
+    openedTraits: [],
+    traitOrder: []
 };
 
 // ============================================
-// FIREBASE ФУНКЦИИ
+// ГЕНЕРАТОР
 // ============================================
-
-const createRoom = async () => {
-    if (!firebaseConnected) { toast('Firebase не подключён!', 'error'); return; }
-    
-    if (state.unsubscribe) { state.unsubscribe(); state.unsubscribe = null; }
-    state.gameData = null;
-    state.roomId = null;
-    state.playerId = null;
-    state.isHost = false;
-
-    const roomId = generateRoomId();
-    let name = tg?.initDataUnsafe?.user?.username || $('playerNameInput')?.value.trim() || 'Игрок ' + Math.floor(Math.random() * 1000);
-    name = name.slice(0, 20);
-    if (name.length < 2) { toast('Имя должно быть от 2 символов', 'error'); return; }
-
-    try {
-        const existingDoc = await getDoc(doc(db, 'rooms', roomId));
-        if (existingDoc.exists()) { await deleteDoc(doc(db, 'rooms', roomId)); }
-    } catch (e) { console.warn('Ошибка проверки:', e); }
-
-    state.playerId = 'p_' + Date.now();
-    state.playerName = name;
-    state.roomId = roomId;
-    state.isHost = true;
-
-    const roomData = {
-        roomId,
-        hostId: state.playerId,
-        phase: 'lobby',
-        bunker: null,
-        disaster: null,
-        players: { [state.playerId]: { id: state.playerId, name, character: null, ready: false, accepted: null, votes: {} } },
-        votingStarted: false,
-        votingFinished: false,
-        lastUpdate: Date.now()
-    };
-
-    try {
-        await setDoc(doc(db, 'rooms', roomId), roomData);
-        state.gameData = roomData;
-        subscribeToRoom(roomId);
-        showScreen('lobbyScreen');
-        toast(`Комната ${formatRoomCode(roomId)} создана!`, 'success');
-        haptic.success();
-    } catch (e) {
-        console.error('Ошибка:', e);
-        toast('Ошибка создания комнаты', 'error');
-    }
-};
-
-const joinRoom = async (roomId, name) => {
-    if (!firebaseConnected) { toast('Firebase не подключён!', 'error'); return false; }
-    roomId = normalizeRoomCode(roomId);
-    if (roomId.length < 6) { toast('Неверный формат кода', 'error'); return false; }
-    name = name.slice(0, 20);
-    if (name.length < 2) { toast('Имя должно быть от 2 символов', 'error'); return false; }
-
-    try {
-        const roomSnap = await getDoc(doc(db, 'rooms', roomId));
-        if (!roomSnap.exists()) { toast('Комната не найдена!', 'error'); return false; }
-        const roomData = roomSnap.data();
-        if (roomData.phase !== 'lobby') { toast('Игра уже началась!', 'error'); return false; }
-
-        state.playerId = 'p_' + Date.now();
-        state.playerName = name;
-        state.roomId = roomId;
-        state.isHost = false;
-
-        await updateDoc(doc(db, 'rooms', roomId), {
-            [`players.${state.playerId}`]: { id: state.playerId, name, character: null, ready: false, accepted: null, votes: {} },
-            lastUpdate: Date.now()
-        });
-
-        subscribeToRoom(roomId);
-        showScreen('lobbyScreen');
-        toast(`Присоединился к ${formatRoomCode(roomId)}!`, 'success');
-        return true;
-    } catch (e) {
-        console.error('Ошибка:', e);
-        toast('Ошибка присоединения', 'error');
-        return false;
-    }
-};
-
-const subscribeToRoom = (roomId) => {
-    if (state.unsubscribe) state.unsubscribe();
-    state.unsubscribe = onSnapshot(doc(db, 'rooms', roomId), 
-        (docSnapshot) => {
-            if (!docSnapshot.exists()) { toast('Комната удалена!', 'error'); resetState(); return; }
-            state.gameData = docSnapshot.data();
-            updateUI(state.gameData);
-        },
-        (error) => {
-            console.error('Ошибка подписки:', error);
-            if (error.code === 'unavailable') toast('⚠️ Нет соединения', 'error');
-        }
-    );
-};
-
-const updateRoom = async (updates) => {
-    if (!state.roomId || !db) return;
-    try {
-        await updateDoc(doc(db, 'rooms', state.roomId), { ...updates, lastUpdate: Date.now() });
-    } catch (e) { console.error('Ошибка обновления:', e); }
-};
-
-const leaveRoom = async () => {
-    if (!state.roomId || !db) { resetState(); return; }
-    try {
-        const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
-        if (roomSnap.exists()) {
-            const roomData = roomSnap.data();
-            const otherPlayers = Object.values(roomData.players || {}).filter(p => p && p.id !== state.playerId);
-            if (state.isHost) {
-                if (otherPlayers.length > 0) {
-                    await updateDoc(doc(db, 'rooms', state.roomId), { hostId: otherPlayers[0].id, [`players.${state.playerId}`]: null });
-                } else {
-                    await deleteDoc(doc(db, 'rooms', state.roomId));
-                }
-            } else {
-                await updateDoc(doc(db, 'rooms', state.roomId), { [`players.${state.playerId}`]: null });
-            }
-        }
-    } catch (e) { console.error('Ошибка:', e); }
-    resetState();
-    toast('Вы покинули комнату', 'info');
-};
-
-const resetState = () => {
-    if (state.unsubscribe) { state.unsubscribe(); state.unsubscribe = null; }
-    state.roomId = null;
-    state.playerId = null;
-    state.isHost = false;
-    state.gameData = null;
-    state.isStartingGame = false;
-    state.isVoting = false;
-    showScreen('loginScreen');
-};
-
-// ============================================
-// ИГРОВАЯ ЛОГИКА
-// ============================================
-
-const startGame = async () => {
-    if (state.isStartingGame) return;
-    if (!firebaseConnected) { toast('Firebase не подключён!', 'error'); return; }
-    if (!state.roomId || !state.isHost) { toast('Ошибка', 'error'); return; }
-
-    state.isStartingGame = true;
-    const btn = $('startGameBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<span>⏳</span> Запуск...';
-
-    try {
-        const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
-        if (!roomSnap.exists()) { toast('Комната не найдена!', 'error'); return; }
-
-        const roomData = roomSnap.data();
-        const players = Object.values(roomData.players || {}).filter(p => p);
-
-        if (players.length < 2) { toast('Нужно минимум 2 игрока!', 'error'); return; }
-        if (roomData.phase !== 'lobby') { toast('Игра уже началась!', 'error'); return; }
-
-        const bunker = Generators.bunker();
-        const disaster = Generators.disaster();
-
-        const playersUpdate = {};
-        players.forEach(p => {
-            playersUpdate[`players.${p.id}.character`] = Generators.character(p.name);
-        });
-
-        await updateRoom({ phase: 'reveal', bunker, disaster, ...playersUpdate });
-        toast('Игра началась! Изучите свои карты', 'info');
-        haptic.success();
-    } catch (e) {
-        console.error('Ошибка:', e);
-        toast('Ошибка: ' + e.message, 'error');
-    } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<span>▶️</span> Начать игру';
-        state.isStartingGame = false;
-    }
-};
-
-const setReady = async () => {
-    await updateRoom({ [`players.${state.playerId}.ready`]: true });
-    toast('Вы готовы к голосованию', 'success');
-    haptic.success();
-};
-
-const startVote = async () => {
-    const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
-    const roomData = roomSnap.data();
-    if (roomData.votingStarted) { toast('Голосование уже началось!', 'warning'); return; }
-
-    const players = Object.values(roomData.players || {}).filter(p => p);
-    if (!players.every(p => p.ready)) { toast('Не все игроки изучили карты!', 'warning'); return; }
-
-    await updateRoom({ phase: 'vote', votingStarted: true });
-    toast('Голосование началось!', 'success');
-    haptic.success();
-};
-
-const finishVote = async () => {
-    const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
-    const roomData = roomSnap.data();
-    const players = Object.values(roomData.players || {}).filter(p => p);
-    const bunkerSlots = roomData.bunker?.slots || 5;
-
-    const totalVotesNeeded = players.length * (players.length - 1);
-    let currentVotes = 0;
-    players.forEach(p => { currentVotes += Object.keys(p.votes || {}).length; });
-
-    if (currentVotes < totalVotesNeeded) {
-        const remaining = totalVotesNeeded - currentVotes;
-        if (!confirm(`⚠️ Не все проголосовали! Осталось: ${remaining}\nЗавершить?`)) return;
-    }
-
-    const results = players.map(p => {
-        const yesVotes = Object.values(p.votes || {}).filter(v => v === 'yes').length;
-        const noVotes = Object.values(p.votes || {}).filter(v => v === 'no').length;
-        return { id: p.id, name: p.name, yes: yesVotes, no: noVotes, accepted: yesVotes > noVotes };
+const generateCharacter = () => {
+    const character = {};
+    TRAIT_TYPES.forEach(trait => {
+        const array = DATA[trait.key];
+        character[trait.key] = array[Math.floor(Math.random() * array.length)];
     });
-
-    results.sort((a, b) => {
-        if (a.accepted !== b.accepted) return b.accepted - a.accepted;
-        return b.yes - a.yes;
-    });
-
-    const updates = {};
-    let acceptedCount = 0;
-    results.forEach(r => {
-        const willAccept = acceptedCount < bunkerSlots && r.accepted;
-        updates[`players.${r.id}.accepted`] = willAccept;
-        if (willAccept) acceptedCount++;
-    });
-
-    toast('Голосование завершено!', 'success');
-    haptic.success();
-    await updateRoom({ ...updates, votingFinished: true, phase: 'ended' });
-};
-
-const voteForPlayer = async (targetId, voteType) => {
-    if (targetId === state.playerId) { toast('Нельзя голосовать за себя!', 'error'); return; }
-    if (state.isVoting) return;
-    state.isVoting = true;
-    setTimeout(() => { state.isVoting = false; }, 500);
-
-    const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
-    const roomData = roomSnap.data();
-    const targetPlayer = roomData.players[targetId];
-    if (!targetPlayer) return;
-
-    const currentVote = targetPlayer.votes?.[state.playerId];
-
-    if (currentVote === voteType) {
-        const newVotes = { ...(targetPlayer.votes || {}) };
-        delete newVotes[state.playerId];
-        await updateRoom({ [`players.${targetId}.votes`]: newVotes });
-        toast('Голос снят', 'info');
-        return;
-    }
-
-    const newVotes = { ...(targetPlayer.votes || {}), [state.playerId]: voteType };
-    await updateRoom({ [`players.${targetId}.votes`]: newVotes });
-    toast(`Голос: ${voteType === 'yes' ? '✅ ЗА' : '❌ ПРОТИВ'}`, 'info');
-    haptic.selection();
+    return character;
 };
 
 // ============================================
 // UI ФУНКЦИИ
 // ============================================
 
-const updateUI = (gameData) => {
-    if (!gameData) return;
-
-    const players = Object.values(gameData.players || {}).filter(p => p);
-    const myPlayer = players.find(p => p.id === state.playerId);
-    const isHost = gameData.hostId === state.playerId;
-
-    // === ЛОББИ ===
-    if ($('lobbyScreen').classList.contains('hidden') === false) {
-        $('lobbyRoomCode').textContent = formatRoomCode(gameData.roomId);
-        $('lobbyPlayersCount').textContent = players.length;
-        $('lobbyPlayersList').innerHTML = players.map(p => `
-            <div class="player-row ${p.id === state.playerId ? 'is-you' : ''}">
-                <span>${p.name} ${p.id === state.playerId ? '(Вы)' : ''}</span>
-                ${p.id === gameData.hostId ? '<span class="player-status">👑 Создатель</span>' : ''}
-            </div>
-        `).join('');
-        $('hostControls').classList.toggle('hidden', !isHost);
-        $('waitMessage').classList.toggle('hidden', isHost);
-    }
-
-    // === ИГРА ===
-    if ($('gameScreen').classList.contains('hidden') === false) {
-        $('gameRoomCode').textContent = formatRoomCode(gameData.roomId);
-        updatePhaseIndicator(gameData.phase);
-
-        if (gameData.phase !== 'lobby' && gameData.bunker && gameData.disaster) {
-            $('infoPanel').classList.remove('hidden');
-            $('bunkerType').textContent = gameData.bunker.type;
-            $('bunkerSlots').textContent = `Мест: ${gameData.bunker.slots}`;
-            $('bunkerSupplies').textContent = gameData.bunker.supplies;
-            $('disasterType').textContent = gameData.disaster.type;
-            $('disasterScale').textContent = gameData.disaster.scale;
-            $('disasterThreats').textContent = gameData.disaster.threat;
-        }
-
-        if (myPlayer?.character) {
-            $('myCardSection').classList.remove('hidden');
-            $('myCharacterStats').innerHTML = `
-                <div class="stat-row"><span class="stat-label">Профессия:</span><span class="stat-value">${myPlayer.character.profession}</span></div>
-                <div class="stat-row"><span class="stat-label">Здоровье:</span><span class="stat-value">${myPlayer.character.health}</span></div>
-                <div class="stat-row"><span class="stat-label">Психика:</span><span class="stat-value">${myPlayer.character.mental}</span></div>
-                <div class="stat-row"><span class="stat-label">Хобби:</span><span class="stat-value">${myPlayer.character.hobby}</span></div>
-                <div class="stat-row"><span class="stat-label">Багаж:</span><span class="stat-value">${myPlayer.character.luggage}</span></div>
-                <div class="stat-row"><span class="stat-label">Характер:</span><span class="stat-value">${myPlayer.character.personality}</span></div>
-                <div class="stat-row"><span class="stat-label">Пол/Возраст:</span><span class="stat-value">${myPlayer.character.genderAge}</span></div>
-            `;
-            $('readyBtn').classList.toggle('hidden', myPlayer.ready);
-            $('readyMessage').classList.toggle('hidden', !myPlayer.ready);
-        }
-
-        if (gameData.phase === 'vote' && !gameData.votingFinished) {
-            $('voteSection').classList.remove('hidden');
-            renderVoting(players, gameData);
-        } else {
-            $('voteSection').classList.add('hidden');
-        }
-
-        const readyCount = players.filter(p => p.ready).length;
-        $('readyProgress').textContent = `${readyCount}/${players.length} готовы`;
-        $('gamePlayersList').innerHTML = players.map(p => {
-            let statusClass = 'waiting', statusText = '⏳ Ждём';
-            if (p.ready) { statusClass = 'ready'; statusText = '✅ Готов'; }
-            if (p.accepted === true) { statusClass = 'accepted'; statusText = '🟢 В бункере'; }
-            if (p.accepted === false) { statusClass = 'rejected'; statusText = '❌ Отклонён'; }
-            return `
-                <div class="player-row ${p.id === state.playerId ? 'is-you' : ''}">
-                    <span>${p.name} ${p.id === state.playerId ? '(Вы)' : ''}</span>
-                    <span class="player-status ${statusClass}">${statusText}</span>
-                </div>
-            `;
-        }).join('');
-
-        const acceptedPlayers = players.filter(p => p.accepted === true);
-        if (acceptedPlayers.length > 0) {
-            $('acceptedSection').classList.remove('hidden');
-            $('acceptedPlayersList').innerHTML = acceptedPlayers.map(p => `<span class="accepted-badge">${p.name}</span>`).join('');
-        } else {
-            $('acceptedSection').classList.add('hidden');
-        }
-
-        $('gameControls').classList.toggle('hidden', !isHost);
-        if (isHost) {
-            const allReady = players.every(p => p.ready);
-            $('startVoteBtn').classList.toggle('hidden', !(!gameData.votingStarted && allReady));
-            $('finishVoteBtn').classList.toggle('hidden', !(gameData.votingStarted && !gameData.votingFinished));
-            $('startVoteBtn').disabled = !allReady;
-        }
-
-        if (gameData.phase === 'ended' || gameData.votingFinished) {
-            showScreen('endScreen');
-            const acceptedCount = players.filter(p => p.accepted === true).length;
-            const slots = gameData.bunker?.slots || 5;
-            $('endMessage').textContent = acceptedCount <= slots 
-                ? `🎉 Выжили ${acceptedCount} из ${players.length}!` 
-                : `⚠️ Мест: ${slots}, выжило: ${acceptedCount}!`;
-            $('endAcceptedList').innerHTML = acceptedPlayers.map(p => `<span class="accepted-badge">${p.name}</span>`).join('');
-        }
-    }
+const updateCounter = () => {
+    const opened = state.openedTraits ? state.openedTraits.length : 0;
+    const total = TRAIT_TYPES.length;
+    const counterText = $('counterText');
+    const progressFill = $('progressFill');
+    const progressPercent = $('progressPercent');
+    
+    if (counterText) counterText.textContent = `ОТКРЫТО: ${opened}/${total}`;
+    if (progressFill) progressFill.style.width = `${(opened / total) * 100}%`;
+    if (progressPercent) progressPercent.textContent = `${Math.round((opened / total) * 100)}%`;
 };
 
-const updatePhaseIndicator = (phase) => {
-    const phases = ['lobby', 'reveal', 'vote'];
-    const currentIndex = phases.indexOf(phase);
-    ['phase1', 'phase2', 'phase3'].forEach((id, index) => {
-        const dot = $(id);
-        dot.classList.remove('active', 'done');
-        if (index < currentIndex) dot.classList.add('done');
-        if (index === currentIndex) dot.classList.add('active');
-    });
-    const phaseNames = { lobby: 'Лобби', reveal: 'Карты', vote: 'Голосование' };
-    $('gamePhaseText').textContent = phaseNames[phase] || phase;
-};
-
-const renderVoting = (players, gameData) => {
-    const container = $('votePlayersList');
-    const totalVotes = players.length * (players.length - 1);
-    let currentVotes = 0;
-    players.forEach(p => { currentVotes += Object.keys(p.votes || {}).length; });
-
-    $('voteCount').textContent = currentVotes;
-    $('voteTotal').textContent = totalVotes;
-    $('voteProgressFill').style.width = `${totalVotes > 0 ? (currentVotes / totalVotes * 100) : 0}%`;
-
-    container.innerHTML = players.map(p => {
-        const myVote = p.votes?.[state.playerId] || null;
-        const yesCount = Object.values(p.votes || {}).filter(v => v === 'yes').length;
-        const noCount = Object.values(p.votes || {}).filter(v => v === 'no').length;
-        const votedByMe = myVote ? (myVote === 'yes' ? '✅' : '❌') : '';
-
-        return `
-            <div class="vote-player">
-                <div class="vote-player-header">
-                    <span class="vote-player-name">${p.name} ${p.id === state.playerId ? '(Вы)' : ''} ${votedByMe}</span>
-                    <span class="vote-player-profession">${p.character?.profession || '?'}</span>
-                </div>
-                <div class="vote-buttons">
-                    <button class="vote-btn vote-btn-yes ${myVote === 'yes' ? 'active' : ''}" onclick="window.voteForPlayer('${p.id}', 'yes')" ${p.id === state.playerId ? 'disabled' : ''}>✅ ЗА</button>
-                    <button class="vote-btn vote-btn-no ${myVote === 'no' ? 'active' : ''}" onclick="window.voteForPlayer('${p.id}', 'no')" ${p.id === state.playerId ? 'disabled' : ''}>❌ ПРОТИВ</button>
-                </div>
-                <div class="vote-count">
-                    <span style="color:var(--success)">✅ ЗА: ${yesCount}</span>
-                    <span style="color:var(--danger)">❌ Против: ${noCount}</span>
+const renderTraits = () => {
+    const container = $('traitsList');
+    if (!container || !state.character || !state.traitOrder) return;
+    
+    container.innerHTML = '';
+    
+    state.traitOrder.forEach(traitKey => {
+        const traitType = TRAIT_TYPES.find(t => t.key === traitKey);
+        const isOpened = state.openedTraits && state.openedTraits.includes(traitKey);
+        const value = state.character[traitKey];
+        
+        if (!traitType || !value) return;
+        
+        const tile = document.createElement('div');
+        tile.className = `trait-tile ${isOpened ? 'open' : 'hidden'}`;
+        tile.onclick = () => toggleTrait(traitKey);
+        
+        tile.innerHTML = `
+            <div class="trait-left">
+                <span class="trait-icon">${traitType.icon}</span>
+                <div class="trait-content">
+                    <div class="trait-label">${traitType.label}</div>
+                    <div class="trait-value">${isOpened ? value : '❓ ???'}</div>
                 </div>
             </div>
+            <span class="trait-status">${isOpened ? '✅' : '🔒'}</span>
         `;
-    }).join('');
+        
+        container.appendChild(tile);
+    });
+};
+
+const toggleTrait = (traitKey) => {
+    const index = state.openedTraits.indexOf(traitKey);
+    
+    if (index > -1) {
+        state.openedTraits.splice(index, 1);
+    } else {
+        state.openedTraits.push(traitKey);
+        const trait = TRAIT_TYPES.find(t => t.key === traitKey);
+        toast(`${trait?.label} открыта!`, 'success');
+    }
+    
+    updateCounter();
+    renderTraits();
+};
+
+const closeAllTraits = () => {
+    state.openedTraits = [];
+    updateCounter();
+    renderTraits();
+    toast('Все характеристики закрыты', 'info');
+};
+
+const generateNewCharacter = () => {
+    try {
+        // Генерируем персонажа
+        state.character = generateCharacter();
+        
+        // Сбрасываем открытые
+        state.openedTraits = [];
+        
+        // Перемешиваем порядок
+        state.traitOrder = shuffle(TRAIT_TYPES.map(t => t.key));
+        
+        // Обновляем имя
+        const nameEl = $('characterName');
+        if (nameEl && state.character.features) {
+            nameEl.textContent = state.character.features;
+        }
+        
+        // Обновляем UI
+        updateCounter();
+        renderTraits();
+        showScreen('characterScreen');
+        
+        toast('Персонаж сгенерирован!', 'success');
+    } catch (e) {
+        toast('Ошибка генерации', 'error');
+    }
 };
 
 // ============================================
 // СОБЫТИЯ
 // ============================================
+
 const setupEvents = () => {
-    $('createRoomBtn').onclick = () => { haptic.impact(); createRoom(); };
-    $('showJoinBtn').onclick = () => $('joinSection').classList.remove('hidden');
-    $('cancelJoinBtn').onclick = () => $('joinSection').classList.add('hidden');
-    $('joinRoomBtn').onclick = () => { const code = normalizeRoomCode($('roomCodeInput').value); const name = $('playerNameInput').value.trim() || 'Игрок'; if (code) joinRoom(code, name); };
-    $('startGameBtn').onclick = () => { haptic.impact(); startGame(); };
-    $('leaveLobbyBtn').onclick = () => { haptic.impact(); leaveRoom(); };
-    $('leaveGameBtn').onclick = () => { haptic.impact(); leaveRoom(); };
-    $('readyBtn').onclick = () => { haptic.success(); setReady(); };
-    $('startVoteBtn').onclick = () => { haptic.impact(); startVote(); };
-    $('finishVoteBtn').onclick = () => { haptic.impact(); finishVote(); };
-    $('newGameBtn').onclick = () => { haptic.impact(); resetState(); };
-    $('confirmJoinBtn').onclick = () => { const code = normalizeRoomCode($('joinRoomCodeInput').value); const name = $('joinPlayerNameInput').value.trim() || 'Игрок'; if (code && joinRoom(code, name)) $('joinModal').classList.remove('active'); };
-    window.voteForPlayer = voteForPlayer;
-    window.togglePanel = togglePanel;
+    const generateBtn = $('generateBtn');
+    const newCharacterBtn = $('newCharacterBtn');
+    const resetProgressBtn = $('resetProgressBtn');
+    const backToStartBtn = $('backToStartBtn');
+    
+    if (generateBtn) {
+        generateBtn.onclick = () => {
+            generateNewCharacter();
+        };
+    }
+    
+    if (newCharacterBtn) {
+        newCharacterBtn.onclick = () => {
+            if (confirm('Сгенерировать нового персонажа?')) {
+                generateNewCharacter();
+            }
+        };
+    }
+    
+    if (resetProgressBtn) {
+        resetProgressBtn.onclick = () => {
+            closeAllTraits();
+        };
+    }
+    
+    if (backToStartBtn) {
+        backToStartBtn.onclick = () => {
+            showScreen('startScreen');
+        };
+    }
 };
 
-setupEvents();
-if (!firebaseConnected) toast('⚠️ Firebase не подключён!', 'warning');
+// ============================================
+// ЗАПУСК
+// ============================================
+
+// Ждём загрузку страницы
+document.addEventListener('DOMContentLoaded', () => {
+    setupEvents();
+    console.log('✅ Бункер готов!');
+});
 </script>
 </body>
 </html>
