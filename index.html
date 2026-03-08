@@ -690,19 +690,18 @@ const random = (arr) => arr[Math.floor(Math.random() * arr.length)];
  * Генерация кода комнаты
  * - Только заглавные буквы (кроме I, O, L — похожи на цифры)
  * - Только цифры (кроме 0, 1 — похожи на буквы)
- * - Формат: ABC-123 (с тире для удобства)
+ * - Формат: ABC123 (без тире, для Firebase)
  */
 const generateRoomId = () => {
     const letters = 'ABCDEFGHJKMNPQRSTUVWXZ';  // 24 буквы (без I, O, L, Y)
     const digits = '23456789';  // 8 цифр (без 0, 1)
     
-    // Генерируем 3 буквы + 3 цифры
+    // Генерируем 3 буквы + 3 цифры (БЕЗ тире!)
     let result = '';
     for (let i = 0; i < 3; i++) result += letters[Math.floor(Math.random() * letters.length)];
-    result += '-';
     for (let i = 0; i < 3; i++) result += digits[Math.floor(Math.random() * digits.length)];
     
-    return result;
+    return result;  // Возвращаем ABC123 (без тире)
 };
 
 /**
