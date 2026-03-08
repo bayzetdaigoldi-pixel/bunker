@@ -3,327 +3,711 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Бункер (простая версия)</title>
+    <title>Бункер: Выживание</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
+        
         body {
-            background: #0a0a0a;
-            color: #e0e0e0;
-            padding: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-        }
-        .container {
-            max-width: 480px;
-            margin: 0 auto;
-        }
-        h1 {
-            text-align: center;
-            color: #ff6b35;
-            margin-bottom: 20px;
-            font-size: 2rem;
-        }
-        .counter {
-            text-align: center;
-            font-size: 1.2rem;
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #1a1a1a;
-            border-radius: 30px;
-        }
-        .card {
-            background: #1a1a1a;
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .name {
-            text-align: center;
-            font-size: 1.2rem;
-            color: #ff6b35;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #333;
-        }
-        .trait {
-            background: #242424;
-            border: 1px solid #333;
-            border-radius: 12px;
-            padding: 15px;
-            margin-bottom: 8px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        
+        .game-container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            animation: slideUp 0.5s ease;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 24px 20px;
+            color: white;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 24px 20px;
+        }
+        
+        .generate-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 18px 24px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            width: 100%;
             cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
         }
-        .trait.open {
-            background: #332211;
-            border-color: #ff6b35;
+        
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
         }
-        .trait-left {
+        
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+        
+        .regenerate-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .regen-btn {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+            padding: 14px 16px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .regen-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .card-header i {
+            font-size: 28px;
+            color: #667eea;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 12px;
+            border-radius: 16px;
+        }
+        
+        .card-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .disaster-card, .bunker-card {
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+            border-left: 4px solid #667eea;
+            padding: 16px;
+            border-radius: 16px;
+        }
+        
+        .disaster-title, .bunker-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .disaster-desc, .bunker-desc {
+            font-size: 16px;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .stat-item {
+            background: #f8f9ff;
+            border-radius: 16px;
+            padding: 14px;
+            border: 2px solid #e0e0ff;
+            cursor: pointer;
+            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .trait-icon {
-            font-size: 1.5rem;
+        
+        .stat-item:hover {
+            border-color: #667eea;
+            transform: translateX(5px);
         }
-        .trait-label {
-            font-size: 0.8rem;
-            color: #999;
-        }
-        .trait-value {
-            font-size: 1rem;
-        }
-        .hidden-value {
-            color: #666;
-        }
-        .btn {
-            width: 100%;
-            padding: 16px;
-            background: #ff6b35;
+        
+        .stat-item.revealed {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
             color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
         }
-        .btn.secondary {
-            background: #242424;
-            color: #ff6b35;
-            border: 1px solid #ff6b35;
+        
+        .stat-item.revealed .stat-label,
+        .stat-item.revealed .stat-value {
+            color: white;
         }
-        .progress {
-            background: #1a1a1a;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            color: #999;
-        }
-        .progress-bar {
-            height: 6px;
-            background: #333;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        .progress-fill {
-            height: 100%;
-            background: #ff6b35;
-            width: 0%;
-            transition: width 0.3s;
-        }
-        .loading {
+        
+        .stat-icon {
+            font-size: 24px;
+            min-width: 32px;
             text-align: center;
-            padding: 50px;
-            font-size: 1.2rem;
         }
+        
+        .stat-content {
+            flex: 1;
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #667eea;
+            margin-bottom: 4px;
+        }
+        
+        .stat-value {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.4;
+        }
+        
+        .stat-check {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #e0e0ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item.revealed .stat-check {
+            background: white;
+            border-color: white;
+            color: #667eea;
+        }
+        
+        .reset-btn {
+            background: white;
+            color: #666;
+            border: 2px solid #e0e0e0;
+            padding: 14px 20px;
+            border-radius: 18px;
+            font-size: 16px;
+            font-weight: 500;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .reset-btn:hover {
+            border-color: #ff6b6b;
+            color: #ff6b6b;
+        }
+        
         .hidden {
-            display: none !important;
+            display: none;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 16px;
+            color: #999;
+            font-size: 12px;
+            border-top: 1px solid #f0f0f0;
+        }
+        
+        .counter {
+            text-align: center;
+            padding: 12px;
+            background: #f8f9ff;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #667eea;
+            font-weight: 600;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>БУНКЕР</h1>
-        
-        <!-- Экран загрузки -->
-        <div id="loading">
-            <div class="loading">Загрузка...</div>
+    <div class="game-container">
+        <div class="header">
+            <h1>🚀 БУНКЕР</h1>
+            <p>Выживание после апокалипсиса</p>
         </div>
         
-        <!-- Игровой экран (изначально скрыт) -->
-        <div id="game" class="hidden">
-            <div class="counter">
-                Открыто: <span id="openedCount">0</span>/8
+        <div class="content">
+            <!-- Главная кнопка -->
+            <button class="generate-btn" id="generateAll">
+                <i class="fas fa-dice-d20"></i>
+                Сгенерировать всё
+            </button>
+            
+            <!-- Кнопки перегенерации -->
+            <div class="regenerate-section hidden" id="regenSection">
+                <button class="regen-btn" id="regenDisaster">
+                    <i class="fas fa-skull"></i>
+                    Катастрофа
+                </button>
+                <button class="regen-btn" id="regenBunker">
+                    <i class="fas fa-warehouse"></i>
+                    Бункер
+                </button>
             </div>
             
-            <div class="card">
-                <div class="name" id="characterName">...</div>
-                <div id="traits"></div>
+            <!-- Счётчик -->
+            <div class="counter hidden" id="revealCounter">
+                📖 Открыто характеристик: <span id="revealCount">0</span>/9
             </div>
             
-            <div class="progress">
-                <div class="progress-header">
-                    <span>Прогресс</span>
-                    <span id="progressPercent">0%</span>
+            <!-- Карточка катастрофы -->
+            <div class="card hidden" id="disasterCard">
+                <div class="card-header">
+                    <i class="fas fa-skull"></i>
+                    <h2>Катастрофа</h2>
                 </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill"></div>
+                <div class="disaster-card" id="disasterContent">
+                    <!-- Заполняется JS -->
                 </div>
             </div>
             
-            <button class="btn" id="newBtn">🎲 Новый персонаж</button>
-            <button class="btn secondary" id="resetBtn">🔒 Сбросить всё</button>
+            <!-- Карточка бункера -->
+            <div class="card hidden" id="bunkerCard">
+                <div class="card-header">
+                    <i class="fas fa-warehouse"></i>
+                    <h2>Бункер</h2>
+                </div>
+                <div class="bunker-card" id="bunkerContent">
+                    <!-- Заполняется JS -->
+                </div>
+            </div>
+            
+            <!-- Карточка персонажа -->
+            <div class="card hidden" id="characterCard">
+                <div class="card-header">
+                    <i class="fas fa-user-circle"></i>
+                    <h2>Персонаж</h2>
+                </div>
+                <div class="stats-grid" id="statsGrid">
+                    <!-- Заполняется JS -->
+                </div>
+            </div>
+            
+            <button class="reset-btn" id="resetGame">
+                <i class="fas fa-redo-alt"></i>
+                Новая игра
+            </button>
+        </div>
+        
+        <div class="footer">
+            <i class="fas fa-biohazard"></i> Made for Telegram | 50+ карточек
         </div>
     </div>
 
     <script>
-        // Простые данные (сократил для надёжности)
-        const DATA = {
-            professions: ["Врач", "Инженер", "Военный", "Повар", "Сварщик"],
-            health: ["Здоров", "Астма", "Диабет", "Плохое зрение"],
-            mental: ["Уравновешенный", "Клаустрофобия", "Паника"],
-            character: ["Лидер", "Добрый", "Эгоист"],
-            skills: ["Рыбалка", "Охота", "Ремонт"],
-            luggage: ["Аптечка", "Топор", "Нож"],
-            backstory: ["Потерял семью", "Спас ребёнка"],
-            features: ["Шрам", "Тату"]
-        };
-
-        const TRAITS = [
-            { key: 'profession', label: 'Профессия', icon: '💼' },
-            { key: 'health', label: 'Здоровье', icon: '❤️' },
-            { key: 'mental', label: 'Психика', icon: '🧠' },
-            { key: 'character', label: 'Характер', icon: '⚡' },
-            { key: 'skills', label: 'Навыки', icon: '🔧' },
-            { key: 'luggage', label: 'Багаж', icon: '🎒' },
-            { key: 'backstory', label: 'Прошлое', icon: '📜' },
-            { key: 'features', label: 'Особенности', icon: '👤' }
+        // ==================== БАЗА ДАННЫХ ====================
+        
+        const disasters = [
+            "Ядерная война - радиоактивная зима на 100 лет",
+            "Падение астероида - пыль закроет солнце на десятилетия",
+            "Зомби-апокалипсис - вирус превращает людей в зомби",
+            "Извержение супервулкана - пепел покроет всю планету",
+            "Смена магнитных полюсов - исчезновение атмосферы",
+            "Нашествие инопланетян - порабощение человечества",
+            "Глобальное наводнение - 95% суши под водой",
+            "Пандемия - смертельный вирус 99% летальности",
+            "Кибернетический апокалипсис - восстание машин",
+            "Солнечная вспышка - уничтожение всей электроники",
+            "Рой нанороботов - уничтожение органики",
+            "Генетический эксперимент - мутации всего живого",
+            "Кризис перенаселения - нехватка ресурсов",
+            "Глобальное похолодание - новый ледниковый период",
+            "Кислотные дожди - уничтожение почвы",
+            "Истощение озонового слоя - ультрафиолет убивает всё",
+            "Техногенная катастрофа - отказ всех систем",
+            "Гамма-всплеск из космоса",
+            "Временной парадокс - старение за секунды",
+            "Черная дыра рядом с Землей",
+            "Муравьи-мутанты поедают всё",
+            "Разумный вирус - заражение ИИ",
+            "Биологическое оружие из лаборатории",
+            "Эксперимент с антиматерией",
+            "Проклятие древней мумии",
+            "Открытие портала в ад",
+            "Массовое помешательство людей",
+            "Исчезновение пчел и опылителей",
+            "Глобальная засуха - нехватка воды",
+            "Нашествие саранчи-мутантов",
+            "Цунами высотой с небоскреб",
+            "Землетрясение - раскол материков",
+            "Пробуждение древнего вируса из вечной мерзлоты",
+            "Космический мусор уничтожает спутники",
+            "Энергетический кризис - конец цивилизации",
+            "Коллапс экономики и голод",
+            "Религиозная война за веру",
+            "Кибертерроризм - отключение всего",
+            "Восстание искусственного интеллекта",
+            "Генетически модифицированные продукты убили всех",
+            "Наркотики в водопроводе",
+            "Психотронное оружие",
+            "Телепатический вирус",
+            "Изменение гравитации",
+            "Микро-черные дыры от коллайдера",
+            "Инверсия магнитного поля",
+            "Квантовый коллапс реальности",
+            "Падение Тунгусского метеорита 2.0",
+            "Парниковый эффект - температура +50°C",
+            "Вулканическая зима на 10 лет"
         ];
 
-        // Состояние
-        let character = null;
-        let opened = [];
-        let order = [];
+        const bunkers = [
+            "Военный бункер с запасами тушенки на 10 лет",
+            "Научная станция в Антарктиде",
+            "Подземный бункер миллиардера",
+            "Метро - глубокие станции",
+            "Бункер в горе с автономной системой",
+            "Заброшенная шахта с ресурсами",
+            "Космический корабль на орбите",
+            "Подводная база на дне океана",
+            "Бункер под Кремлем",
+            "Секретная база в пустыне",
+            "Бункер с гидропоникой и фермой",
+            "Старый бункер времен Холодной войны",
+            "Подземный город с населением",
+            "Бункер с ядерным реактором",
+            "Убежище в скале с запасами воды",
+            "Пещерный комплекс с естественной защитой",
+            "Бункер с системой регенерации воздуха",
+            "Биологическая лаборатория с гермодверями",
+            "Бункер под торговым центром",
+            "Старая ракетная шахта",
+            "Убежище в соляной шахте",
+            "Подземный бункер отеля",
+            "Бункер с тренажерным залом и сауной",
+            "Бункер под стадионом",
+            "Убежище в бункере посольства",
+            "Подземный комплекс ВПК",
+            "Бункер с системой «Периметр»",
+            "Убежище в горе с теплицами",
+            "Бункер с запасом топлива на 20 лет",
+            "Подводная лодка с ядерным реактором",
+            "Космическая станция «Мир-2»",
+            "Бункер на Луне (колония)",
+            "Марсианская база (терраформирование)",
+            "Бункер с искусственным солнцем",
+            "Подземный город в силиконовой долине",
+            "Бункер Билла Гейтса",
+            "Убежище Илона Маска",
+            "Бункер с криокамерами",
+            "Подземный отель в пустыне",
+            "Бункер с зоопарком и ДНК животных",
+            "Убежище с банком семян",
+            "Бункер с типографией денег",
+            "Подземный компьютерный центр",
+            "Бункер с оружейным арсеналом",
+            "Убежище с больницей и операционной",
+            "Бункер со школой и детским садом",
+            "Подземный торговый центр",
+            "Бункер с фермой насекомых",
+            "Убежище с грибной фермой",
+            "Бункер с системой очистки воды"
+        ];
 
-        // Получаем элементы
-        const loadingEl = document.getElementById('loading');
-        const gameEl = document.getElementById('game');
-        const nameEl = document.getElementById('characterName');
-        const traitsEl = document.getElementById('traits');
-        const openedCountEl = document.getElementById('openedCount');
-        const progressFillEl = document.getElementById('progressFill');
-        const progressPercentEl = document.getElementById('progressPercent');
+        const professions = [
+            "Врач-хирург", "Инженер-ядерщик", "Военный", "Фермер", "Учитель", 
+            "Механик", "Программист", "Биолог", "Химик", "Строитель", 
+            "Электрик", "Сантехник", "Повар", "Водолаз", "Летчик", 
+            "Капитан корабля", "Геолог", "Метеоролог", "Психолог", "Полицейский"
+        ];
+        
+        const healths = [
+            "Здоров как бык", "Хронический гастрит", "Астма", "Диабет", "Аллергия на пыль",
+            "Идеальное здоровье", "Сломанная нога", "Беременность", "Зрение -5", "Глухота",
+            "Сердечник", "Гипертоник", "Донор крови", "Генетическая мутация", "Бессмертный (шутка)"
+        ];
+        
+        const ages = [
+            "18 лет", "25 лет", "30 лет", "35 лет", "40 лет", "45 лет", 
+            "50 лет", "55 лет", "60 лет", "65 лет", "70 лет", "20 лет",
+            "22 года", "28 лет", "32 года", "38 лет", "42 года", "48 лет"
+        ];
+        
+        const genders = ["Мужской", "Женский", "Небинарный"];
+        
+        const skills = [
+            "Стрельба", "Выживание", "Медицина", "Строительство", "Кулинария",
+            "Вождение", "Программирование", "Слесарное дело", "Агрономия", "Охота",
+            "Рыбалка", "Плотничество", "Электроника", "Химия", "Физика",
+            "Астрономия", "Психология", "Педагогика", "Юриспруденция", "Бухгалтерия"
+        ];
+        
+        const phobias = [
+            "Боится темноты", "Боится замкнутых пространств", "Боится высоты", "Боится воды",
+            "Боится огня", "Боится крови", "Боится насекомых", "Боится шума",
+            "Боится одиночества", "Боится толпы", "Боится животных", "Нет фобий"
+        ];
+        
+        const baggages = [
+            "Аптечка с лекарствами", "Набор инструментов", "Ноутбук с энциклопедией", 
+            "Семена растений", "Пистолет с патронами", "Спальный мешок",
+            "Фильтр для воды", "Спички и зажигалки", "Топор", "Нож выживальщика",
+            "Консервы на месяц", "Палатка", "Генератор", "Библия",
+            "Золотые слитки", "Колода карт", "Гитара", "Фотоаппарат", "Секретные документы"
+        ];
 
-        // Случайный элемент
+        // ==================== СОСТОЯНИЕ ====================
+        
+        let gameState = {
+            disaster: null,
+            bunker: null,
+            character: null,
+            revealedStats: []
+        };
+
+        // ==================== DOM ====================
+        
+        const generateAllBtn = document.getElementById('generateAll');
+        const regenDisasterBtn = document.getElementById('regenDisaster');
+        const regenBunkerBtn = document.getElementById('regenBunker');
+        const regenSection = document.getElementById('regenSection');
+        const revealCounter = document.getElementById('revealCounter');
+        const revealCountSpan = document.getElementById('revealCount');
+        const disasterCard = document.getElementById('disasterCard');
+        const bunkerCard = document.getElementById('bunkerCard');
+        const characterCard = document.getElementById('characterCard');
+        const disasterContent = document.getElementById('disasterContent');
+        const bunkerContent = document.getElementById('bunkerContent');
+        const statsGrid = document.getElementById('statsGrid');
+        const resetBtn = document.getElementById('resetGame');
+
+        // ==================== ФУНКЦИИ ====================
+        
         function random(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         }
-
-        // Перемешать массив
-        function shuffle(arr) {
-            const copy = [...arr];
-            for (let i = copy.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [copy[i], copy[j]] = [copy[j], copy[i]];
-            }
-            return copy;
-        }
-
-        // Генерация персонажа
+        
         function generateCharacter() {
-            const char = {};
-            TRAITS.forEach(t => {
-                char[t.key] = random(DATA[t.key]);
-            });
-            return char;
+            return {
+                profession: random(professions),
+                health: random(healths),
+                age: random(ages),
+                gender: random(genders),
+                skill: random(skills),
+                phobia: random(phobias),
+                baggage: random(baggages),
+                iq: Math.floor(Math.random() * 60) + 80,
+                stamina: Math.floor(Math.random() * 10) + 1
+            };
         }
-
-        // Обновление интерфейса
-        function render() {
-            if (!character || !order) return;
+        
+        function updateRevealCounter() {
+            revealCountSpan.textContent = gameState.revealedStats.length;
+        }
+        
+        function renderDisaster() {
+            disasterContent.innerHTML = `<div class="disaster-desc">⚠️ ${gameState.disaster}</div>`;
+            disasterCard.classList.remove('hidden');
+        }
+        
+        function renderBunker() {
+            bunkerContent.innerHTML = `<div class="bunker-desc">🏠 ${gameState.bunker}</div>`;
+            bunkerCard.classList.remove('hidden');
+        }
+        
+        function renderCharacter() {
+            const stats = [
+                { key: 'profession', label: 'Профессия', value: gameState.character.profession, icon: '💼' },
+                { key: 'health', label: 'Здоровье', value: gameState.character.health, icon: '❤️' },
+                { key: 'age', label: 'Возраст', value: gameState.character.age, icon: '🎂' },
+                { key: 'gender', label: 'Пол', value: gameState.character.gender, icon: '⚥' },
+                { key: 'skill', label: 'Навык', value: gameState.character.skill, icon: '🔧' },
+                { key: 'phobia', label: 'Фобия', value: gameState.character.phobia, icon: '😨' },
+                { key: 'baggage', label: 'Багаж', value: gameState.character.baggage, icon: '🎒' },
+                { key: 'iq', label: 'IQ', value: gameState.character.iq, icon: '🧠' },
+                { key: 'stamina', label: 'Выносливость', value: '⭐'.repeat(gameState.character.stamina), icon: '💪' }
+            ];
             
-            // Имя
-            nameEl.textContent = character.features || 'Выживший';
-            
-            // Счётчик
-            const openedCount = opened.length;
-            const total = TRAITS.length;
-            openedCountEl.textContent = openedCount;
-            
-            // Прогресс
-            const percent = Math.round((openedCount / total) * 100);
-            progressFillEl.style.width = percent + '%';
-            progressPercentEl.textContent = percent + '%';
-            
-            // Отрисовка характеристик
-            traitsEl.innerHTML = '';
-            
-            order.forEach(key => {
-                const trait = TRAITS.find(t => t.key === key);
-                if (!trait) return;
-                
-                const isOpen = opened.includes(key);
-                const value = character[key];
-                
-                const div = document.createElement('div');
-                div.className = 'trait' + (isOpen ? ' open' : '');
-                div.onclick = () => {
-                    if (isOpen) {
-                        // Закрыть
-                        opened = opened.filter(k => k !== key);
-                    } else {
-                        // Открыть
-                        opened.push(key);
-                    }
-                    render(); // Перерисовать
-                };
-                
-                div.innerHTML = `
-                    <div class="trait-left">
-                        <span class="trait-icon">${trait.icon}</span>
-                        <div>
-                            <div class="trait-label">${trait.label}</div>
-                            <div class="trait-value ${!isOpen ? 'hidden-value' : ''}">
-                                ${isOpen ? value : '❓ ???'}
-                            </div>
+            let html = '';
+            stats.forEach(stat => {
+                const isRevealed = gameState.revealedStats.includes(stat.key);
+                html += `
+                    <div class="stat-item ${isRevealed ? 'revealed' : ''}" onclick="toggleStat('${stat.key}')">
+                        <div class="stat-icon">${stat.icon}</div>
+                        <div class="stat-content">
+                            <div class="stat-label">${stat.label}</div>
+                            <div class="stat-value">${stat.value}</div>
+                        </div>
+                        <div class="stat-check">
+                            ${isRevealed ? '<i class="fas fa-check"></i>' : ''}
                         </div>
                     </div>
-                    <span>${isOpen ? '✅' : '🔒'}</span>
                 `;
-                
-                traitsEl.appendChild(div);
             });
-        }
-
-        // Новый персонаж
-        function newCharacter() {
-            character = generateCharacter();
-            opened = [];
-            order = shuffle(TRAITS.map(t => t.key));
-            render();
-        }
-
-        // Сброс
-        function resetAll() {
-            opened = [];
-            render();
-        }
-
-        // Запуск
-        function init() {
-            console.log('Запуск...');
             
-            // Создаём первого персонажа
-            newCharacter();
+            statsGrid.innerHTML = html;
+            characterCard.classList.remove('hidden');
+            updateRevealCounter();
+        }
+        
+        function toggleStat(statKey) {
+            const index = gameState.revealedStats.indexOf(statKey);
+            if (index > -1) {
+                gameState.revealedStats.splice(index, 1);
+            } else {
+                gameState.revealedStats.push(statKey);
+            }
+            updateRevealCounter();
+            renderCharacter();
             
-            // Прячем загрузку, показываем игру
-            loadingEl.style.display = 'none';
-            gameEl.classList.remove('hidden');
+            // Вибрация в Telegram
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.selectionChanged();
+            }
+        }
+        
+        function generateAll() {
+            gameState.disaster = random(disasters);
+            gameState.bunker = random(bunkers);
+            gameState.character = generateCharacter();
+            gameState.revealedStats = [];
             
-            // Назначаем кнопки
-            document.getElementById('newBtn').onclick = () => {
-                if (confirm('Новый персонаж?')) newCharacter();
+            renderDisaster();
+            renderBunker();
+            renderCharacter();
+            
+            regenSection.classList.remove('hidden');
+            revealCounter.classList.remove('hidden');
+            
+            // Вибрация в Telegram
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+            }
+        }
+        
+        function regenerateDisaster() {
+            gameState.disaster = random(disasters);
+            renderDisaster();
+            
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+            }
+        }
+        
+        function regenerateBunker() {
+            gameState.bunker = random(bunkers);
+            renderBunker();
+            
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+            }
+        }
+        
+        function resetGame() {
+            gameState = {
+                disaster: null,
+                bunker: null,
+                character: null,
+                revealedStats: []
             };
             
-            document.getElementById('resetBtn').onclick = () => {
-                if (confirm('Сбросить открытые?')) resetAll();
-            };
+            disasterCard.classList.add('hidden');
+            bunkerCard.classList.add('hidden');
+            characterCard.classList.add('hidden');
+            regenSection.classList.add('hidden');
+            revealCounter.classList.add('hidden');
         }
-
-        // Ждём загрузку страницы
-        window.onload = init;
+        
+        // ==================== СОБЫТИЯ ====================
+        
+        generateAllBtn.addEventListener('click', generateAll);
+        regenDisasterBtn.addEventListener('click', regenerateDisaster);
+        regenBunkerBtn.addEventListener('click', regenerateBunker);
+        resetBtn.addEventListener('click', resetGame);
+        
+        // Делаем функцию доступной глобально для onclick
+        window.toggleStat = toggleStat;
+        
+        // Инициализация Telegram WebApp
+        if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        }
+        
+        console.log('🚀 Бункер готов к выживанию!');
     </script>
 </body>
 </html>
