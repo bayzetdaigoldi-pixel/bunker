@@ -15,7 +15,7 @@
             --orange: #ff6600; --red: #ff0055; --purple: #bb00ff;
             --bg-dark: #0a0a0f; --bg-panel: #12121a; --bg-card: #1a1a25;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
         body {
             background: var(--bg-dark);
             background-image: radial-gradient(ellipse at 20% 10%, rgba(0,245,255,0.08) 0%, transparent 40%),
@@ -30,222 +30,267 @@
             background-size: 50px 50px; animation: gridMove 20s linear infinite;
         }
         @keyframes gridMove { 0% { transform: translateY(0); } 100% { transform: translateY(50px); } }
-        .container { width: 100%; display: flex; flex-direction: column; gap: 12px; padding: 12px; z-index: 2; position: relative; }
+        .container { width: 100%; display: flex; flex-direction: column; gap: 10px; padding: 10px; z-index: 2; position: relative; }
         
         /* Header */
         .header {
-            text-align: center; padding: 15px 10px;
+            text-align: center; padding: 12px 10px;
             background: linear-gradient(180deg, rgba(0,245,255,0.1) 0%, transparent 100%);
             border-bottom: 2px solid var(--cyan);
-            box-shadow: 0 0 30px rgba(0,245,255,0.3); border-radius: 15px 15px 0 0; margin-bottom: 10px;
+            box-shadow: 0 0 30px rgba(0,245,255,0.3); border-radius: 15px 15px 0 0;
         }
         .header h1 {
-            font-family: 'Orbitron', sans-serif; font-size: 1.6rem; font-weight: 900; letter-spacing: 6px; color: #fff;
+            font-family: 'Orbitron', sans-serif; font-size: 1.5rem; font-weight: 900; letter-spacing: 5px; color: #fff;
             text-shadow: 0 0 10px var(--cyan), 0 0 20px var(--cyan), 0 0 40px var(--cyan);
         }
-        .header .subtitle { font-size: 0.75rem; color: var(--green); letter-spacing: 3px; margin-top: 5px; text-transform: uppercase; }
-        .room-info { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: rgba(0,245,255,0.1); border-radius: 10px; margin-top: 10px; flex-wrap: wrap; gap: 8px; }
-        .room-code { font-family: 'Orbitron', monospace; font-size: 1.1rem; color: var(--cyan); letter-spacing: 2px; }
-        .round-counter { font-size: 0.85rem; color: var(--yellow); }
-        .host-badge { background: var(--orange); color: #000; padding: 4px 10px; border-radius: 15px; font-size: 0.7rem; font-weight: 700; }
-        .players-count { font-size: 0.8rem; color: var(--purple); }
+        .header .subtitle { font-size: 0.7rem; color: var(--green); letter-spacing: 2px; margin-top: 5px; text-transform: uppercase; }
+        
+        /* Room Info Bar */
+        .room-bar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 10px 12px; background: rgba(0,245,255,0.08);
+            border-radius: 12px; border: 1px solid rgba(0,245,255,0.2);
+            flex-wrap: wrap; gap: 8px;
+        }
+        .room-code { font-family: 'Orbitron', monospace; font-size: 1rem; color: var(--cyan); letter-spacing: 2px; }
+        .round-info { font-size: 0.8rem; color: var(--yellow); }
+        .host-badge { background: var(--orange); color: #000; padding: 3px 8px; border-radius: 12px; font-size: 0.65rem; font-weight: 700; }
+        .players-count { font-size: 0.75rem; color: var(--purple); }
+        
+        /* Timer */
+        .timer-bar {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 14px; background: rgba(255,102,0,0.1);
+            border-radius: 12px; border: 1px solid rgba(255,102,0,0.3);
+        }
+        .timer-icon { font-size: 1.2rem; animation: pulse 1s infinite; }
+        .timer-display { font-family: 'Orbitron', monospace; font-size: 1.3rem; color: var(--orange); flex: 1; text-align: center; }
+        .timer-bar.urgent { border-color: var(--red); background: rgba(255,0,85,0.1); }
+        .timer-bar.urgent .timer-display { color: var(--red); }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         
         /* Buttons */
-        .action-buttons { display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px; }
+        .action-buttons { display: flex; flex-direction: column; gap: 8px; }
         .main-btn {
-            width: 100%; padding: 16px 20px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; font-weight: 700;
+            width: 100%; padding: 15px 18px; font-family: 'Orbitron', sans-serif; font-size: 0.85rem; font-weight: 700;
             letter-spacing: 2px; text-transform: uppercase; border: 2px solid; border-radius: 12px; cursor: pointer;
             transition: all 0.2s; touch-action: manipulation; -webkit-appearance: none; position: relative; overflow: hidden;
         }
         .main-btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(100%); }
         .main-btn:active:not(:disabled) { transform: scale(0.98); }
         .btn-player { background: linear-gradient(180deg, rgba(0,245,255,0.2) 0%, rgba(0,245,255,0.05) 100%); border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 20px rgba(0,245,255,0.4); }
-        .btn-player:active:not(:disabled) { box-shadow: 0 0 30px rgba(0,245,255,0.6); }
         .btn-bunker { background: linear-gradient(180deg, rgba(0,255,136,0.2) 0%, rgba(0,255,136,0.05) 100%); border-color: var(--green); color: var(--green); box-shadow: 0 0 20px rgba(0,255,136,0.4); }
-        .btn-bunker:active:not(:disabled) { box-shadow: 0 0 30px rgba(0,255,136,0.6); }
         .btn-disaster { background: linear-gradient(180deg, rgba(255,102,0,0.2) 0%, rgba(255,102,0,0.05) 100%); border-color: var(--orange); color: var(--orange); box-shadow: 0 0 20px rgba(255,102,0,0.4); }
-        .btn-disaster:active:not(:disabled) { box-shadow: 0 0 30px rgba(255,102,0,0.6); }
-        .btn-row { display: flex; gap: 10px; }
-        .btn-row .main-btn { flex: 1; font-size: 0.8rem; padding: 14px 12px; }
-        .btn-small { padding: 10px 16px; font-size: 0.8rem; }
+        .btn-row { display: flex; gap: 8px; }
+        .btn-row .main-btn { flex: 1; font-size: 0.75rem; padding: 12px 10px; }
         .btn-danger { background: linear-gradient(180deg, rgba(255,0,85,0.2) 0%, rgba(255,0,85,0.05) 100%); border-color: var(--red); color: var(--red); }
         .btn-warning { background: linear-gradient(180deg, rgba(255,221,0,0.2) 0%, rgba(255,221,0,0.05) 100%); border-color: var(--yellow); color: var(--yellow); }
         .btn-copy { background: linear-gradient(180deg, rgba(187,0,255,0.2) 0%, rgba(187,0,255,0.05) 100%); border-color: var(--purple); color: var(--purple); }
+        .btn-small { padding: 10px 14px; font-size: 0.75rem; }
         
         /* Cards */
         .card {
-            background: var(--bg-card); border-radius: 15px; padding: 15px;
+            background: var(--bg-card); border-radius: 15px; padding: 14px;
             border: 1px solid rgba(0,245,255,0.3);
             box-shadow: 0 0 20px rgba(0,245,255,0.1), inset 0 0 30px rgba(0,0,0,0.5);
             position: relative; overflow: hidden;
         }
         .card-header {
-            font-family: 'Orbitron', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: 3px;
-            margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(0,245,255,0.3);
-            display: flex; align-items: center; gap: 8px; justify-content: space-between;
+            font-family: 'Orbitron', sans-serif; font-size: 0.95rem; font-weight: 700; letter-spacing: 2px;
+            margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid rgba(0,245,255,0.3);
+            display: flex; align-items: center; gap: 6px; justify-content: space-between;
         }
         .card-bunker .card-header { color: var(--green); border-bottom-color: rgba(0,255,136,0.3); }
         .card-disaster .card-header { color: var(--orange); border-bottom-color: rgba(255,102,0,0.3); }
         .card-player .card-header { color: var(--cyan); border-bottom-color: rgba(0,245,255,0.3); }
         
         /* Info Grid */
-        .info-grid { display: grid; grid-template-columns: 1fr; gap: 8px; }
-        .info-row { display: flex; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; border-left: 3px solid var(--cyan); align-items: baseline; }
+        .info-grid { display: grid; grid-template-columns: 1fr; gap: 6px; }
+        .info-row { display: flex; padding: 8px; background: rgba(0,0,0,0.3); border-radius: 8px; border-left: 3px solid var(--cyan); align-items: baseline; }
         .card-bunker .info-row { border-left-color: var(--green); }
         .card-disaster .info-row { border-left-color: var(--orange); }
-        .info-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.5px; color: #888; min-width: 100px; flex-shrink: 0; }
-        .info-value { font-size: 0.85rem; color: #fff; font-weight: 600; word-break: break-word; }
-        .info-section { margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(0,245,255,0.2); }
+        .info-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: #888; min-width: 90px; flex-shrink: 0; }
+        .info-value { font-size: 0.8rem; color: #fff; font-weight: 600; word-break: break-word; }
+        .info-section { margin-top: 10px; padding-top: 10px; border-top: 1px dashed rgba(0,245,255,0.2); }
         .card-bunker .info-section { border-top-color: rgba(0,255,136,0.2); }
         .card-disaster .info-section { border-top-color: rgba(255,102,0,0.2); }
-        .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--cyan); margin-bottom: 8px; font-weight: 700; }
+        .section-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--cyan); margin-bottom: 6px; font-weight: 700; }
         .card-bunker .section-title { color: var(--green); }
         .card-disaster .section-title { color: var(--orange); }
         
-        /* Player Card with Animation */
-        .player-card { display: flex; flex-direction: column; gap: 8px; }
+        /* Player Card */
+        .player-card { display: flex; flex-direction: column; gap: 6px; }
         .player-name {
-            font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 700; color: #fff; text-align: center;
-            padding: 12px; background: linear-gradient(90deg, transparent, rgba(0,245,255,0.2), transparent);
-            border-radius: 10px; border: 1px solid rgba(0,245,255,0.4); text-shadow: 0 0 10px var(--cyan); margin-bottom: 10px;
+            font-family: 'Orbitron', sans-serif; font-size: 1.3rem; font-weight: 700; color: #fff; text-align: center;
+            padding: 10px; background: linear-gradient(90deg, transparent, rgba(0,245,255,0.2), transparent);
+            border-radius: 10px; border: 1px solid rgba(0,245,255,0.4); text-shadow: 0 0 10px var(--cyan); margin-bottom: 8px;
             animation: slideIn 0.5s ease-out;
         }
         @keyframes slideIn { from { opacity: 0; transform: translateX(-50px); } to { opacity: 1; transform: translateX(0); } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes cardFlip { from { transform: rotateY(90deg); opacity: 0; } to { transform: rotateY(0); opacity: 1; } }
-        .player-stat { display: flex; align-items: baseline; gap: 8px; padding: 6px 0; border-bottom: 1px dashed rgba(0,245,255,0.2); animation: fadeIn 0.3s ease-out; animation-fill-mode: both; }
+        
+        .player-stat { display: flex; align-items: baseline; gap: 6px; padding: 8px; border-radius: 8px; background: rgba(0,0,0,0.2); animation: fadeIn 0.3s ease-out; animation-fill-mode: both; }
         .player-stat:nth-child(1) { animation-delay: 0.1s; }
         .player-stat:nth-child(2) { animation-delay: 0.15s; }
         .player-stat:nth-child(3) { animation-delay: 0.2s; }
         .player-stat:nth-child(4) { animation-delay: 0.25s; }
         .player-stat:nth-child(5) { animation-delay: 0.3s; }
         .player-stat:nth-child(6) { animation-delay: 0.35s; }
-        .player-stat:nth-child(7) { animation-delay: 0.4s; }
-        .player-stat:last-child { border-bottom: none; }
-        .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--cyan); min-width: 85px; flex-shrink: 0; }
-        .stat-value { font-size: 0.85rem; color: #e0e0e0; word-break: break-word; }
-        .player-actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+        .player-stat.hidden { background: rgba(100,100,100,0.1); border: 1px dashed rgba(100,100,100,0.3); }
+        .player-stat.revealed { border-left: 3px solid var(--green); }
+        .stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 1px; color: var(--cyan); min-width: 80px; flex-shrink: 0; }
+        .stat-value { font-size: 0.8rem; color: #e0e0e0; word-break: break-word; }
+        .stat-hidden { color: #666; font-style: italic; }
+        
+        /* Character Select Buttons */
+        .char-select-section {
+            background: rgba(0,245,255,0.05); border: 1px solid rgba(0,245,255,0.2);
+            border-radius: 12px; padding: 12px; margin-top: 10px;
+        }
+        .char-select-title { font-size: 0.75rem; color: var(--cyan); text-align: center; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
+        .char-select-buttons { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .char-select-btn {
+            padding: 12px 8px; font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; font-weight: 600;
+            text-transform: uppercase; background: rgba(0,245,255,0.1); border: 1px solid var(--cyan);
+            border-radius: 8px; color: var(--cyan); cursor: pointer; transition: all 0.2s;
+        }
+        .char-select-btn:disabled { opacity: 0.4; cursor: not-allowed; border-color: #444; color: #666; }
+        .char-select-btn:active:not(:disabled) { background: rgba(0,245,255,0.2); transform: scale(0.96); }
+        
+        /* Player Actions */
+        .player-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
         .action-btn {
-            flex: 1; min-width: 120px; padding: 14px; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; font-weight: 700;
+            flex: 1; min-width: 100px; padding: 12px; font-family: 'Orbitron', sans-serif; font-size: 0.75rem; font-weight: 700;
             text-transform: uppercase; letter-spacing: 1px; border: 2px solid; border-radius: 10px; cursor: pointer;
             transition: all 0.2s; touch-action: manipulation;
         }
         .btn-accept { background: rgba(0,255,136,0.15); border-color: var(--green); color: var(--green); box-shadow: 0 0 15px rgba(0,255,136,0.3); }
-        .btn-accept:active { background: rgba(0,255,136,0.3); box-shadow: 0 0 25px rgba(0,255,136,0.5); transform: scale(0.96); }
         .btn-reject { background: rgba(255,0,85,0.15); border-color: var(--red); color: var(--red); box-shadow: 0 0 15px rgba(255,0,85,0.3); }
-        .btn-reject:active { background: rgba(255,0,85,0.3); box-shadow: 0 0 25px rgba(255,0,85,0.5); transform: scale(0.96); }
         
         /* Players Grid */
-        .players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 10px; }
+        .players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin-top: 8px; }
         .player-item {
             background: rgba(187,0,255,0.1); border: 1px solid rgba(187,0,255,0.3); border-radius: 10px;
             padding: 10px; text-align: center; position: relative; overflow: hidden; transition: all 0.3s;
         }
         .player-item.is-you { border-color: var(--cyan); box-shadow: 0 0 15px rgba(0,245,255,0.3); }
         .player-item.is-host { border-color: var(--orange); box-shadow: 0 0 15px rgba(255,102,0,0.3); }
-        .player-item .name { font-size: 0.85rem; font-weight: 600; margin-bottom: 5px; word-break: break-word; }
-        .player-item .status { font-size: 0.7rem; color: #888; }
+        .player-item .name { font-size: 0.8rem; font-weight: 600; margin-bottom: 4px; word-break: break-word; }
+        .player-item .status { font-size: 0.65rem; color: #888; }
         .player-item .status.has-card { color: var(--green); }
         .player-item .status.accepted { color: var(--green); font-weight: 700; }
         .player-item .status.rejected { color: var(--red); font-weight: 700; }
-        .player-item.revealed { animation: cardFlip 0.5s ease-out; }
-        .player-item .character-preview { font-size: 0.65rem; margin-top: 5px; color: var(--cyan); }
+        .player-item .character-preview { font-size: 0.6rem; margin-top: 4px; color: var(--cyan); }
+        .player-item .vote-buttons { display: flex; gap: 4px; margin-top: 6px; justify-content: center; }
+        .player-item .vote-btn { padding: 4px 8px; font-size: 0.7rem; border-radius: 6px; border: 1px solid; cursor: pointer; }
+        .player-item .vote-btn.accept { background: rgba(0,255,136,0.2); border-color: var(--green); color: var(--green); }
+        .player-item .vote-btn.reject { background: rgba(255,0,85,0.2); border-color: var(--red); color: var(--red); }
         
         /* Team */
         .team-card { background: var(--bg-panel); border: 1px solid rgba(187,0,255,0.3); box-shadow: 0 0 20px rgba(187,0,255,0.2); }
         .team-card .card-header { color: var(--purple); border-bottom-color: rgba(187,0,255,0.3); }
-        .team-list { list-style: none; max-height: 200px; overflow-y: auto; }
+        .team-list { list-style: none; max-height: 150px; overflow-y: auto; }
         .team-list li {
-            padding: 10px 12px; margin-bottom: 6px; background: rgba(187,0,255,0.1); border-radius: 8px;
-            border-left: 3px solid var(--purple); font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
+            padding: 8px 10px; margin-bottom: 5px; background: rgba(187,0,255,0.1); border-radius: 6px;
+            border-left: 3px solid var(--purple); font-size: 0.8rem; display: flex; align-items: center; gap: 6px;
         }
-        .team-list li::before { content: '👤'; }
-        .team-counter { text-align: center; padding: 10px; margin-top: 10px; background: rgba(187,0,255,0.15); border-radius: 8px; font-size: 0.8rem; color: var(--purple); }
+        .team-counter { text-align: center; padding: 8px; margin-top: 8px; background: rgba(187,0,255,0.15); border-radius: 8px; font-size: 0.75rem; color: var(--purple); }
         
         /* Empty State */
-        .empty-state { text-align: center; padding: 25px 20px; color: #666; font-size: 0.9rem; border: 2px dashed rgba(0,245,255,0.2); border-radius: 12px; background: rgba(0,245,255,0.03); }
-        .empty-state .icon { font-size: 2.5rem; margin-bottom: 10px; opacity: 0.5; }
+        .empty-state { text-align: center; padding: 20px 18px; color: #666; font-size: 0.85rem; border: 2px dashed rgba(0,245,255,0.2); border-radius: 12px; background: rgba(0,245,255,0.03); }
+        .empty-state .icon { font-size: 2rem; margin-bottom: 8px; opacity: 0.5; }
         
         /* Modal */
         .modal-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 100;
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100;
             display: none; align-items: center; justify-content: center;
             backdrop-filter: blur(5px); padding: 20px;
         }
         .modal-overlay.active { display: flex; animation: fadeIn 0.3s; }
         .modal {
             background: var(--bg-card); border: 2px solid var(--cyan); border-radius: 20px;
-            padding: 20px; width: 100%; max-width: 380px; max-height: 80vh; overflow-y: auto;
+            padding: 18px; width: 100%; max-width: 360px; max-height: 80vh; overflow-y: auto;
             box-shadow: 0 0 50px rgba(0,245,255,0.3);
         }
-        .modal h2 { font-family: 'Orbitron', sans-serif; color: var(--cyan); margin-bottom: 20px; text-align: center; font-size: 1.3rem; }
+        .modal h2 { font-family: 'Orbitron', sans-serif; color: var(--cyan); margin-bottom: 16px; text-align: center; font-size: 1.2rem; }
         .modal input {
-            width: 100%; padding: 14px; margin-bottom: 15px; background: rgba(0,0,0,0.3);
+            width: 100%; padding: 12px; margin-bottom: 12px; background: rgba(0,0,0,0.3);
             border: 1px solid rgba(0,245,255,0.3); border-radius: 10px; color: #fff;
-            font-size: 1rem; text-align: center;
+            font-size: 0.95rem; text-align: center;
         }
         .modal input:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 15px rgba(0,245,255,0.3); }
-        .modal-buttons { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-        .modal-buttons .main-btn { flex: 1; min-width: 120px; }
+        .modal-buttons { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .modal-buttons .main-btn { flex: 1; min-width: 100px; }
         
         /* History */
-        .history-list { list-style: none; max-height: 250px; overflow-y: auto; }
+        .history-list { list-style: none; max-height: 200px; overflow-y: auto; }
         .history-item {
-            padding: 10px; margin-bottom: 8px; background: rgba(0,0,0,0.3); border-radius: 8px;
-            border-left: 3px solid var(--cyan); font-size: 0.8rem;
+            padding: 8px; margin-bottom: 6px; background: rgba(0,0,0,0.3); border-radius: 8px;
+            border-left: 3px solid var(--cyan); font-size: 0.75rem;
         }
         .history-item.accept { border-left-color: var(--green); }
         .history-item.reject { border-left-color: var(--red); }
-        .history-item .time { color: #666; font-size: 0.7rem; margin-top: 4px; }
+        .history-item .time { color: #666; font-size: 0.65rem; margin-top: 3px; }
         
         /* Footer */
-        footer { text-align: center; padding: 15px; margin-top: 10px; font-size: 0.7rem; color: #555; border-top: 1px solid rgba(0,245,255,0.2); }
+        footer { text-align: center; padding: 12px; margin-top: 8px; font-size: 0.65rem; color: #555; border-top: 1px solid rgba(0,245,255,0.2); }
         
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
-        
-        /* Mobile */
-        @media (max-width: 360px) {
-            .header h1 { font-size: 1.3rem; letter-spacing: 4px; }
-            .main-btn { font-size: 0.8rem; padding: 14px 16px; }
-            .card { padding: 12px; }
-            .player-name { font-size: 1.2rem; }
-            .stat-label { min-width: 75px; font-size: 0.65rem; }
-            .info-label { min-width: 90px; }
-            .players-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
-        }
-        
-        /* Toast Notifications */
-        .toast-container { position: fixed; top: 10px; right: 10px; z-index: 200; max-width: 300px; }
+        /* Toast */
+        .toast-container { position: fixed; top: 10px; right: 10px; z-index: 200; max-width: 280px; }
         .toast {
             background: var(--bg-card); border: 1px solid var(--cyan); border-radius: 10px;
-            padding: 12px 16px; margin-bottom: 8px; box-shadow: 0 0 20px rgba(0,245,255,0.3);
-            animation: slideInRight 0.3s ease-out; display: flex; align-items: center; gap: 10px; font-size: 0.85rem;
+            padding: 10px 14px; margin-bottom: 6px; box-shadow: 0 0 20px rgba(0,245,255,0.3);
+            animation: slideInRight 0.3s ease-out; display: flex; align-items: center; gap: 8px; font-size: 0.8rem;
         }
         @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .toast.error { border-color: var(--red); box-shadow: 0 0 20px rgba(255,0,85,0.3); }
         .toast.success { border-color: var(--green); box-shadow: 0 0 20px rgba(0,255,136,0.3); }
         .toast.warning { border-color: var(--yellow); box-shadow: 0 0 20px rgba(255,221,0,0.3); }
-        .toast.info { border-color: var(--purple); box-shadow: 0 0 20px rgba(187,0,255,0.3); }
         
-        /* Share button */
-        .share-section { display: flex; gap: 8px; align-items: center; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+        /* Return Button */
+        .return-bar {
+            display: none; padding: 10px; background: rgba(0,255,136,0.1);
+            border: 1px solid var(--green); border-radius: 12px; margin-bottom: 10px;
+        }
+        .return-bar.active { display: block; }
+        
+        /* Mobile */
+        @media (max-width: 360px) {
+            .header h1 { font-size: 1.2rem; letter-spacing: 3px; }
+            .main-btn { font-size: 0.75rem; padding: 13px 14px; }
+            .card { padding: 12px; }
+            .player-name { font-size: 1.1rem; }
+            .stat-label { min-width: 70px; font-size: 0.6rem; }
+            .info-label { min-width: 80px; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <!-- Return Bar -->
+        <div class="return-bar" id="returnBar">
+            <button class="main-btn btn-bunker btn-small" id="returnBtn">↩️ Вернуться в комнату</button>
+        </div>
+        
         <!-- Header -->
         <div class="header">
             <h1>🛡️ БУНКЕР</h1>
-            <div class="subtitle">Мультиплеер • Локальная игра</div>
-            <div class="room-info" id="roomInfo" style="display:none;">
-                <span class="room-code" id="roomCodeDisplay">----</span>
-                <span class="round-counter">Раунд: <span id="roundDisplay">0</span></span>
-                <span class="players-count">👥 <span id="playersCount">0</span></span>
-                <span class="host-badge" id="hostBadge">ВЫ ХОСТ</span>
-            </div>
+            <div class="subtitle">Правила: 1 характеристика за раунд</div>
+        </div>
+        
+        <!-- Room Info -->
+        <div class="room-bar" id="roomBar" style="display:none;">
+            <span class="room-code" id="roomCodeDisplay">----</span>
+            <span class="round-info">Раунд: <span id="roundDisplay">0</span></span>
+            <span class="players-count">👥 <span id="playersCount">0</span></span>
+            <span class="host-badge" id="hostBadge">ХОСТ</span>
+        </div>
+        
+        <!-- Timer -->
+        <div class="timer-bar" id="timerBar" style="display:none;">
+            <span class="timer-icon">⏱️</span>
+            <span class="timer-display" id="timerDisplay">60</span>
         </div>
         
         <!-- Main Menu -->
@@ -254,24 +299,18 @@
                 <button class="main-btn btn-player" id="createRoomBtn">🏠 Создать комнату</button>
                 <button class="main-btn btn-bunker" id="joinRoomBtn">🚪 Присоединиться</button>
                 <button class="main-btn btn-warning" id="historyBtn">📜 История</button>
-                <button class="main-btn btn-copy" id="instructionsBtn">❓ Как играть</button>
+                <button class="main-btn btn-copy" id="instructionsBtn">❓ Правила</button>
             </div>
-            <div class="empty-state" style="margin-top: 20px;">
-                <div class="icon">📱</div>
-                <div><strong>Мультиплеер через Telegram</strong><br>Отправьте ссылку друзьям для совместной игры</div>
+            <div class="empty-state" style="margin-top: 15px;">
+                <div class="icon">📋</div>
+                <div><strong>Правила:</strong><br>Каждый раунд игрок открывает ОДНУ характеристику на выбор. Когда все открыты — голосование.</div>
             </div>
         </div>
         
         <!-- Game Area -->
         <div id="gameArea" style="display:none;">
-            <!-- Share Section -->
-            <div class="share-section" id="shareSection">
-                <button class="main-btn btn-copy btn-small" id="copyLinkBtn">📋 Копировать ссылку</button>
-                <button class="main-btn btn-bunker btn-small" id="shareTgBtn">📤 Поделиться в TG</button>
-            </div>
-            
             <!-- Host Controls -->
-            <div class="action-buttons" id="hostControls" style="display:none; margin-top: 10px;">
+            <div class="action-buttons" id="hostControls" style="display:none;">
                 <div class="btn-row">
                     <button class="main-btn btn-bunker" id="genBunkerBtn">🏗️ Бункер</button>
                     <button class="main-btn btn-disaster" id="genDisasterBtn">☢️ Катастрофа</button>
@@ -282,11 +321,6 @@
                 </div>
             </div>
             
-            <!-- Generate Character Button (для всех) -->
-            <div class="action-buttons" id="playerControls" style="display:none;">
-                <button class="main-btn btn-player" id="genCharBtn">🎴 Создать персонажа</button>
-            </div>
-            
             <!-- Players Grid -->
             <div class="card">
                 <div class="card-header"><span>👥</span> ИГРОКИ</div>
@@ -295,9 +329,20 @@
             
             <!-- My Character -->
             <div class="card card-player" id="myCharacterCard" style="display:none;">
-                <div class="card-header"><span>👤</span> МОЯ КАРТОЧКА</div>
-                <div id="myCharacterContent"></div>
-                <button class="main-btn btn-player" id="revealBtn" style="margin-top:15px;">🎴 Открыть карточку всем</button>
+                <div class="card-header">
+                    <span>👤</span> МОЯ КАРТОЧКА
+                    <span id="charProgress" style="font-size:0.7rem; color:var(--yellow);">0/6</span>
+                </div>
+                <div class="player-name" id="myCharacterName">Имя</div>
+                <div id="myCharacterStats"></div>
+                
+                <!-- Character Select Section -->
+                <div class="char-select-section" id="charSelectSection" style="display:none;">
+                    <div class="char-select-title">🎯 Выберите характеристику для открытия</div>
+                    <div class="char-select-buttons" id="charSelectButtons"></div>
+                </div>
+                
+                <button class="main-btn btn-player" id="finishRevealBtn" style="margin-top:12px; display:none;">✅ Все характеристики открыты</button>
             </div>
             
             <!-- Bunker Card -->
@@ -320,10 +365,10 @@
             </div>
         </div>
         
-        <footer>© 2026 Бункер: Мультиплеер (localStorage)</footer>
+        <footer>© 2026 Бункер: Telegram Edition</footer>
     </div>
     
-    <!-- Join Room Modal -->
+    <!-- Join Modal -->
     <div class="modal-overlay" id="joinModal">
         <div class="modal">
             <h2>🚪 Вход в комнату</h2>
@@ -339,11 +384,10 @@
     <!-- History Modal -->
     <div class="modal-overlay" id="historyModal">
         <div class="modal">
-            <h2>📜 История игры</h2>
+            <h2>📜 История</h2>
             <ul class="history-list" id="historyList"></ul>
             <div class="modal-buttons">
                 <button class="main-btn btn-player" id="closeHistoryBtn">Закрыть</button>
-                <button class="main-btn btn-danger" id="clearHistoryBtn">Очистить</button>
             </div>
         </div>
     </div>
@@ -351,30 +395,29 @@
     <!-- Instructions Modal -->
     <div class="modal-overlay" id="instructionsModal">
         <div class="modal">
-            <h2>❓ Как играть</h2>
-            <div style="font-size: 0.85rem; line-height: 1.6;">
-                <p style="margin-bottom: 10px;"><strong>1. Создание игры:</strong></p>
+            <h2>❓ Правила игры</h2>
+            <div style="font-size: 0.8rem; line-height: 1.5;">
+                <p style="margin-bottom: 10px;"><strong>📋 Основные правила:</strong></p>
                 <ul style="margin-left: 20px; margin-bottom: 10px;">
-                    <li>Нажмите "Создать комнату"</li>
-                    <li>Скопируйте ссылку и отправьте друзьям</li>
+                    <li>Каждый раунд игрок открывает ОДНУ характеристику</li>
+                    <li>Характеристики: Профессия, Здоровье, Хобби, Багаж, Фобии, Пол/Возраст</li>
+                    <li>Игрок сам выбирает, что открыть</li>
+                    <li>Когда все 6 характеристик открыты — голосование</li>
                 </ul>
                 
-                <p style="margin-bottom: 10px;"><strong>2. Присоединение:</strong></p>
+                <p style="margin-bottom: 8px;"><strong>⏱️ Таймер:</strong></p>
                 <ul style="margin-left: 20px; margin-bottom: 10px;">
-                    <li>Откройте ссылку от друга</li>
-                    <li>Введите своё имя</li>
+                    <li>60 секунд на раунд</li>
+                    <li>Не успел — случайная характеристика</li>
                 </ul>
                 
-                <p style="margin-bottom: 10px;"><strong>3. Геймплей:</strong></p>
+                <p style="margin-bottom: 8px;"><strong>👑 Хост:</strong></p>
                 <ul style="margin-left: 20px; margin-bottom: 10px;">
-                    <li><strong>Хост</strong> генерирует Бункер и Катастрофу</li>
-                    <li><strong>Все игроки</strong> создают персонажей</li>
-                    <li>Игроки открывают карточки по очереди</li>
-                    <li>Все голосуют (принять/отклонить)</li>
+                    <li>Только хост генерирует Бункер и Катастрофу</li>
                     <li>Хост начинает следующий раунд</li>
                 </ul>
                 
-                <p style="color: var(--yellow);">⚠️ Игра работает через localStorage. Все игроки должны быть в одном браузере/устройстве ИЛИ использовать синхронизацию через URL.</p>
+                <p style="color: var(--yellow);">💡 Игра автоматически сохраняется. При выходе и возвращении вы останетесь в комнате.</p>
             </div>
             <div class="modal-buttons">
                 <button class="main-btn btn-player" id="closeInstructionsBtn">Понятно</button>
@@ -382,21 +425,31 @@
         </div>
     </div>
     
-    <!-- Toast Container -->
+    <!-- Toast -->
     <div class="toast-container" id="toastContainer"></div>
 
 <script>
 /**
- * 🛡️ БУНКЕР - Мультиплеер Клиент (БЕЗ СЕРВЕРА)
- * Telegram WebApp + localStorage
+ * 🛡️ БУНКЕР - Telegram WebApp Edition
+ * Правила: 1 характеристика за раунд
  */
 (function() {
     'use strict';
 
     // ==================== TELEGRAM WEBAPP ====================
     const tg = window.Telegram.WebApp;
-    tg.expand();
-    tg.ready();
+    
+    const initTelegram = () => {
+        tg.expand();
+        tg.ready();
+        tg.disableVerticalSwipes();
+        
+        // Обработка сворачивания/разворачивания
+        tg.onEvent('viewport_changed', (data) => {
+            console.log('Viewport changed:', data);
+        });
+    };
+    initTelegram();
     
     const getTelegramUser = () => {
         if (tg.initDataUnsafe?.user) {
@@ -428,18 +481,18 @@
         el.className = `toast ${type}`;
         el.innerHTML = `<span>${type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️'}</span><span>${message}</span>`;
         container.appendChild(el);
-        setTimeout(() => {
-            el.style.animation = 'slideInRight 0.3s reverse';
-            setTimeout(() => el.remove(), 300);
-        }, 3000);
+        setTimeout(() => el.remove(), 3000);
     };
 
-    // ==================== LOCALSTORAGE ====================
+    // ==================== LOCALSTORAGE + SESSIONSTORAGE ====================
     const LS_KEY = 'bunker_game_';
+    const SS_KEY = 'bunker_session';
+    const ACTIVE_ROOM_KEY = 'bunker_active_room';
     
     const saveGame = (roomId, gameData) => {
         gameData.lastUpdate = Date.now();
         localStorage.setItem(LS_KEY + roomId, JSON.stringify(gameData));
+        localStorage.setItem(ACTIVE_ROOM_KEY, roomId);
     };
     
     const loadGame = (roomId) => {
@@ -447,11 +500,19 @@
         return data ? JSON.parse(data) : null;
     };
     
-    const deleteGame = (roomId) => {
-        localStorage.removeItem(LS_KEY + roomId);
+    const saveSession = (sessionData) => {
+        sessionStorage.setItem(SS_KEY, JSON.stringify(sessionData));
+        localStorage.setItem(ACTIVE_ROOM_KEY, sessionData.roomId);
     };
     
-    // Подписка на изменения localStorage (для синхронизации между вкладками)
+    const loadSession = () => {
+        const data = sessionStorage.getItem(SS_KEY);
+        return data ? JSON.parse(data) : null;
+    };
+    
+    const getActiveRoomId = () => localStorage.getItem(ACTIVE_ROOM_KEY);
+
+    // Подписка на изменения localStorage
     window.addEventListener('storage', (e) => {
         if (e.key?.startsWith(LS_KEY) && state.roomId === e.key.replace(LS_KEY, '')) {
             const gameData = JSON.parse(e.newValue);
@@ -466,9 +527,19 @@
         isHost: false,
         playerName: '',
         gameData: null,
-        myCharacter: null,
-        revealed: false
+        timer: null,
+        timeLeft: 60
     };
+
+    // Характеристики персонажа
+    const CHARACTER_STATS = [
+        { key: 'profession', label: '💼 Профессия' },
+        { key: 'health', label: '❤️ Здоровье' },
+        { key: 'hobby', label: '🎨 Хобби' },
+        { key: 'luggage', label: '🎒 Багаж' },
+        { key: 'mental', label: '😰 Фобии' },
+        { key: 'genderAge', label: '👤 Пол/Возраст' }
+    ];
 
     // ==================== ДАННЫЕ ====================
     const DATA = {
@@ -696,6 +767,7 @@
             const gender = random(["Мужчина", "Женщина"]);
             return {
                 name,
+                genderAge: `${gender}, ${age} лет`,
                 age,
                 gender,
                 profession: random(DATA.professions),
@@ -704,6 +776,7 @@
                 hobby: random(DATA.hobbies),
                 luggage: random(DATA.luggage),
                 personality: random(DATA.personality),
+                revealedStats: [], // Какие характеристики открыты
                 revealed: false,
                 accepted: false,
                 rejected: false
@@ -727,6 +800,8 @@
             hostId: state.playerId,
             hostName: name,
             round: 0,
+            phase: 'lobby', // lobby, reveal, vote
+            currentTurn: null,
             bunker: null,
             disaster: null,
             players: [{
@@ -734,6 +809,7 @@
                 name,
                 telegramId: tgUser?.id,
                 character: null,
+                revealedStats: [],
                 revealed: false,
                 accepted: false,
                 rejected: false
@@ -744,6 +820,7 @@
         };
         
         saveGame(roomId, state.gameData);
+        saveSession({ roomId: roomId, playerId: state.playerId, playerName: name, isHost: true });
         updateUI();
         toast(`Комната ${roomId} создана!`, 'success');
         haptic.success();
@@ -768,6 +845,7 @@
             name,
             telegramId: tgUser?.id,
             character: null,
+            revealedStats: [],
             revealed: false,
             accepted: false,
             rejected: false
@@ -780,6 +858,7 @@
         });
         
         saveGame(roomId, gameData);
+        saveSession({ roomId: roomId, playerId: state.playerId, playerName: name, isHost: false });
         state.gameData = gameData;
         updateUI();
         toast(`Присоединился к комнате ${roomId}`, 'success');
@@ -792,13 +871,83 @@
         updateUI();
     };
 
+    const restoreSession = () => {
+        const session = loadSession();
+        if (session && session.roomId) {
+            const gameData = loadGame(session.roomId);
+            if (gameData) {
+                state.roomId = session.roomId;
+                state.playerId = session.playerId;
+                state.playerName = session.playerName;
+                state.isHost = session.isHost;
+                state.gameData = gameData;
+                $('returnBar').classList.add('active');
+                return true;
+            }
+        }
+        return false;
+    };
+
+    // ==================== ТАЙМЕР ====================
+    const startTimer = (seconds = 60) => {
+        stopTimer();
+        state.timeLeft = seconds;
+        updateTimerDisplay();
+        $('timerBar').style.display = 'flex';
+        
+        state.timer = setInterval(() => {
+            state.timeLeft--;
+            updateTimerDisplay();
+            
+            if (state.timeLeft <= 10) {
+                $('timerBar').classList.add('urgent');
+            } else {
+                $('timerBar').classList.remove('urgent');
+            }
+            
+            if (state.timeLeft <= 0) {
+                stopTimer();
+                autoRevealStat();
+            }
+        }, 1000);
+    };
+
+    const stopTimer = () => {
+        if (state.timer) {
+            clearInterval(state.timer);
+            state.timer = null;
+        }
+        $('timerBar').style.display = 'none';
+        $('timerBar').classList.remove('urgent');
+    };
+
+    const updateTimerDisplay = () => {
+        $('timerDisplay').textContent = state.timeLeft;
+    };
+
+    const autoRevealStat = () => {
+        const game = state.gameData;
+        const player = game.players.find(p => p.id === state.playerId);
+        
+        if (player && player.character) {
+            const allStats = CHARACTER_STATS.map(s => s.key);
+            const hiddenStats = allStats.filter(s => !player.character.revealedStats.includes(s));
+            
+            if (hiddenStats.length > 0) {
+                const randomStat = random(hiddenStats);
+                revealStat(randomStat);
+                toast('Время вышло! Открыта случайная характеристика', 'warning');
+            }
+        }
+    };
+
     // ==================== UI ФУНКЦИИ ====================
     const updateUI = () => {
         if (!state.gameData) return;
         
         const game = state.gameData;
         
-        $('roomInfo').style.display = 'flex';
+        $('roomBar').style.display = 'flex';
         $('roomCodeDisplay').textContent = game.roomId;
         $('roundDisplay').textContent = game.round;
         $('playersCount').textContent = game.players.length;
@@ -811,7 +960,6 @@
             $('hostBadge').style.display = 'none';
         }
         
-        $('playerControls').style.display = 'flex';
         $('mainMenu').style.display = 'none';
         $('gameArea').style.display = 'block';
         
@@ -823,11 +971,17 @@
         // Проверка моего персонажа
         const myPlayer = game.players.find(p => p.id === state.playerId);
         if (myPlayer?.character) {
-            state.myCharacter = myPlayer.character;
             renderMyCharacter(myPlayer.character);
             $('myCharacterCard').style.display = 'block';
-            if (myPlayer.character.revealed) {
-                $('revealBtn').style.display = 'none';
+            
+            // Проверка, все ли характеристики открыты
+            const allStats = CHARACTER_STATS.map(s => s.key);
+            if (myPlayer.character.revealedStats.length >= allStats.length) {
+                $('charSelectSection').style.display = 'none';
+                $('finishRevealBtn').style.display = 'block';
+            } else {
+                $('finishRevealBtn').style.display = 'none';
+                showCharSelectButtons(myPlayer.character);
             }
         }
         
@@ -838,36 +992,107 @@
         const grid = $('playersGrid');
         const game = state.gameData;
         
-        grid.innerHTML = game.players.map(p => `
-            <div class="player-item ${p.id === state.playerId ? 'is-you' : ''} ${p.id === game.hostId ? 'is-host' : ''} ${p.character?.revealed ? 'revealed' : ''}" id="player-${p.id}">
+        grid.innerHTML = game.players.map(p => {
+            const revealedCount = p.character?.revealedStats?.length || 0;
+            const totalStats = CHARACTER_STATS.length;
+            
+            return `
+            <div class="player-item ${p.id === state.playerId ? 'is-you' : ''} ${p.id === game.hostId ? 'is-host' : ''}" id="player-${p.id}">
                 <div class="name">${p.name} ${p.id === state.playerId ? '(Вы)' : ''} ${p.id === game.hostId ? '👑' : ''}</div>
                 <div class="status ${p.character ? 'has-card' : ''} ${p.accepted ? 'accepted' : ''} ${p.rejected ? 'rejected' : ''}">
-                    ${p.rejected ? '❌ Отклонён' : p.accepted ? '✅ В бункере' : p.character?.revealed ? '🎴 Открыт' : p.character ? '🎴 Есть карта' : '⏳ Ожидание'}
+                    ${p.rejected ? '❌ Отклонён' : p.accepted ? '✅ В бункере' : p.character ? `🎴 ${revealedCount}/${totalStats}` : '⏳ Ожидание'}
                 </div>
-                ${p.character?.revealed ? `<div class="character-preview">${p.character.profession}, ${p.character.age} лет</div>` : ''}
-                ${p.character?.revealed && p.id !== state.playerId ? `
-                    <div class="player-actions" style="margin-top:8px;">
-                        <button class="action-btn btn-accept" onclick="window.acceptPlayer('${p.id}')">✅</button>
-                        <button class="action-btn btn-reject" onclick="window.rejectPlayer('${p.id}')">❌</button>
+                ${p.character ? `<div class="character-preview">${p.character.profession}, ${p.character.age} лет</div>` : ''}
+                ${p.character?.revealed && p.id !== state.playerId && game.phase === 'vote' ? `
+                    <div class="vote-buttons">
+                        <button class="vote-btn accept" onclick="window.votePlayer('${p.id}', true)">✅</button>
+                        <button class="vote-btn reject" onclick="window.votePlayer('${p.id}', false)">❌</button>
                     </div>
                 ` : ''}
             </div>
-        `).join('');
+        `}).join('');
     };
 
     const renderMyCharacter = (char) => {
-        $('myCharacterContent').innerHTML = `
-            <div class="player-card">
-                <div class="player-name">${char.name}, ${char.age} лет</div>
-                <div class="player-stat"><span class="stat-label">Пол:</span><span class="stat-value">${char.gender}</span></div>
-                <div class="player-stat"><span class="stat-label">Профессия:</span><span class="stat-value">${char.profession}</span></div>
-                <div class="player-stat"><span class="stat-label">Здоровье:</span><span class="stat-value">${char.health}</span></div>
-                <div class="player-stat"><span class="stat-label">Психика:</span><span class="stat-value">${char.mental}</span></div>
-                <div class="player-stat"><span class="stat-label">Хобби:</span><span class="stat-value">${char.hobby}</span></div>
-                <div class="player-stat"><span class="stat-label">Характер:</span><span class="stat-value">${char.personality}</span></div>
-                <div class="player-stat"><span class="stat-label">Багаж:</span><span class="stat-value">${char.luggage}</span></div>
-            </div>
-        `;
+        $('myCharacterName').textContent = `${char.name}`;
+        
+        const allStats = CHARACTER_STATS;
+        let statsHtml = '<div class="player-card">';
+        
+        allStats.forEach(stat => {
+            const isRevealed = char.revealedStats.includes(stat.key);
+            statsHtml += `
+                <div class="player-stat ${isRevealed ? 'revealed' : 'hidden'}">
+                    <span class="stat-label">${stat.label.split(' ')[1]}:</span>
+                    <span class="stat-value ${isRevealed ? '' : 'stat-hidden'}">
+                        ${isRevealed ? char[stat.key] : '❓ Скрыто'}
+                    </span>
+                </div>
+            `;
+        });
+        
+        statsHtml += '</div>';
+        $('myCharacterStats').innerHTML = statsHtml;
+        
+        // Обновление прогресса
+        $('charProgress').textContent = `${char.revealedStats.length}/${allStats.length}`;
+    };
+
+    const showCharSelectButtons = (char) => {
+        const allStats = CHARACTER_STATS;
+        const buttons = $('charSelectButtons');
+        
+        const availableStats = allStats.filter(stat => !char.revealedStats.includes(stat.key));
+        
+        if (availableStats.length === 0) {
+            $('charSelectSection').style.display = 'none';
+            return;
+        }
+        
+        $('charSelectSection').style.display = 'block';
+        buttons.innerHTML = availableStats.map(stat => `
+            <button class="char-select-btn" data-stat="${stat.key}">${stat.label}</button>
+        `).join('');
+        
+        // Обработчики кнопок
+        buttons.querySelectorAll('.char-select-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const statKey = btn.dataset.stat;
+                revealStat(statKey);
+            });
+        });
+    };
+
+    const revealStat = (statKey) => {
+        const game = state.gameData;
+        const player = game.players.find(p => p.id === state.playerId);
+        
+        if (player && player.character && !player.character.revealedStats.includes(statKey)) {
+            player.character.revealedStats.push(statKey);
+            
+            game.history.push({
+                action: 'reveal',
+                playerName: player.name,
+                stat: statKey,
+                timestamp: Date.now()
+            });
+            
+            saveGame(game.roomId, game);
+            haptic.selection();
+            renderMyCharacter(player.character);
+            updatePlayersGrid();
+            
+            // Проверка, все ли открыто
+            const allStats = CHARACTER_STATS.map(s => s.key);
+            if (player.character.revealedStats.length >= allStats.length) {
+                $('charSelectSection').style.display = 'none';
+                $('finishRevealBtn').style.display = 'block';
+                stopTimer();
+                toast('Все характеристики открыты!', 'success');
+            } else {
+                toast(`Открыто: ${CHARACTER_STATS.find(s => s.key === statKey)?.label}`, 'success');
+            }
+        }
     };
 
     const renderBunker = (bunker) => {
@@ -944,51 +1169,57 @@
         
         list.innerHTML = history.map(h => `
             <li class="history-item ${h.action === 'accept' ? 'accept' : h.action === 'reject' ? 'reject' : ''}">
-                <div><strong>${h.action === 'accept' ? '✅' : h.action === 'reject' ? '❌' : h.action === 'join' ? '🚪' : '📝'}</strong> ${h.playerName || ''}</div>
-                <div class="time">${new Date(h.timestamp).toLocaleString()}</div>
+                <div><strong>${h.action === 'accept' ? '✅' : h.action === 'reject' ? '❌' : h.action === 'join' ? '🚪' : h.action === 'reveal' ? '🎴' : '📝'}</strong> ${h.playerName || ''} ${h.stat ? CHARACTER_STATS.find(s => s.key === h.stat)?.label : ''}</div>
+                <div class="time">${new Date(h.timestamp).toLocaleTimeString()}</div>
             </li>
         `).join('');
     };
 
-    // ==================== ДЕЙСТВИЯ ====================
-    window.acceptPlayer = (playerId) => {
-        haptic.success();
+    // ==================== ГОЛОСОВАНИЕ ====================
+    window.votePlayer = (playerId, accept) => {
         const game = state.gameData;
         const player = game.players.find(p => p.id === playerId);
+        
         if (player) {
-            player.accepted = true;
-            player.rejected = false;
+            if (accept) {
+                player.accepted = true;
+                player.rejected = false;
+            } else {
+                player.rejected = true;
+                player.accepted = false;
+            }
+            
             game.history.push({
-                action: 'accept',
+                action: accept ? 'accept' : 'reject',
                 playerName: player.name,
                 timestamp: Date.now()
             });
+            
             saveGame(game.roomId, game);
             updateUI();
-            toast(`${player.name} принят в бункер!`, 'success');
-        }
-    };
-
-    window.rejectPlayer = (playerId) => {
-        haptic.error();
-        const game = state.gameData;
-        const player = game.players.find(p => p.id === playerId);
-        if (player) {
-            player.rejected = true;
-            player.accepted = false;
-            game.history.push({
-                action: 'reject',
-                playerName: player.name,
-                timestamp: Date.now()
-            });
-            saveGame(game.roomId, game);
-            updateUI();
-            toast(`${player.name} отклонён`, 'error');
+            haptic.success();
         }
     };
 
     // ==================== СОБЫТИЯ ====================
     const setupEventListeners = () => {
+        // Return button
+        $('returnBtn').addEventListener('click', () => {
+            const session = loadSession();
+            if (session && session.roomId) {
+                const gameData = loadGame(session.roomId);
+                if (gameData) {
+                    state.roomId = session.roomId;
+                    state.playerId = session.playerId;
+                    state.playerName = session.playerName;
+                    state.isHost = session.isHost;
+                    state.gameData = gameData;
+                    updateUI();
+                    toast('Вернулся в комнату', 'success');
+                }
+            }
+        });
+
         // Main menu
         $('createRoomBtn').addEventListener('click', () => {
             haptic.impact('medium');
@@ -1027,15 +1258,6 @@
             $('historyModal').classList.remove('active');
         });
 
-        $('clearHistoryBtn').addEventListener('click', () => {
-            if (state.gameData) {
-                state.gameData.history = [];
-                saveGame(state.roomId, state.gameData);
-                renderHistory();
-                toast('История очищена', 'warning');
-            }
-        });
-
         $('instructionsBtn').addEventListener('click', () => {
             $('instructionsModal').classList.add('active');
         });
@@ -1049,10 +1271,7 @@
             haptic.impact('medium');
             const bunker = Generators.bunker();
             state.gameData.bunker = bunker;
-            state.gameData.history.push({
-                action: 'bunker',
-                timestamp: Date.now()
-            });
+            state.gameData.history.push({ action: 'bunker', timestamp: Date.now() });
             saveGame(state.roomId, state.gameData);
             renderBunker(bunker);
             toast('Бункер сгенерирован!', 'success');
@@ -1062,10 +1281,7 @@
             haptic.impact('medium');
             const disaster = Generators.disaster();
             state.gameData.disaster = disaster;
-            state.gameData.history.push({
-                action: 'disaster',
-                timestamp: Date.now()
-            });
+            state.gameData.history.push({ action: 'disaster', timestamp: Date.now() });
             saveGame(state.roomId, state.gameData);
             renderDisaster(disaster);
             toast('Катастрофа сгенерирована!', 'success');
@@ -1076,21 +1292,19 @@
             state.gameData.round++;
             state.gameData.players.forEach(p => {
                 p.character = null;
+                p.revealedStats = [];
                 p.revealed = false;
                 p.accepted = false;
                 p.rejected = false;
             });
-            state.gameData.history.push({
-                action: 'round',
-                round: state.gameData.round,
-                timestamp: Date.now()
-            });
+            state.gameData.history.push({ action: 'round', round: state.gameData.round, timestamp: Date.now() });
             saveGame(state.roomId, state.gameData);
             state.myCharacter = null;
             $('myCharacterCard').style.display = 'none';
             $('roundDisplay').textContent = state.gameData.round;
             updatePlayersGrid();
             updateTeamList();
+            stopTimer();
             toast(`Раунд ${state.gameData.round} начался!`, 'info');
         });
 
@@ -1103,6 +1317,7 @@
                 state.gameData.history = [];
                 state.gameData.players.forEach(p => {
                     p.character = null;
+                    p.revealedStats = [];
                     p.revealed = false;
                     p.accepted = false;
                     p.rejected = false;
@@ -1115,72 +1330,42 @@
                 $('roundDisplay').textContent = 0;
                 updatePlayersGrid();
                 updateTeamList();
+                stopTimer();
                 toast('Игра сброшена', 'warning');
             }
         });
 
         // Player controls
-        $('genCharBtn').addEventListener('click', () => {
+        $('genCharBtn')?.addEventListener('click', () => {
             haptic.impact('medium');
             const character = Generators.character(state.playerName);
             
             const player = state.gameData.players.find(p => p.id === state.playerId);
             if (player) {
                 player.character = character;
-                state.myCharacter = character;
                 saveGame(state.roomId, state.gameData);
                 renderMyCharacter(character);
                 $('myCharacterCard').style.display = 'block';
                 updatePlayersGrid();
-                toast('Персонаж создан!', 'success');
+                startTimer(60);
+                toast('Персонаж создан! Откройте характеристики', 'success');
             }
         });
 
-        $('revealBtn').addEventListener('click', () => {
+        $('finishRevealBtn')?.addEventListener('click', () => {
             haptic.success();
             const player = state.gameData.players.find(p => p.id === state.playerId);
             if (player && player.character) {
                 player.character.revealed = true;
                 player.revealed = true;
                 state.gameData.history.push({
-                    action: 'reveal',
+                    action: 'reveal_complete',
                     playerName: player.name,
                     timestamp: Date.now()
                 });
                 saveGame(state.roomId, state.gameData);
-                $('revealBtn').style.display = 'none';
                 updatePlayersGrid();
-                toast('Ваша карточка открыта всем!', 'success');
-            }
-        });
-
-        // Share buttons
-        $('copyLinkBtn').addEventListener('click', () => {
-            const url = window.location.origin + window.location.pathname + '?room=' + state.roomId;
-            navigator.clipboard.writeText(url).then(() => {
-                toast('Ссылка скопирована!', 'success');
-                haptic.success();
-            }).catch(() => {
-                // Fallback для старых браузеров
-                const tmp = document.createElement('input');
-                tmp.value = url;
-                document.body.appendChild(tmp);
-                tmp.select();
-                document.execCommand('copy');
-                document.body.removeChild(tmp);
-                toast('Ссылка скопирована!', 'success');
-            });
-        });
-
-        $('shareTgBtn').addEventListener('click', () => {
-            const url = window.location.origin + window.location.pathname + '?room=' + state.roomId;
-            const text = `🛡️ Присоединяйся к игре БУНКЕР!\nКод комнаты: ${state.roomId}\n\nОткрой ссылку: ${url}`;
-            
-            if (tg && tg.shareUrl) {
-                tg.shareUrl(url, text);
-            } else {
-                // Fallback
-                window.open(`https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(text)}`, '_blank');
+                toast('Готов к голосованию!', 'success');
             }
         });
     };
@@ -1189,7 +1374,7 @@
     const init = () => {
         setupEventListeners();
         
-        // Проверка URL параметров (присоединение по ссылке)
+        // Проверка URL параметров
         const urlParams = new URLSearchParams(window.location.search);
         const roomFromUrl = urlParams.get('room');
         
@@ -1203,9 +1388,15 @@
                     $('confirmJoinBtn').click();
                 }
             }, 500);
+        } else {
+            // Проверка сохранённой сессии
+            if (restoreSession()) {
+                updateUI();
+                toast('Сессия восстановлена', 'success');
+            }
         }
         
-        // Автообновление UI каждые 2 секунды (для синхронизации)
+        // Автообновление
         setInterval(() => {
             if (state.roomId) {
                 const gameData = loadGame(state.roomId);
