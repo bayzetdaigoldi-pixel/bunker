@@ -817,7 +817,8 @@ let state = {
     roomId: null,
     isHost: false,
     unsubscribe: null,
-    isVoting: false  // 🔴 Блокировка двойного голосования
+    isVoting: false,  // 🔴 Блокировка двойного голосования
+    gameData: null    // 🔴 Локальная копия данных игры
 };
 
 // ============================================
@@ -945,7 +946,10 @@ const subscribeToRoom = (roomId) => {
                 resetState();
                 return;
             }
-            updateUI(docSnapshot.data());
+            
+            const gameData = docSnapshot.data();
+            state.gameData = gameData;  // 🔴 Сохраняем локально
+            updateUI(gameData);
         },
         (error) => {
             // 🔴 ОШИБКА: потеря соединения
@@ -1014,6 +1018,7 @@ const resetState = () => {
     state.roomId = null;
     state.playerId = null;
     state.isHost = false;
+    state.gameData = null;  // 🔴 Очищаем
     showScreen('loginScreen');
 };
 
@@ -1032,7 +1037,7 @@ const startGame = async () => {
 
     const bunker = Generators.bunker();
     const disaster = Generators.disaster();
-    
+
     const playersUpdate = {};
     players.forEach(p => {
         playersUpdate[`players.${p.id}.character`] = Generators.character(p.name);
@@ -1045,7 +1050,26 @@ const startGame = async () => {
         ...playersUpdate
     });
 
+    // 🔴 Локальное обновление UI (не ждём подписку)
+    state.gameData = {
+        ...roomData,
+        phase: 'reveal',
+        bunker,
+        disaster,
+        players: { ...roomData.players }
+    };
+    players.forEach(p => {
+        state.gameData.players[p.id] = {
+            ...p,
+            character: Generators.character(p.name)
+        };
+    });
+
     toast('Игра началась! Изучите свои карты', 'info');
+    haptic.success();
+    
+    // Обновляем UI явно
+    updateUI(state.gameData);
 };
 
 const startVote = async () => {
