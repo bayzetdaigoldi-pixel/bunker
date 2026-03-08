@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="theme-color" content="#0a0a0a">
-    <title>🛡️ БУНКЕР — Отладочная версия</title>
+    <title>🛡️ БУНКЕР — Полная версия</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
     <style>
@@ -73,29 +73,13 @@
             justify-content: space-between;
             cursor: pointer;
         }
-        .panel-header::after {
-            content: '▼';
-            font-size: 0.7rem;
-            transition: transform 0.3s;
-        }
-        .panel-header.collapsed::after {
-            transform: rotate(-90deg);
-        }
-        .panel-content {
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-        .panel-content.collapsed {
-            max-height: 0 !important;
-        }
+        .panel-header::after { content: '▼'; font-size: 0.7rem; transition: transform 0.3s; }
+        .panel-header.collapsed::after { transform: rotate(-90deg); }
+        .panel-content { overflow: hidden; transition: max-height 0.3s ease-out; }
+        .panel-content.collapsed { max-height: 0 !important; }
 
         .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-        .info-item {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px;
-            border-radius: 6px;
-            font-size: 0.7rem;
-        }
+        .info-item { background: rgba(0, 0, 0, 0.3); padding: 8px; border-radius: 6px; font-size: 0.7rem; }
         .info-label { color: var(--text-muted); text-transform: uppercase; font-size: 0.6rem; }
         .info-value { color: var(--text); font-weight: 500; margin-top: 2px; font-size: 0.75rem; }
 
@@ -162,20 +146,10 @@
             border-radius: 6px;
             border-left: 2px solid var(--primary);
         }
-        .stat-label {
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            min-width: 90px;
-        }
+        .stat-label { font-size: 0.65rem; text-transform: uppercase; color: var(--text-muted); min-width: 90px; }
         .stat-value { font-size: 0.8rem; color: var(--text); font-weight: 500; }
 
-        .players-section {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-        }
+        .players-section { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
         .players-list { display: flex; flex-direction: column; gap: 6px; }
         .player-row {
             display: flex;
@@ -187,156 +161,38 @@
             font-size: 0.8rem;
         }
         .player-row.is-you { border-left: 2px solid var(--success); }
-        .player-status {
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            background: rgba(255, 255, 255, 0.1);
-        }
+        .player-status { font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: rgba(255, 255, 255, 0.1); }
         .player-status.ready { background: rgba(0, 255, 136, 0.2); color: var(--success); }
         .player-status.waiting { background: rgba(136, 136, 136, 0.2); color: var(--text-muted); }
         .player-status.accepted { background: rgba(0, 255, 136, 0.3); color: var(--success); font-weight: 600; }
         .player-status.rejected { background: rgba(255, 71, 87, 0.2); color: var(--danger); }
 
-        .vote-section {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 12px;
-        }
-        .vote-player {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 8px;
-        }
-        .vote-player-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
+        .vote-section { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+        .vote-player { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
+        .vote-player-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
         .vote-player-name { font-weight: 600; font-size: 0.8rem; }
         .vote-player-profession { font-size: 0.65rem; color: var(--primary); }
         .vote-buttons { display: flex; gap: 6px; }
-        .vote-btn {
-            flex: 1;
-            padding: 10px;
-            font-size: 0.7rem;
-            border-radius: 6px;
-            border: 2px solid transparent;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s;
-        }
-        .vote-btn-yes {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: rgba(0, 255, 136, 0.3);
-            color: var(--success);
-        }
-        .vote-btn-yes.active {
-            background: var(--success);
-            color: #000;
-            border-color: var(--success);
-        }
-        .vote-btn-no {
-            background: rgba(255, 71, 87, 0.1);
-            border-color: rgba(255, 71, 87, 0.3);
-            color: var(--danger);
-        }
-        .vote-btn-no.active {
-            background: var(--danger);
-            color: #fff;
-            border-color: var(--danger);
-        }
-        .vote-count {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            margin-top: 6px;
-            padding-top: 6px;
-            border-top: 1px solid var(--border);
-        }
+        .vote-btn { flex: 1; padding: 10px; font-size: 0.7rem; border-radius: 6px; border: 2px solid transparent; cursor: pointer; font-weight: 600; }
+        .vote-btn-yes { background: rgba(0, 255, 136, 0.1); border-color: rgba(0, 255, 136, 0.3); color: var(--success); }
+        .vote-btn-yes.active { background: var(--success); color: #000; border-color: var(--success); }
+        .vote-btn-no { background: rgba(255, 71, 87, 0.1); border-color: rgba(255, 71, 87, 0.3); color: var(--danger); }
+        .vote-btn-no.active { background: var(--danger); color: #fff; border-color: var(--danger); }
+        .vote-count { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-muted); margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border); }
 
-        .room-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 14px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-        }
-        .room-code {
-            font-family: 'Orbitron', monospace;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 3px;
-            color: var(--primary);
-        }
+        .room-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 10px; }
+        .room-code { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; letter-spacing: 3px; color: var(--primary); }
         .room-info { font-size: 0.7rem; color: var(--text-muted); }
 
-        .modal-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(5px);
-            z-index: 100;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(5px); z-index: 100; display: none; align-items: center; justify-content: center; padding: 20px; }
         .modal-overlay.active { display: flex; }
-        .modal {
-            background: var(--bg-card);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 20px;
-            width: 100%;
-            max-width: 320px;
-        }
-        .modal h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            text-align: center;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-        .modal input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 10px;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text);
-            font-size: 0.9rem;
-            text-align: center;
-        }
+        .modal { background: var(--bg-card); border: 2px solid var(--border); border-radius: 12px; padding: 20px; width: 100%; max-width: 320px; }
+        .modal h2 { font-family: 'Orbitron', sans-serif; font-size: 1.1rem; text-align: center; margin-bottom: 15px; color: var(--primary); }
+        .modal input { width: 100%; padding: 12px; margin-bottom: 10px; background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-size: 0.9rem; text-align: center; }
         .modal input:focus { outline: none; border-color: var(--primary); }
 
-        .toast-container {
-            position: fixed;
-            top: 10px;
-            right: 10px;
-            z-index: 200;
-            max-width: 320px;
-        }
-        .toast {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px 14px;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.75rem;
-            animation: slideIn 0.3s ease-out;
-        }
+        .toast-container { position: fixed; top: 10px; right: 10px; z-index: 200; max-width: 320px; }
+        .toast { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; font-size: 0.75rem; animation: slideIn 0.3s ease-out; }
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         .toast.success { border-left: 3px solid var(--success); }
         .toast.error { border-left: 3px solid var(--danger); }
@@ -347,106 +203,31 @@
         .text-center { text-align: center; }
         .mt-2 { margin-top: 10px; }
 
-        .phase-indicator {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin-bottom: 10px;
-        }
-        .phase-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.2);
-            transition: all 0.3s;
-        }
+        .phase-indicator { display: flex; justify-content: center; gap: 6px; margin-bottom: 10px; }
+        .phase-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); transition: all 0.3s; }
         .phase-dot.active { background: var(--primary); box-shadow: 0 0 10px var(--primary); transform: scale(1.2); }
         .phase-dot.done { background: var(--success); }
 
-        .accepted-section {
-            background: rgba(0, 255, 136, 0.05);
-            border: 1px solid var(--success);
-            border-radius: 10px;
-            padding: 12px;
-        }
-        .accepted-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 0.75rem;
-            color: var(--success);
-            margin-bottom: 8px;
-            text-align: center;
-            text-transform: uppercase;
-        }
+        .accepted-section { background: rgba(0, 255, 136, 0.05); border: 1px solid var(--success); border-radius: 10px; padding: 12px; }
+        .accepted-title { font-family: 'Orbitron', sans-serif; font-size: 0.75rem; color: var(--success); margin-bottom: 8px; text-align: center; text-transform: uppercase; }
         .accepted-list { display: flex; flex-wrap: wrap; gap: 6px; }
-        .accepted-badge {
-            background: rgba(0, 255, 136, 0.15);
-            border: 1px solid var(--success);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.7rem;
-        }
+        .accepted-badge { background: rgba(0, 255, 136, 0.15); border: 1px solid var(--success); padding: 4px 10px; border-radius: 4px; font-size: 0.7rem; }
 
-        .vote-progress {
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 6px;
-            padding: 8px 12px;
-            margin-bottom: 10px;
-            font-size: 0.7rem;
-        }
-        .vote-progress-bar {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            margin-top: 6px;
-            overflow: hidden;
-        }
-        .vote-progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--success));
-            border-radius: 3px;
-            transition: width 0.3s;
-        }
+        .vote-progress { background: rgba(0, 0, 0, 0.3); border-radius: 6px; padding: 8px 12px; margin-bottom: 10px; font-size: 0.7rem; }
+        .vote-progress-bar { height: 6px; background: rgba(255, 255, 255, 0.1); border-radius: 3px; margin-top: 6px; overflow: hidden; }
+        .vote-progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--success)); border-radius: 3px; transition: width 0.3s; }
 
-        /* ОТЛАДОЧНАЯ КОНСОЛЬ */
-        .debug-console {
-            background: #000;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 10px;
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.65rem;
-            color: #00ff00;
-            max-height: 150px;
-            overflow-y: auto;
-            margin-top: 10px;
-        }
-        .debug-console div { margin: 2px 0; }
-        .debug-console .error { color: #ff4757; }
-        .debug-console .warn { color: #ffd700; }
-
-        footer {
-            text-align: center;
-            padding: 15px;
-            margin-top: 10px;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-        }
+        footer { text-align: center; padding: 15px; margin-top: 10px; font-size: 0.65rem; color: var(--text-muted); border-top: 1px solid var(--border); }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>БУНКЕР</h1>
-            <div class="subtitle">Отладочная версия</div>
+            <div class="subtitle">Полная версия</div>
         </div>
 
         <div class="toast-container" id="toastContainer"></div>
-
-        <!-- ОТЛАДОЧНАЯ КОНСОЛЬ -->
-        <div class="debug-console" id="debugConsole">
-            <div>🔵 Консоль запущена...</div>
-        </div>
 
         <!-- ЭКРАН ВХОДА -->
         <div id="loginScreen">
@@ -457,12 +238,8 @@
                     <input type="text" id="playerNameInput" placeholder="Как вас называть?" maxlength="20" style="width:100%;padding:12px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:0.9rem;">
                 </div>
                 <div class="btn-group">
-                    <button class="btn btn-primary" id="createRoomBtn">
-                        <span>🏠</span> Создать комнату
-                    </button>
-                    <button class="btn btn-secondary" id="showJoinBtn">
-                        <span>🚪</span> Присоединиться
-                    </button>
+                    <button class="btn btn-primary" id="createRoomBtn"><span>🏠</span> Создать комнату</button>
+                    <button class="btn btn-secondary" id="showJoinBtn"><span>🚪</span> Присоединиться</button>
                 </div>
             </div>
             
@@ -477,7 +254,7 @@
             </div>
         </div>
 
-        <!-- ЭКРАН ЛОББИ -->
+        <!-- ЭКРАН ЛОББИ (ЭТАП 1) -->
         <div id="lobbyScreen" class="hidden">
             <div class="room-bar">
                 <span class="room-code" id="lobbyRoomCode">----</span>
@@ -498,11 +275,8 @@
                 </div>
             </div>
 
-            <!-- Кнопка ТОЛЬКО у создателя -->
             <div id="hostControls" class="btn-group hidden">
-                <button class="btn btn-success" id="startGameBtn">
-                    <span>▶️</span> Начать игру
-                </button>
+                <button class="btn btn-success" id="startGameBtn"><span>▶️</span> Начать игру</button>
             </div>
 
             <div id="waitMessage" class="panel text-center hidden">
@@ -510,12 +284,10 @@
                 <div style="font-size:0.75rem;color:var(--primary);margin-top:5px;">Создатель начнёт игру</div>
             </div>
 
-            <button class="btn btn-danger" id="leaveLobbyBtn">
-                <span>🚪</span> Покинуть лобби
-            </button>
+            <button class="btn btn-danger" id="leaveLobbyBtn"><span>🚪</span> Покинуть лобби</button>
         </div>
 
-        <!-- ИГРОВОЙ ЭКРАН -->
+        <!-- ИГРОВОЙ ЭКРАН (ЭТАПЫ 2-6) -->
         <div id="gameScreen" class="hidden">
             <div class="phase-indicator">
                 <div class="phase-dot" id="phase1"></div>
@@ -528,7 +300,7 @@
                 <span class="room-info" id="gamePhaseText">Лобби</span>
             </div>
 
-            <!-- Инфо о бункере и катастрофе (сворачиваемое) -->
+            <!-- Бункер и катастрофа (сворачиваемое) -->
             <div class="panel hidden" id="infoPanel">
                 <div class="panel-header" onclick="togglePanel('infoContent')">🌍 Обстановка</div>
                 <div id="infoContent" class="panel-content">
@@ -555,20 +327,15 @@
                 </div>
             </div>
 
-            <!-- МОЯ КАРТА -->
+            <!-- МОЯ КАРТА (ЭТАП 3: reveal) -->
             <div id="myCardSection" class="my-card hidden">
                 <div class="my-card-title">📋 МОЯ КАРТА</div>
                 <div class="stats-list" id="myCharacterStats"></div>
-                
-                <button class="btn btn-primary mt-2" id="readyBtn">
-                    <span>✅</span> Я изучил карту
-                </button>
-                <div id="readyMessage" class="text-center hidden" style="margin-top:10px;padding:10px;background:rgba(0,255,136,0.1);border-radius:8px;color:var(--success);font-size:0.8rem;">
-                    ✅ Вы готовы к голосованию
-                </div>
+                <button class="btn btn-primary mt-2" id="readyBtn"><span>✅</span> Я изучил карту</button>
+                <div id="readyMessage" class="text-center hidden" style="margin-top:10px;padding:10px;background:rgba(0,255,136,0.1);border-radius:8px;color:var(--success);font-size:0.8rem;">✅ Вы готовы к голосованию</div>
             </div>
 
-            <!-- ГОЛОСОВАНИЕ -->
+            <!-- ГОЛОСОВАНИЕ (ЭТАП 4: vote) -->
             <div id="voteSection" class="vote-section hidden">
                 <div class="panel-header" onclick="togglePanel('voteContent')">🗳️ Голосование</div>
                 <div id="voteContent" class="panel-content">
@@ -599,20 +366,14 @@
 
             <!-- КНОПКИ УПРАВЛЕНИЯ (только хост) -->
             <div id="gameControls" class="btn-group hidden">
-                <button class="btn btn-primary" id="startVoteBtn">
-                    <span>🗳️</span> Начать голосование
-                </button>
-                <button class="btn btn-success" id="finishVoteBtn">
-                    <span>✅</span> Завершить голосование
-                </button>
+                <button class="btn btn-primary" id="startVoteBtn"><span>🗳️</span> Начать голосование</button>
+                <button class="btn btn-success" id="finishVoteBtn"><span>✅</span> Завершить голосование</button>
             </div>
 
-            <button class="btn btn-danger" id="leaveGameBtn">
-                <span>🚪</span> Покинуть игру
-            </button>
+            <button class="btn btn-danger" id="leaveGameBtn"><span>🚪</span> Покинуть игру</button>
         </div>
 
-        <!-- ЭКРАН КОНЦА ИГРЫ -->
+        <!-- ЭКРАН КОНЦА ИГРЫ (ЭТАП 6) -->
         <div id="endScreen" class="hidden">
             <div class="panel">
                 <div class="panel-header">🏆 Игра окончена</div>
@@ -625,12 +386,10 @@
                 <div class="accepted-title">📋 Выжившие</div>
                 <div class="accepted-list" id="endAcceptedList"></div>
             </div>
-            <button class="btn btn-primary mt-2" id="newGameBtn">
-                <span>🔄</span> В меню
-            </button>
+            <button class="btn btn-primary mt-2" id="newGameBtn"><span>🔄</span> В меню</button>
         </div>
 
-        <footer>© 2026 БУНКЕР • Отладочная версия</footer>
+        <footer>© 2026 БУНКЕР • Полная версия</footer>
     </div>
 
     <div class="modal-overlay" id="joinModal">
@@ -665,39 +424,45 @@ const FIREBASE_CONFIG = {
 
 let db;
 let firebaseConnected = false;
-let reconnectAttempts = 0;
-const MAX_RECONNECT_ATTEMPTS = 3;
+
+try {
+    const app = initializeApp(FIREBASE_CONFIG);
+    db = getFirestore(app);
+    firebaseConnected = true;
+    console.log('✅ Firebase подключён');
+} catch (e) {
+    console.error('❌ Ошибка Firebase:', e);
+}
 
 // ============================================
-// ОТЛАДОЧНАЯ КОНСОЛЬ
+// TELEGRAM WEBAPP (БЕЗОПАСНАЯ ОБЁРТКА)
 // ============================================
-const debugLog = (message, type = 'info') => {
-    const consoleEl = $('debugConsole');
-    const line = document.createElement('div');
-    const timestamp = new Date().toLocaleTimeString();
+
+// Проверка: запущено ли в Telegram
+const isTelegram = window.Telegram && window.Telegram.WebApp;
+
+// Безопасное получение WebApp
+const tg = isTelegram ? window.Telegram.WebApp : null;
+
+// Проверка версии Telegram (HapticFeedback доступен с версии 6.1+)
+const tgVersion = tg?.version ? parseFloat(tg.version) : 0;
+const supportsHaptic = tgVersion >= 6.1;
+
+// Инициализация ТОЛЬКО если в Telegram
+if (tg) {
+    console.log('✅ Telegram WebApp detected');
+    console.log(`📱 Telegram version: ${tg.version || 'unknown'}`);
+    console.log(`🔔 HapticFeedback: ${supportsHaptic ? '✅ supported' : '❌ NOT supported (need 6.1+)'}`);
     
-    if (type === 'error') {
-        line.className = 'error';
-        line.textContent = `[${timestamp}] ❌ ${message}`;
-    } else if (type === 'warn') {
-        line.className = 'warn';
-        line.textContent = `[${timestamp}] ⚠️ ${message}`;
-    } else {
-        line.textContent = `[${timestamp}] 🔵 ${message}`;
+    try {
+        tg.expand();
+        tg.ready();
+    } catch (e) {
+        console.warn('⚠️ Telegram init error:', e);
     }
-    
-    consoleEl.appendChild(line);
-    consoleEl.scrollTop = consoleEl.scrollHeight;
-    
-    // Также в настоящую консоль
-    if (type === 'error') {
-        console.error(message);
-    } else if (type === 'warn') {
-        console.warn(message);
-    } else {
-        console.log(message);
-    }
-};
+} else {
+    console.log('ℹ️ Running in browser (not Telegram)');
+}
 
 // ============================================
 // УТИЛИТЫ
@@ -716,37 +481,35 @@ const generateRoomId = () => {
 
 const normalizeRoomCode = (code) => {
     if (!code) return '';
-    return code.toUpperCase().replace(/[\s\-\.\_]/g, '')
-        .replace(/O/g, '0').replace(/I/g, '1').replace(/L/g, '1');
+    return code.toUpperCase().replace(/[\s\-\.\_]/g, '').replace(/O/g, '0').replace(/I/g, '1').replace(/L/g, '1');
 };
 
 const formatRoomCode = (code) => {
     if (!code) return '';
     const normalized = normalizeRoomCode(code);
-    if (normalized.length >= 6) {
-        return normalized.slice(0, 3) + '-' + normalized.slice(3, 6);
-    }
+    if (normalized.length >= 6) return normalized.slice(0, 3) + '-' + normalized.slice(3, 6);
     return normalized;
 };
 
+// 🔴 БЕЗОПАСНЫЙ HAPTIC (с проверкой версии Telegram!)
 const haptic = {
-    success: () => {
-        if (tg.HapticFeedback) {
+    success: () => { 
+        if (supportsHaptic && tg?.HapticFeedback) {
             try { tg.HapticFeedback.notificationOccurred('success'); } catch(e) {}
         }
     },
-    error: () => {
-        if (tg.HapticFeedback) {
+    error: () => { 
+        if (supportsHaptic && tg?.HapticFeedback) {
             try { tg.HapticFeedback.notificationOccurred('error'); } catch(e) {}
         }
     },
-    impact: (type = 'medium') => {
-        if (tg.HapticFeedback) {
+    impact: (type = 'medium') => { 
+        if (supportsHaptic && tg?.HapticFeedback) {
             try { tg.HapticFeedback.impactOccurred(type); } catch(e) {}
         }
     },
-    selection: () => {
-        if (tg.HapticFeedback) {
+    selection: () => { 
+        if (supportsHaptic && tg?.HapticFeedback) {
             try { tg.HapticFeedback.selectionChanged(); } catch(e) {}
         }
     }
@@ -759,14 +522,10 @@ const toast = (message, type = 'info') => {
     el.innerHTML = `<span>${type === 'error' ? '❌' : type === 'success' ? '✅' : type === 'warning' ? '⚠️' : 'ℹ️'}</span><span>${message}</span>`;
     container.appendChild(el);
     setTimeout(() => el.remove(), 4000);
-    debugLog(`Toast: ${message}`, type === 'error' ? 'error' : type === 'warning' ? 'warn' : 'info');
 };
 
 const showScreen = (screenId) => {
-    debugLog(`showScreen: ${screenId}`);
-    ['loginScreen', 'lobbyScreen', 'gameScreen', 'endScreen'].forEach(id => {
-        $(id).classList.add('hidden');
-    });
+    ['loginScreen', 'lobbyScreen', 'gameScreen', 'endScreen'].forEach(id => $(id).classList.add('hidden'));
     $(screenId).classList.remove('hidden');
 };
 
@@ -834,80 +593,50 @@ let state = {
     isHost: false,
     unsubscribe: null,
     isVoting: false,
-    isStartingGame: false  // 🔴 Блокировка кнопки "Начать игру"
+    isStartingGame: false
 };
-
-// ============================================
-// ИНИЦИАЛИЗАЦИЯ FIREBASE
-// ============================================
-debugLog('=== ИНИЦИАЛИЗАЦИЯ FIREBASE ===');
-
-try {
-    const app = initializeApp(FIREBASE_CONFIG);
-    db = getFirestore(app);
-    firebaseConnected = true;
-    debugLog('✅ Firebase подключён успешно', 'success');
-    debugLog(`Project ID: ${FIREBASE_CONFIG.projectId}`);
-} catch (e) {
-    debugLog(`❌ Ошибка Firebase: ${e.message}`, 'error');
-    firebaseConnected = false;
-}
-
-const tg = window.Telegram.WebApp;
-tg.expand();
-tg.ready();
-
-debugLog(`Telegram WebApp version: ${tg.version || 'unknown'}`);
 
 // ============================================
 // FIREBASE ФУНКЦИИ
 // ============================================
 
 const createRoom = async () => {
-    debugLog('=== createRoom: ВЫЗВАНА ===');
+    if (!firebaseConnected) { toast('Firebase не подключён!', 'error'); return; }
     
-    if (!firebaseConnected) {
-        debugLog('❌ createRoom: Firebase не подключён', 'error');
-        toast('Firebase не подключён!', 'error');
-        return;
-    }
-    
+    // Очистка предыдущего состояния
+    if (state.unsubscribe) { state.unsubscribe(); state.unsubscribe = null; }
+    state.gameData = null;
+    state.roomId = null;
+    state.playerId = null;
+    state.isHost = false;
+
     const roomId = generateRoomId();
-    debugLog(`🔵 createRoom: сгенерирован roomId = ${roomId}`);
-    
     let name = tg.initDataUnsafe?.user?.username || $('playerNameInput')?.value.trim() || 'Игрок ' + Math.floor(Math.random() * 1000);
     name = name.slice(0, 20);
-    
-    if (name.length < 2) {
-        debugLog('❌ createRoom: имя слишком короткое', 'error');
-        toast('Имя должно быть от 2 символов', 'error');
-        return;
-    }
-    
+    if (name.length < 2) { toast('Имя должно быть от 2 символов', 'error'); return; }
+
+    // Проверка на старый документ
+    try {
+        const existingDoc = await getDoc(doc(db, 'rooms', roomId));
+        if (existingDoc.exists()) {
+            console.log('⚠️ Найден старый документ, удаляем...');
+            await deleteDoc(doc(db, 'rooms', roomId));
+        }
+    } catch (e) { console.warn('Ошибка проверки:', e); }
+
     state.playerId = 'p_' + Date.now();
     state.playerName = name;
     state.roomId = roomId;
     state.isHost = true;
-    
-    debugLog(`🔵 createRoom: playerId = ${state.playerId}`);
-    debugLog(`🔵 createRoom: playerName = ${state.playerName}`);
-    debugLog(`🔵 createRoom: isHost = ${state.isHost}`);
 
     const roomData = {
         roomId,
         hostId: state.playerId,
-        phase: 'lobby',
+        phase: 'lobby',  // 🔴 ЭТАП 1: ЛОББИ
         bunker: null,
         disaster: null,
         players: {
-            [state.playerId]: {
-                id: state.playerId,
-                name,
-                character: null,
-                ready: false,
-                accepted: null,
-                votes: {}
-            }
+            [state.playerId]: { id: state.playerId, name, character: null, ready: false, accepted: null, votes: {} }
         },
         votingStarted: false,
         votingFinished: false,
@@ -915,210 +644,104 @@ const createRoom = async () => {
     };
 
     try {
-        debugLog('🔵 createRoom: вызов setDoc...');
         await setDoc(doc(db, 'rooms', roomId), roomData);
-        debugLog('✅ createRoom: документ создан в Firebase', 'success');
-        
-        // 🔴 ВАЖНО: Инициализируем state.gameData сразу
         state.gameData = roomData;
-        debugLog('🔵 createRoom: state.gameData инициализирован');
-        
-        debugLog('🔵 createRoom: вызов subscribeToRoom...');
         subscribeToRoom(roomId);
-        
         showScreen('lobbyScreen');
         toast(`Комната ${formatRoomCode(roomId)} создана!`, 'success');
         haptic.success();
     } catch (e) {
-        debugLog(`❌ createRoom: ошибка ${e.message}`, 'error');
+        console.error('Ошибка:', e);
         toast('Ошибка создания комнаты', 'error');
     }
 };
 
 const joinRoom = async (roomId, name) => {
-    debugLog(`=== joinRoom: ВЫЗВАНА, roomId = ${roomId} ===`);
-    
-    if (!firebaseConnected) {
-        debugLog('❌ joinRoom: Firebase не подключён', 'error');
-        toast('Firebase не подключён!', 'error');
-        return false;
-    }
-
+    if (!firebaseConnected) { toast('Firebase не подключён!', 'error'); return false; }
     roomId = normalizeRoomCode(roomId);
-    
-    if (roomId.length < 6) {
-        debugLog('❌ joinRoom: неверный формат кода', 'error');
-        toast('Неверный формат кода', 'error');
-        return false;
-    }
-    
+    if (roomId.length < 6) { toast('Неверный формат кода', 'error'); return false; }
     name = name.slice(0, 20);
-    if (name.length < 2) {
-        toast('Имя должно быть от 2 символов', 'error');
-        return false;
-    }
+    if (name.length < 2) { toast('Имя должно быть от 2 символов', 'error'); return false; }
 
     try {
-        debugLog(`🔵 joinRoom: getDoc rooms/${roomId}`);
         const roomSnap = await getDoc(doc(db, 'rooms', roomId));
-        
-        if (!roomSnap.exists()) {
-            debugLog('❌ joinRoom: комната не найдена', 'error');
-            toast('Комната не найдена!', 'error');
-            return false;
-        }
-
+        if (!roomSnap.exists()) { toast('Комната не найдена!', 'error'); return false; }
         const roomData = roomSnap.data();
-        debugLog(`🔵 joinRoom: комната найдена, phase = ${roomData.phase}`);
-        
-        if (roomData.phase !== 'lobby') {
-            toast('Игра уже началась!', 'error');
-            return false;
-        }
+        if (roomData.phase !== 'lobby') { toast('Игра уже началась!', 'error'); return false; }
 
         state.playerId = 'p_' + Date.now();
         state.playerName = name;
         state.roomId = roomId;
         state.isHost = false;
 
-        debugLog(`🔵 joinRoom: добавляем игрока ${state.playerId}`);
-        
         await updateDoc(doc(db, 'rooms', roomId), {
-            [`players.${state.playerId}`]: {
-                id: state.playerId,
-                name,
-                character: null,
-                ready: false,
-                accepted: null,
-                votes: {}
-            },
+            [`players.${state.playerId}`]: { id: state.playerId, name, character: null, ready: false, accepted: null, votes: {} },
             lastUpdate: Date.now()
         });
 
-        debugLog('✅ joinRoom: присоединился успешно', 'success');
         subscribeToRoom(roomId);
         showScreen('lobbyScreen');
         toast(`Присоединился к ${formatRoomCode(roomId)}!`, 'success');
         return true;
     } catch (e) {
-        debugLog(`❌ joinRoom: ошибка ${e.message}`, 'error');
+        console.error('Ошибка:', e);
         toast('Ошибка присоединения', 'error');
         return false;
     }
 };
 
 const subscribeToRoom = (roomId) => {
-    debugLog(`=== subscribeToRoom: ВЫЗВАНА, roomId = ${roomId} ===`);
-    
-    if (state.unsubscribe) {
-        debugLog('🔵 subscribeToRoom: отписываемся от старой подписки');
-        state.unsubscribe();
-    }
-
+    if (state.unsubscribe) state.unsubscribe();
     state.unsubscribe = onSnapshot(doc(db, 'rooms', roomId), 
         (docSnapshot) => {
-            debugLog('🔵 onSnapshot: получены данные', 'success');
-            reconnectAttempts = 0;
-            
-            if (!docSnapshot.exists()) {
-                debugLog('❌ onSnapshot: комната удалена', 'error');
-                toast('Комната удалена!', 'error');
-                resetState();
-                return;
-            }
-            
-            const gameData = docSnapshot.data();
-            debugLog(`🔵 onSnapshot: phase = ${gameData.phase}`);
-            debugLog(`🔵 onSnapshot: players = ${Object.keys(gameData.players || {}).length}`);
-            debugLog(`🔵 onSnapshot: hostId = ${gameData.hostId}`);
-            
-            state.gameData = gameData;
-            updateUI(gameData);
+            if (!docSnapshot.exists()) { toast('Комната удалена!', 'error'); resetState(); return; }
+            state.gameData = docSnapshot.data();
+            updateUI(state.gameData);
         },
         (error) => {
-            debugLog(`❌ onSnapshot: ошибка ${error.code} - ${error.message}`, 'error');
-            
-            if (error.code === 'unavailable' || error.code === 'network-error') {
-                toast('⚠️ Нет соединения с сервером', 'error');
-                
-                if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
-                    reconnectAttempts++;
-                    debugLog(`🔵 Попытка переподключения ${reconnectAttempts}/${MAX_RECONNECT_ATTEMPTS}`);
-                    setTimeout(() => subscribeToRoom(roomId), 2000 * reconnectAttempts);
-                }
-            } else {
-                toast('Ошибка соединения', 'error');
-            }
+            console.error('Ошибка подписки:', error);
+            if (error.code === 'unavailable') toast('⚠️ Нет соединения', 'error');
         }
     );
 };
 
 const updateRoom = async (updates) => {
-    if (!state.roomId || !db) {
-        debugLog('❌ updateRoom: нет roomId или db', 'error');
-        return;
-    }
+    if (!state.roomId || !db) return;
     try {
-        debugLog(`🔵 updateRoom: отправляем`, updates);
-        await updateDoc(doc(db, 'rooms', state.roomId), {
-            ...updates,
-            lastUpdate: Date.now()
-        });
-        debugLog('✅ updateRoom: успешно', 'success');
-    } catch (e) {
-        debugLog(`❌ updateRoom: ошибка ${e.message}`, 'error');
-    }
+        await updateDoc(doc(db, 'rooms', state.roomId), { ...updates, lastUpdate: Date.now() });
+    } catch (e) { console.error('Ошибка обновления:', e); }
 };
 
 const leaveRoom = async () => {
-    debugLog('=== leaveRoom: ВЫЗВАНА ===');
-    
-    if (!state.roomId || !db) { 
-        resetState(); 
-        return; 
-    }
-
+    if (!state.roomId || !db) { resetState(); return; }
     try {
         const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
         if (roomSnap.exists()) {
             const roomData = roomSnap.data();
-
+            const otherPlayers = Object.values(roomData.players || {}).filter(p => p && p.id !== state.playerId);
             if (state.isHost) {
-                const otherPlayers = Object.values(roomData.players || {}).filter(p => p && p.id !== state.playerId);
                 if (otherPlayers.length > 0) {
-                    await updateDoc(doc(db, 'rooms', state.roomId), {
-                        hostId: otherPlayers[0].id,
-                        [`players.${state.playerId}`]: null
-                    });
+                    await updateDoc(doc(db, 'rooms', state.roomId), { hostId: otherPlayers[0].id, [`players.${state.playerId}`]: null });
                 } else {
                     await deleteDoc(doc(db, 'rooms', state.roomId));
                 }
             } else {
-                await updateDoc(doc(db, 'rooms', state.roomId), {
-                    [`players.${state.playerId}`]: null
-                });
+                await updateDoc(doc(db, 'rooms', state.roomId), { [`players.${state.playerId}`]: null });
             }
         }
-    } catch (e) {
-        debugLog(`❌ leaveRoom: ошибка ${e.message}`, 'error');
-        toast('Выход из комнаты (ошибка)', 'warning');
-    }
-
+    } catch (e) { console.error('Ошибка:', e); }
     resetState();
     toast('Вы покинули комнату', 'info');
 };
 
 const resetState = () => {
-    debugLog('=== resetState: ВЫЗВАНА ===');
-    if (state.unsubscribe) {
-        state.unsubscribe();
-        state.unsubscribe = null;
-    }
+    if (state.unsubscribe) { state.unsubscribe(); state.unsubscribe = null; }
     state.roomId = null;
     state.playerId = null;
     state.isHost = false;
     state.gameData = null;
     state.isStartingGame = false;
+    state.isVoting = false;
     showScreen('loginScreen');
 };
 
@@ -1126,207 +749,99 @@ const resetState = () => {
 // ИГРОВАЯ ЛОГИКА
 // ============================================
 
+// ЭТАП 2: СТАРТ ИГРЫ
 const startGame = async () => {
-    debugLog('========================================');
-    debugLog('=== startGame: ВЫЗВАНА ===');
-    debugLog('========================================');
-    
-    // 🔴 Блокировка повторного нажатия
-    if (state.isStartingGame) {
-        debugLog('❌ startGame: уже запускается (isStartingGame = true)', 'warn');
-        return;
-    }
-    
-    // Проверка 1: Firebase
-    if (!firebaseConnected) {
-        debugLog('❌ ПРОВЕРКА 1 FAILED: Firebase не подключён', 'error');
-        toast('Firebase не подключён!', 'error');
-        return;
-    }
-    debugLog('✅ ПРОВЕРКА 1: Firebase подключён');
-    
-    // Проверка 2: roomId
-    if (!state.roomId) {
-        debugLog('❌ ПРОВЕРКА 2 FAILED: roomId не установлен', 'error');
-        toast('Ошибка: нет комнаты', 'error');
-        return;
-    }
-    debugLog(`✅ ПРОВЕРКА 2: roomId = ${state.roomId}`);
-    
-    // Проверка 3: только хост
-    if (!state.isHost) {
-        debugLog('❌ ПРОВЕРКА 3 FAILED: игрок не хост', 'error');
-        toast('Только создатель может начать игру', 'error');
-        return;
-    }
-    debugLog('✅ ПРОВЕРКА 3: игрок является хостом');
-    
-    // 🔴 Блокируем кнопку
+    if (state.isStartingGame) return;
+    if (!firebaseConnected) { toast('Firebase не подключён!', 'error'); return; }
+    if (!state.roomId || !state.isHost) { toast('Ошибка', 'error'); return; }
+
     state.isStartingGame = true;
     const btn = $('startGameBtn');
-    const originalText = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '<span>⏳</span> Запуск...';
-    debugLog('🔵 startGame: кнопка заблокирована');
-    
+
     try {
-        // Проверка 4: документ существует
-        debugLog(`🔵 startGame: getDoc rooms/${state.roomId}`);
         const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
-        
-        if (!roomSnap.exists()) {
-            debugLog('❌ ПРОВЕРКА 4 FAILED: комната не найдена в Firebase', 'error');
-            toast('Комната не найдена!', 'error');
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-            state.isStartingGame = false;
-            return;
-        }
-        debugLog('✅ ПРОВЕРКА 4: документ существует');
-        
+        if (!roomSnap.exists()) { toast('Комната не найдена!', 'error'); return; }
+
         const roomData = roomSnap.data();
         const players = Object.values(roomData.players || {}).filter(p => p);
-        
-        debugLog(`🔵 startGame: players.count = ${players.length}`);
-        debugLog(`🔵 startGame: players.names = ${players.map(p => p.name).join(', ')}`);
-        
-        // Проверка 5: минимум 2 игрока
-        if (players.length < 2) {
-            debugLog('❌ ПРОВЕРКА 5 FAILED: игроков меньше 2', 'error');
-            toast('Нужно минимум 2 игрока!', 'error');
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-            state.isStartingGame = false;
-            return;
-        }
-        debugLog('✅ ПРОВЕРКА 5: игроков достаточно');
-        
-        // Проверка 6: фаза lobby
-        if (roomData.phase !== 'lobby') {
-            debugLog(`❌ ПРОВЕРКА 6 FAILED: фаза = ${roomData.phase}, а не lobby`, 'error');
-            toast('Игра уже началась!', 'error');
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-            state.isStartingGame = false;
-            return;
-        }
-        debugLog('✅ ПРОВЕРКА 6: фаза = lobby');
-        
-        // Генерация данных
+
+        if (players.length < 2) { toast('Нужно минимум 2 игрока!', 'error'); return; }
+        if (roomData.phase !== 'lobby') { toast('Игра уже началась!', 'error'); return; }
+
+        // Генерация бункера и катастрофы
         const bunker = Generators.bunker();
         const disaster = Generators.disaster();
-        
-        debugLog(`🔵 startGame: bunker = ${JSON.stringify(bunker)}`);
-        debugLog(`🔵 startGame: disaster = ${JSON.stringify(disaster)}`);
-        
-        // Генерация карт
+
+        // Генерация карт всем игрокам
         const playersUpdate = {};
         players.forEach(p => {
-            const character = Generators.character(p.name);
-            playersUpdate[`players.${p.id}.character`] = character;
-            debugLog(`🔵 startGame: карта для ${p.name} = ${character.profession}`);
+            playersUpdate[`players.${p.id}.character`] = Generators.character(p.name);
         });
-        
-        // ОТПРАВКА В FIREBASE
-        debugLog('🔵 startGame: ОТПРАВКА В FIREBASE...');
-        
+
+        // 🔴 ПЕРЕХОД К ЭТАПУ 3: REVEAL
         await updateRoom({
             phase: 'reveal',
             bunker,
             disaster,
             ...playersUpdate
         });
-        
-        debugLog('✅ startGame: updateRoom завершён успешно', 'success');
-        debugLog('🔵 startGame: НЕ обновляем UI локально - ждём onSnapshot');
-        
-        // 🔴 ВАЖНО: НЕ обновляем UI локально!
-        // onSnapshot получит обновление и вызовет updateUI
-        
+
         toast('Игра началась! Изучите свои карты', 'info');
         haptic.success();
-        
     } catch (e) {
-        debugLog(`❌ startGame: КРИТИЧЕСКАЯ ОШИБКА ${e.message}`, 'error');
-        debugLog(`❌ Stack: ${e.stack}`);
+        console.error('Ошибка:', e);
         toast('Ошибка: ' + e.message, 'error');
     } finally {
-        // Разблокируем кнопку (но UI обновится через onSnapshot)
         btn.disabled = false;
-        btn.innerHTML = originalText;
+        btn.innerHTML = '<span>▶️</span> Начать игру';
         state.isStartingGame = false;
-        debugLog('🔵 startGame: кнопка разблокирована');
     }
 };
 
+// ЭТАП 3: Я ИЗУЧИЛ КАРТУ
 const setReady = async () => {
-    debugLog('🔵 setReady: вызвана');
-    
-    await updateRoom({
-        [`players.${state.playerId}.ready`]: true
-    });
-    
+    await updateRoom({ [`players.${state.playerId}.ready`]: true });
     toast('Вы готовы к голосованию', 'success');
     haptic.success();
 };
 
+// ЭТАП 4: НАЧАТЬ ГОЛОСОВАНИЕ
 const startVote = async () => {
-    debugLog('🔵 startVote: вызвана');
-    
     const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
     const roomData = roomSnap.data();
-    
-    if (roomData.votingStarted) {
-        toast('Голосование уже началось!', 'warning');
-        return;
-    }
-    
+    if (roomData.votingStarted) { toast('Голосование уже началось!', 'warning'); return; }
+
     const players = Object.values(roomData.players || {}).filter(p => p);
-    const allReady = players.every(p => p.ready);
-    
-    if (!allReady) {
-        toast('Не все игроки изучили карты!', 'warning');
-        return;
-    }
-    
-    await updateRoom({
-        phase: 'vote',
-        votingStarted: true
-    });
-    
+    if (!players.every(p => p.ready)) { toast('Не все игроки изучили карты!', 'warning'); return; }
+
+    await updateRoom({ phase: 'vote', votingStarted: true });
     toast('Голосование началось!', 'success');
     haptic.success();
 };
 
+// ЭТАП 5: ЗАВЕРШИТЬ ГОЛОСОВАНИЕ
 const finishVote = async () => {
-    debugLog('🔵 finishVote: вызвана');
-    
     const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
     const roomData = roomSnap.data();
     const players = Object.values(roomData.players || {}).filter(p => p);
     const bunkerSlots = roomData.bunker?.slots || 5;
-    
+
     const totalVotesNeeded = players.length * (players.length - 1);
     let currentVotes = 0;
-    players.forEach(p => {
-        currentVotes += Object.keys(p.votes || {}).length;
-    });
-    
+    players.forEach(p => { currentVotes += Object.keys(p.votes || {}).length; });
+
     if (currentVotes < totalVotesNeeded) {
         const remaining = totalVotesNeeded - currentVotes;
-        const confirm = window.confirm(
-            `⚠️ Не все проголосовали!\n\n` +
-            `Осталось голосов: ${remaining}\n\n` +
-            `Вы уверены что хотите завершить?`
-        );
-        if (!confirm) return;
+        if (!confirm(`⚠️ Не все проголосовали! Осталось: ${remaining}\nЗавершить?`)) return;
     }
 
+    // Подсчёт голосов
     const results = players.map(p => {
         const yesVotes = Object.values(p.votes || {}).filter(v => v === 'yes').length;
         const noVotes = Object.values(p.votes || {}).filter(v => v === 'no').length;
-        const accepted = yesVotes > noVotes;
-        return { id: p.id, name: p.name, yes: yesVotes, no: noVotes, accepted };
+        return { id: p.id, name: p.name, yes: yesVotes, no: noVotes, accepted: yesVotes > noVotes };
     });
 
     results.sort((a, b) => {
@@ -1334,48 +849,31 @@ const finishVote = async () => {
         return b.yes - a.yes;
     });
 
+    // Применяем результаты с учётом лимита мест
     const updates = {};
     let acceptedCount = 0;
-
     results.forEach(r => {
         const willAccept = acceptedCount < bunkerSlots && r.accepted;
         updates[`players.${r.id}.accepted`] = willAccept;
         if (willAccept) acceptedCount++;
     });
-    
+
     toast('Голосование завершено!', 'success');
     haptic.success();
-
-    await updateRoom({
-        ...updates,
-        votingFinished: true,
-        phase: 'ended'
-    });
+    await updateRoom({ ...updates, votingFinished: true, phase: 'ended' });
 };
 
+// ГОЛОСОВАНИЕ ЗА ИГРОКА
 const voteForPlayer = async (targetId, voteType) => {
-    debugLog(`🔵 voteForPlayer: ${targetId}, ${voteType}`);
-    
-    if (targetId === state.playerId) {
-        toast('Нельзя голосовать за себя!', 'error');
-        return;
-    }
-    
-    if (state.isVoting) {
-        debugLog('🔵 voteForPlayer: debounce');
-        return;
-    }
+    if (targetId === state.playerId) { toast('Нельзя голосовать за себя!', 'error'); return; }
+    if (state.isVoting) return;
     state.isVoting = true;
     setTimeout(() => { state.isVoting = false; }, 500);
-    
+
     const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
     const roomData = roomSnap.data();
     const targetPlayer = roomData.players[targetId];
-
-    if (!targetPlayer) {
-        toast('Игрок не найден', 'error');
-        return;
-    }
+    if (!targetPlayer) return;
 
     const currentVote = targetPlayer.votes?.[state.playerId];
 
@@ -1398,41 +896,38 @@ const voteForPlayer = async (targetId, voteType) => {
 // ============================================
 
 const updateUI = (gameData) => {
+    updateDebugInfo();  // 🔴 Обновляем отладку
+    
     if (!gameData) {
-        debugLog('❌ updateUI: gameData пустой', 'error');
+        console.log('❌ updateUI: gameData пустой');
         return;
     }
-    
-    debugLog(`🔵 updateUI: вызван, phase = ${gameData.phase}`);
 
     const players = Object.values(gameData.players || {}).filter(p => p);
     const myPlayer = players.find(p => p.id === state.playerId);
     const isHost = gameData.hostId === state.playerId;
-    
-    debugLog(`🔵 updateUI: isHost = ${isHost}, myPlayer = ${myPlayer?.name}`);
 
-    // === ЛОББИ ===
+    // === ЭТАП 1: ЛОББИ ===
     if ($('lobbyScreen').classList.contains('hidden') === false) {
         $('lobbyRoomCode').textContent = formatRoomCode(gameData.roomId);
         $('lobbyPlayersCount').textContent = players.length;
-
         $('lobbyPlayersList').innerHTML = players.map(p => `
             <div class="player-row ${p.id === state.playerId ? 'is-you' : ''}">
                 <span>${p.name} ${p.id === state.playerId ? '(Вы)' : ''}</span>
                 ${p.id === gameData.hostId ? '<span class="player-status">👑 Создатель</span>' : ''}
             </div>
         `).join('');
-
         $('hostControls').classList.toggle('hidden', !isHost);
         $('waitMessage').classList.toggle('hidden', isHost);
     }
 
-    // === ИГРА ===
+    // === ЭТАПЫ 2-6: ИГРА ===
     if ($('gameScreen').classList.contains('hidden') === false) {
         $('gameRoomCode').textContent = formatRoomCode(gameData.roomId);
         updatePhaseIndicator(gameData.phase);
-        
-        if (gameData.bunker && gameData.disaster) {
+
+        // Бункер и катастрофа (видны с этапа 3)
+        if (gameData.phase !== 'lobby' && gameData.bunker && gameData.disaster) {
             $('infoPanel').classList.remove('hidden');
             $('bunkerType').textContent = gameData.bunker.type;
             $('bunkerSlots').textContent = `Мест: ${gameData.bunker.slots}`;
@@ -1442,6 +937,7 @@ const updateUI = (gameData) => {
             $('disasterThreats').textContent = gameData.disaster.threat;
         }
 
+        // 🔴 ЭТАП 3: МОЯ КАРТА (вижу ТОЛЬКО свою)
         if (myPlayer?.character) {
             $('myCardSection').classList.remove('hidden');
             $('myCharacterStats').innerHTML = `
@@ -1453,11 +949,11 @@ const updateUI = (gameData) => {
                 <div class="stat-row"><span class="stat-label">Характер:</span><span class="stat-value">${myPlayer.character.personality}</span></div>
                 <div class="stat-row"><span class="stat-label">Пол/Возраст:</span><span class="stat-value">${myPlayer.character.genderAge}</span></div>
             `;
-            
             $('readyBtn').classList.toggle('hidden', myPlayer.ready);
             $('readyMessage').classList.toggle('hidden', !myPlayer.ready);
         }
 
+        // 🔴 ЭТАП 4: ГОЛОСОВАНИЕ (видны ВСЕ карты)
         if (gameData.phase === 'vote' && !gameData.votingFinished) {
             $('voteSection').classList.remove('hidden');
             renderVoting(players, gameData);
@@ -1465,17 +961,14 @@ const updateUI = (gameData) => {
             $('voteSection').classList.add('hidden');
         }
 
+        // Список игроков
         const readyCount = players.filter(p => p.ready).length;
         $('readyProgress').textContent = `${readyCount}/${players.length} готовы`;
-        
         $('gamePlayersList').innerHTML = players.map(p => {
-            let statusClass = 'waiting';
-            let statusText = '⏳ Ждём';
-            
+            let statusClass = 'waiting', statusText = '⏳ Ждём';
             if (p.ready) { statusClass = 'ready'; statusText = '✅ Готов'; }
             if (p.accepted === true) { statusClass = 'accepted'; statusText = '🟢 В бункере'; }
             if (p.accepted === false) { statusClass = 'rejected'; statusText = '❌ Отклонён'; }
-            
             return `
                 <div class="player-row ${p.id === state.playerId ? 'is-you' : ''}">
                     <span>${p.name} ${p.id === state.playerId ? '(Вы)' : ''}</span>
@@ -1484,42 +977,33 @@ const updateUI = (gameData) => {
             `;
         }).join('');
 
+        // Принятые
         const acceptedPlayers = players.filter(p => p.accepted === true);
         if (acceptedPlayers.length > 0) {
             $('acceptedSection').classList.remove('hidden');
-            $('acceptedPlayersList').innerHTML = acceptedPlayers.map(p => 
-                `<span class="accepted-badge">${p.name}</span>`
-            ).join('');
+            $('acceptedPlayersList').innerHTML = acceptedPlayers.map(p => `<span class="accepted-badge">${p.name}</span>`).join('');
         } else {
             $('acceptedSection').classList.add('hidden');
         }
 
+        // Кнопки управления (только хост)
         $('gameControls').classList.toggle('hidden', !isHost);
-        
         if (isHost) {
             const allReady = players.every(p => p.ready);
-            const showStartVote = !gameData.votingStarted && allReady;
-            const showFinishVote = gameData.votingStarted && !gameData.votingFinished;
-            
-            $('startVoteBtn').classList.toggle('hidden', !showStartVote);
-            $('finishVoteBtn').classList.toggle('hidden', !showFinishVote);
+            $('startVoteBtn').classList.toggle('hidden', !(!gameData.votingStarted && allReady));
+            $('finishVoteBtn').classList.toggle('hidden', !(gameData.votingStarted && !gameData.votingFinished));
             $('startVoteBtn').disabled = !allReady;
         }
 
+        // 🔴 ЭТАП 6: КОНЕЦ ИГРЫ
         if (gameData.phase === 'ended' || gameData.votingFinished) {
             showScreen('endScreen');
             const acceptedCount = players.filter(p => p.accepted === true).length;
             const slots = gameData.bunker?.slots || 5;
-            
-            if (acceptedCount <= slots) {
-                $('endMessage').textContent = `🎉 Выжили ${acceptedCount} из ${players.length}!`;
-            } else {
-                $('endMessage').textContent = `⚠️ Мест: ${slots}, выжило: ${acceptedCount}!`;
-            }
-            
-            $('endAcceptedList').innerHTML = acceptedPlayers.map(p => 
-                `<span class="accepted-badge">${p.name}</span>`
-            ).join('');
+            $('endMessage').textContent = acceptedCount <= slots 
+                ? `🎉 Выжили ${acceptedCount} из ${players.length}!` 
+                : `⚠️ Мест: ${slots}, выжило: ${acceptedCount}!`;
+            $('endAcceptedList').innerHTML = acceptedPlayers.map(p => `<span class="accepted-badge">${p.name}</span>`).join('');
         }
     }
 };
@@ -1527,26 +1011,21 @@ const updateUI = (gameData) => {
 const updatePhaseIndicator = (phase) => {
     const phases = ['lobby', 'reveal', 'vote'];
     const currentIndex = phases.indexOf(phase);
-    
     ['phase1', 'phase2', 'phase3'].forEach((id, index) => {
         const dot = $(id);
         dot.classList.remove('active', 'done');
         if (index < currentIndex) dot.classList.add('done');
         if (index === currentIndex) dot.classList.add('active');
     });
-    
     const phaseNames = { lobby: 'Лобби', reveal: 'Карты', vote: 'Голосование' };
     $('gamePhaseText').textContent = phaseNames[phase] || phase;
 };
 
 const renderVoting = (players, gameData) => {
     const container = $('votePlayersList');
-
     const totalVotes = players.length * (players.length - 1);
     let currentVotes = 0;
-    players.forEach(p => {
-        currentVotes += Object.keys(p.votes || {}).length;
-    });
+    players.forEach(p => { currentVotes += Object.keys(p.votes || {}).length; });
 
     $('voteCount').textContent = currentVotes;
     $('voteTotal').textContent = totalVotes;
@@ -1556,7 +1035,6 @@ const renderVoting = (players, gameData) => {
         const myVote = p.votes?.[state.playerId] || null;
         const yesCount = Object.values(p.votes || {}).filter(v => v === 'yes').length;
         const noCount = Object.values(p.votes || {}).filter(v => v === 'no').length;
-        
         const votedByMe = myVote ? (myVote === 'yes' ? '✅' : '❌') : '';
 
         return `
@@ -1566,16 +1044,8 @@ const renderVoting = (players, gameData) => {
                     <span class="vote-player-profession">${p.character?.profession || '?'}</span>
                 </div>
                 <div class="vote-buttons">
-                    <button class="vote-btn vote-btn-yes ${myVote === 'yes' ? 'active' : ''}"
-                            onclick="window.voteForPlayer('${p.id}', 'yes')"
-                            ${p.id === state.playerId ? 'disabled' : ''}>
-                        ✅ ЗА
-                    </button>
-                    <button class="vote-btn vote-btn-no ${myVote === 'no' ? 'active' : ''}"
-                            onclick="window.voteForPlayer('${p.id}', 'no')"
-                            ${p.id === state.playerId ? 'disabled' : ''}>
-                        ❌ ПРОТИВ
-                    </button>
+                    <button class="vote-btn vote-btn-yes ${myVote === 'yes' ? 'active' : ''}" onclick="window.voteForPlayer('${p.id}', 'yes')" ${p.id === state.playerId ? 'disabled' : ''}>✅ ЗА</button>
+                    <button class="vote-btn vote-btn-no ${myVote === 'no' ? 'active' : ''}" onclick="window.voteForPlayer('${p.id}', 'no')" ${p.id === state.playerId ? 'disabled' : ''}>❌ ПРОТИВ</button>
                 </div>
                 <div class="vote-count">
                     <span style="color:var(--success)">✅ ЗА: ${yesCount}</span>
@@ -1590,74 +1060,93 @@ const renderVoting = (players, gameData) => {
 // СОБЫТИЯ
 // ============================================
 const setupEvents = () => {
-    debugLog('🔵 setupEvents: вызван');
-    
-    $('createRoomBtn').onclick = () => { 
-        debugLog('🔵 createRoomBtn: клик');
-        haptic.impact(); 
-        createRoom(); 
-    };
-
-    $('showJoinBtn').onclick = () => {
-        $('joinSection').classList.remove('hidden');
-    };
-    
-    $('cancelJoinBtn').onclick = () => {
-        $('joinSection').classList.add('hidden');
-    };
-
-    $('joinRoomBtn').onclick = () => {
-        const code = normalizeRoomCode($('roomCodeInput').value);
-        const name = $('playerNameInput').value.trim() || 'Игрок';
-        if (code) joinRoom(code, name);
-    };
-
-    $('startGameBtn').onclick = () => { 
-        debugLog('🔵 startGameBtn: КЛИК');
-        haptic.impact(); 
-        startGame(); 
-    };
-    
-    $('leaveLobbyBtn').onclick = () => { 
-        haptic.impact(); 
-        leaveRoom(); 
-    };
-    
-    $('leaveGameBtn').onclick = () => { 
-        haptic.impact(); 
-        leaveRoom(); 
-    };
-    
-    $('readyBtn').onclick = () => { 
-        haptic.success(); 
-        setReady(); 
-    };
-
+    $('createRoomBtn').onclick = () => { haptic.impact(); createRoom(); };
+    $('showJoinBtn').onclick = () => $('joinSection').classList.remove('hidden');
+    $('cancelJoinBtn').onclick = () => $('joinSection').classList.add('hidden');
+    $('joinRoomBtn').onclick = () => { const code = normalizeRoomCode($('roomCodeInput').value); const name = $('playerNameInput').value.trim() || 'Игрок'; if (code) joinRoom(code, name); };
+    $('startGameBtn').onclick = () => { haptic.impact(); startGame(); };
+    $('leaveLobbyBtn').onclick = () => { haptic.impact(); leaveRoom(); };
+    $('leaveGameBtn').onclick = () => { haptic.impact(); leaveRoom(); };
+    $('readyBtn').onclick = () => { haptic.success(); setReady(); };
     $('startVoteBtn').onclick = () => { haptic.impact(); startVote(); };
     $('finishVoteBtn').onclick = () => { haptic.impact(); finishVote(); };
-    
     $('newGameBtn').onclick = () => { haptic.impact(); resetState(); };
-    
-    $('confirmJoinBtn').onclick = () => {
-        const code = normalizeRoomCode($('joinRoomCodeInput').value);
-        const name = $('joinPlayerNameInput').value.trim() || 'Игрок';
-        if (code && joinRoom(code, name)) {
-            $('joinModal').classList.remove('active');
-        }
-    };
-    
+    $('confirmJoinBtn').onclick = () => { const code = normalizeRoomCode($('joinRoomCodeInput').value); const name = $('joinPlayerNameInput').value.trim() || 'Игрок'; if (code && joinRoom(code, name)) $('joinModal').classList.remove('active'); };
     window.voteForPlayer = voteForPlayer;
     window.togglePanel = togglePanel;
 };
 
-// Запуск
 setupEvents();
 
-debugLog('=== ГОТОВО К ИГРЕ ===');
-
-if (!firebaseConnected) {
-    toast('⚠️ Firebase не подключён!', 'warning');
+// Уведомление если не в Telegram
+if (!isTelegram) {
+    console.log('ℹ️ Тестовый режим: браузер (не Telegram)');
+    const browserNotice = document.createElement('div');
+    browserNotice.style.cssText = 'position:fixed;bottom:10px;left:10px;background:rgba(0,0,0,0.8);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:0.7rem;color:var(--text-muted);z-index:9999;';
+    browserNotice.innerHTML = '🌐 Тестовый режим (браузер)';
+    document.body.appendChild(browserNotice);
 }
+
+// 🔴 ОТЛАДОЧНАЯ ИНФОРМАЦИЯ (всегда видна)
+const debugInfo = document.createElement('div');
+debugInfo.style.cssText = 'position:fixed;top:10px;left:10px;background:rgba(0,0,0,0.9);border:1px solid var(--border);border-radius:8px;padding:10px;font-size:0.65rem;color:#00ff00;z-index:9999;min-width:250px;font-family:monospace;';
+debugInfo.innerHTML = `
+    <div style="color:#fff;margin-bottom:5px;">🔍 ОТЛАДКА:</div>
+    <div id="debugRoomId">RoomId: -</div>
+    <div id="debugPhase">Phase: -</div>
+    <div id="debugPlayers">Players: -</div>
+    <div id="debugIsHost">IsHost: -</div>
+    <div id="debugFirebase">Firebase: -</div>
+`;
+document.body.appendChild(debugInfo);
+
+// Обновление отладки
+const updateDebugInfo = () => {
+    if (window.state) {
+        $('debugRoomId').textContent = `RoomId: ${window.state.roomId || '-'}`;
+        $('debugPhase').textContent = `Phase: ${window.state.gameData?.phase || '-'}`;
+        const players = window.state.gameData?.players ? Object.keys(window.state.gameData.players).length : 0;
+        $('debugPlayers').textContent = `Players: ${players}`;
+        $('debugIsHost').textContent = `IsHost: ${window.state.isHost ? '✅' : '❌'}`;
+    }
+    $('debugFirebase').textContent = `Firebase: ${window.firebaseConnected ? '✅' : '❌'}`;
+};
+
+// Делаем state и firebaseConnected глобальными для отладки
+window.state = state;
+window.firebaseConnected = firebaseConnected;
+
+// Обновление отладки
+const updateDebugInfo = () => {
+    if (window.state) {
+        const debugRoomId = $('debugRoomId');
+        const debugPhase = $('debugPhase');
+        const debugPlayers = $('debugPlayers');
+        const debugIsHost = $('debugIsHost');
+        const debugFirebase = $('debugFirebase');
+        
+        if (debugRoomId) debugRoomId.textContent = `RoomId: ${window.state.roomId || '-'}`;
+        if (debugPhase) debugPhase.textContent = `Phase: ${window.state.gameData?.phase || '-'}`;
+        if (debugPlayers) {
+            const players = window.state.gameData?.players ? Object.keys(window.state.gameData.players).length : 0;
+            debugPlayers.textContent = `Players: ${players}`;
+        }
+        if (debugIsHost) debugIsHost.textContent = `IsHost: ${window.state.isHost ? '✅' : '❌'}`;
+        if (debugFirebase) debugFirebase.textContent = `Firebase: ${window.firebaseConnected ? '✅' : '❌'}`;
+    }
+};
+
+// Вызываем updateDebugInfo при каждом обновлении UI
+const _originalUpdateUI = updateUI;
+updateUI = function(gameData) {
+    window.state = state;
+    window.firebaseConnected = firebaseConnected;
+    updateDebugInfo();
+    return _originalUpdateUI(gameData);
+};
+
+// Первичное обновление
+updateDebugInfo();
 </script>
 </body>
 </html>
