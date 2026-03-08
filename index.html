@@ -3,733 +3,327 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>БУНКЕР — для компании</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <title>Бункер (простая версия)</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            font-family: system-ui, -apple-system, sans-serif;
         }
-
-        :root {
-            --primary: #ff6b35;
-            --primary-dark: #cc5520;
-            --bg: #0a0a0a;
-            --bg-card: #1a1a1a;
-            --bg-tile: #242424;
-            --bg-tile-hover: #2a2a2a;
-            --border: #333333;
-            --text: #ffffff;
-            --text-muted: #aaaaaa;
-            --text-hidden: #666666;
-            --success: #4caf50;
-        }
-
         body {
-            background: var(--bg);
-            font-family: 'Inter', sans-serif;
-            color: var(--text);
-            min-height: 100vh;
+            background: #0a0a0a;
+            color: #e0e0e0;
             padding: 16px;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(255, 107, 53, 0.05) 0%, transparent 30%),
-                radial-gradient(circle at 90% 80%, rgba(255, 107, 53, 0.05) 0%, transparent 30%);
+            min-height: 100vh;
         }
-
         .container {
             max-width: 480px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
         }
-
-        /* Шапка */
-        .header {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-            position: relative;
+        h1 {
+            text-align: center;
+            color: #ff6b35;
+            margin-bottom: 20px;
+            font-size: 2rem;
         }
-
-        .header h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.2rem;
-            font-weight: 700;
-            letter-spacing: 4px;
-            background: linear-gradient(135deg, var(--primary), #ff9f4b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 20px rgba(255, 107, 53, 0.3);
-        }
-
-        .subtitle {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
         .counter {
-            position: absolute;
-            right: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(255, 107, 53, 0.1);
-            border: 1px solid var(--primary);
-            border-radius: 20px;
-            padding: 6px 12px;
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            gap: 4px;
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #1a1a1a;
+            border-radius: 30px;
         }
-
-        @media (max-width: 400px) {
-            .header h1 { font-size: 1.8rem; }
-            .counter { position: static; transform: none; margin-top: 8px; }
-        }
-
-        /* Карточка */
         .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
+            background: #1a1a1a;
             border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+            margin-bottom: 20px;
         }
-
-        .character-name {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            color: var(--primary);
+        .name {
             text-align: center;
+            font-size: 1.2rem;
+            color: #ff6b35;
             margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 1px dashed var(--border);
-            word-break: break-word;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
         }
-
-        /* Плитки характеристик */
-        .traits {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-
         .trait {
-            background: var(--bg-tile);
-            border: 1px solid var(--border);
+            background: #242424;
+            border: 1px solid #333;
             border-radius: 12px;
-            padding: 16px;
+            padding: 15px;
+            margin-bottom: 8px;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
         }
-
-        .trait:active {
-            transform: scale(0.99);
-            background: var(--bg-tile-hover);
-        }
-
         .trait.open {
-            background: rgba(255, 107, 53, 0.1);
-            border-color: var(--primary);
-            box-shadow: 0 0 15px rgba(255, 107, 53, 0.2);
+            background: #332211;
+            border-color: #ff6b35;
         }
-
         .trait-left {
             display: flex;
             align-items: center;
             gap: 12px;
-            flex: 1;
         }
-
         .trait-icon {
             font-size: 1.5rem;
-            min-width: 32px;
-            text-align: center;
         }
-
-        .trait-content {
-            flex: 1;
-        }
-
         .trait-label {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 2px;
-        }
-
-        .trait-value {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text);
-            word-break: break-word;
-        }
-
-        .trait-value.hidden {
-            color: var(--text-hidden);
-            font-style: italic;
-        }
-
-        .trait-status {
-            font-size: 1.2rem;
-            min-width: 28px;
-            text-align: center;
-        }
-
-        /* Прогресс */
-        .progress {
-            background: var(--bg-tile);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 20px;
-        }
-
-        .progress-header {
-            display: flex;
-            justify-content: space-between;
             font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
+            color: #999;
         }
-
-        .progress-bar {
-            height: 6px;
-            background: var(--border);
-            border-radius: 3px;
-            overflow: hidden;
+        .trait-value {
+            font-size: 1rem;
         }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), #ff9f4b);
-            border-radius: 3px;
-            transition: width 0.3s ease;
-            width: 0%;
+        .hidden-value {
+            color: #666;
         }
-
-        /* Кнопки */
         .btn {
             width: 100%;
             padding: 16px;
-            font-family: 'Inter', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: var(--bg-tile);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        .btn-primary {
-            background: var(--primary);
+            background: #ff6b35;
             color: white;
             border: none;
-            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
         }
-
-        .btn-primary:active {
-            background: var(--primary-dark);
+        .btn.secondary {
+            background: #242424;
+            color: #ff6b35;
+            border: 1px solid #ff6b35;
         }
-
-        .btn-group {
+        .progress {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .progress-header {
             display: flex;
-            flex-direction: column;
-            gap: 8px;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: #999;
         }
-
-        /* Тосты */
-        .toast-container {
-            position: fixed;
-            top: 16px;
-            right: 16px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            pointer-events: none;
+        .progress-bar {
+            height: 6px;
+            background: #333;
+            border-radius: 3px;
+            overflow: hidden;
         }
-
-        .toast {
-            background: var(--bg-card);
-            border-left: 3px solid var(--primary);
-            border-radius: 8px;
-            padding: 12px 16px;
-            color: var(--text);
-            font-size: 0.85rem;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            animation: slideIn 0.3s ease;
-            max-width: 280px;
-            pointer-events: auto;
+        .progress-fill {
+            height: 100%;
+            background: #ff6b35;
+            width: 0%;
+            transition: width 0.3s;
         }
-
-        .toast.success { border-left-color: #4caf50; }
-        .toast.error { border-left-color: #f44336; }
-
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-
-        /* Экран загрузки */
         .loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 300px;
-            gap: 20px;
-        }
-
-        .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .footer {
             text-align: center;
-            padding: 20px 0;
-            font-size: 0.7rem;
-            color: var(--text-muted);
+            padding: 50px;
+            font-size: 1.2rem;
+        }
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>БУНКЕР</h1>
-            <div class="subtitle">версия для компании</div>
-            <div class="counter" id="counter">
-                <span>📖</span>
-                <span id="counterText">0/8</span>
+        <h1>БУНКЕР</h1>
+        
+        <!-- Экран загрузки -->
+        <div id="loading">
+            <div class="loading">Загрузка...</div>
+        </div>
+        
+        <!-- Игровой экран (изначально скрыт) -->
+        <div id="game" class="hidden">
+            <div class="counter">
+                Открыто: <span id="openedCount">0</span>/8
             </div>
-        </div>
-
-        <div id="loadingScreen" class="loading">
-            <div class="spinner"></div>
-            <div>Загрузка...</div>
-        </div>
-
-        <div id="gameScreen" style="display: none;">
+            
             <div class="card">
-                <div class="character-name" id="characterName">Загрузка...</div>
-                <div class="traits" id="traits"></div>
+                <div class="name" id="characterName">...</div>
+                <div id="traits"></div>
             </div>
-
+            
             <div class="progress">
                 <div class="progress-header">
-                    <span>Прогресс открытия</span>
+                    <span>Прогресс</span>
                     <span id="progressPercent">0%</span>
                 </div>
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
             </div>
-
-            <div class="btn-group">
-                <button class="btn btn-primary" id="newCharacterBtn">
-                    <span>🎲</span> Новый персонаж
-                </button>
-                <button class="btn" id="resetBtn">
-                    <span>🔒</span> Сбросить всё
-                </button>
-            </div>
+            
+            <button class="btn" id="newBtn">🎲 Новый персонаж</button>
+            <button class="btn secondary" id="resetBtn">🔒 Сбросить всё</button>
         </div>
-
-        <div class="footer">© 2026 БУНКЕР • нажимай на карточки</div>
     </div>
 
-    <div class="toast-container" id="toastContainer"></div>
-
     <script>
-        (function() {
-            // ========================================
-            // ДАННЫЕ (полностью из твоего запроса)
-            // ========================================
-            const DATA = {
-                professions: [
-                    "Врач-хирург", "Врач-терапевт", "Фельдшер", "Медсестра/Медбрат", "Ветеринар", "Фармацевт", "Стоматолог",
-                    "Инженер-механик", "Инженер-электрик", "Инженер-строитель", "Инженер-химик", "Инженер-ядерщик", "Сварщик", "Сантехник",
-                    "Автомеханик", "Токарь-фрезеровщик", "Столяр", "Плотник", "Электрик", "Слесарь",
-                    "Офицер", "Солдат-контрактник", "Снайпер", "Разведчик", "Полицейский", "Охранник",
-                    "Агроном", "Фермер", "Животновод", "Шахтёр", "Лесоруб", "Охотник",
-                    "Биолог", "Химик", "Физик", "Микробиолог", "Геолог",
-                    "Кузнец", "Пекарь", "Пивовар", "Портной", "Сапожник",
-                    "Водитель-дальнобойщик", "Машинист", "Лётчик", "Моряк", "Кладовщик",
-                    "Повар", "Психолог", "Связист-радист", "Картограф", "Архитектор"
-                ],
-                health: [
-                    "Абсолютно здоров", "Отличное здоровье", "Крепкое здоровье (плюс иммунитет)",
-                    "Хронический бронхит", "Хронический гастрит", "Язва желудка", "Гипертония", "Гипотония",
-                    "Диабет (инсулинозависимый)", "Диабет (2 тип, таблетки)", "Эпилепсия", "Бронхиальная астма", "Ревматоидный артрит",
-                    "Плохое зрение (носит очки)", "Плохое зрение (линзы)", "Частичная слепота (один глаз)",
-                    "Глухота на одно ухо", "Тугоухость (плохо слышит)", "Хромота (травма)",
-                    "Отсутствие пальцев на руке", "Проблемы с позвоночником (не может носить тяжёлое)",
-                    "Аллергия на пыль/плесень", "Аллергия на укусы насекомых", "Пищевая аллергия (сильная)",
-                    "Аллергия на лекарства (пенициллин)", "Аллергия на шерсть животных",
-                    "Беременность (1 триместр)", "Беременность (2 триместр)", "Беременность (3 триместр)",
-                    "Восстанавливается после тяжёлой болезни"
-                ],
-                mental: [
-                    "Уравновешенный", "Стрессоустойчивый", "Флегматичный",
-                    "Клаустрофобия (паника в замкнутом пространстве)", "Агорафобия (страх открытых пространств)",
-                    "Акрофобия (страх высоты)", "Танатофобия (страх смерти)", "Нозофобия (страх заболеть)",
-                    "Гемофобия (страх крови, обмороки)", "Мизофобия (навязчивое мытьё рук)",
-                    "Скопофобия (страх быть в центре внимания)", "Дентофобия (страх зубной боли)",
-                    "Арахнофобия (пауки)", "Офидиофобия (змеи)", "Киннофобия (собаки)",
-                    "Тревожное расстройство (постоянное беспокойство)", "Панические атаки (внезапные приступы)",
-                    "Депрессия (апатия, нет сил)", "Биполярное расстройство (перепады)",
-                    "ОКР (навязчивые ритуалы)", "ПТСР (кошмары, триггеры)", "СДВГ (неусидчивый, импульсивный)",
-                    "Ипохондрия (ищет болезни)", "Паранойя (всем не доверяет)", "Лунатизм (ходит во сне)"
-                ],
-                character: [
-                    "Лидер (все слушают)", "Ведомый (нуждается в указаниях)", "Харизматичный (все верят)",
-                    "Молчун (мало говорит)", "Общительный (говорит много)", "Замкнутый (тяжело идёт на контакт)",
-                    "Альтруист (помогает всем)", "Эгоист (думает только о себе)", "Циник (никому не верит)",
-                    "Идеалист (верит в лучшее)", "Добрый (никого не обидит)", "Жестокий (может переступить)",
-                    "Оптимист (всё хорошо)", "Пессимист (всё плохо)", "Реалист (смотрит правде в глаза)",
-                    "Вспыльчивый (легко разозлить)", "Спокойный (невозмутим)",
-                    "Ответственный (не подведёт)", "Безответственный (может забыть)", "Трудоголик (работает без отдыха)",
-                    "Ленивый (избегает работы)", "Надёжный (можно довериться)",
-                    "Рациональный (думает логикой)", "Интуитивный (доверяет чутью)", "Аналитик (просчитывает варианты)"
-                ],
-                skills: [
-                    "Разведение костра без спичек", "Ориентирование по звёздам", "Чтение карт", "Поиск воды",
-                    "Очистка воды", "Определение съедобных грибов/растений", "Постановка ловушек на зверя", "Первая медицинская помощь",
-                    "Шитьё и починка одежды", "Столярное дело", "Кузнечное дело (может ковать)",
-                    "Плетение из лозы/верёвок", "Изготовление свечей", "Кожевенное дело", "Гончарное дело",
-                    "Скалолазание", "Бег на длинные дистанции", "Плавание", "Борьба/самооборона", "Йога (гибкость, контроль дыхания)",
-                    "Знание языков (английский, немецкий)", "Шахматы (стратегия)", "Криптография (взлом шифров)",
-                    "Каллиграфия (красивый почерк)", "Скорочтение",
-                    "Кулинария (может готовить из ничего)", "Консервирование/засолка", "Выпечка хлеба",
-                    "Огородничество", "Уход за животными",
-                    "Ремонт электроники", "Работа с радиосвязью", "Паяние", "Ремонт часов", "Работа с бензоинструментом"
-                ],
-                luggage: [
-                    "Аптечка (полная, профессиональная)", "Аптечка (походная, минимум)", "Набор хирургических инструментов",
-                    "Антибиотики (курс)", "Обезболивающие (сильные)", "Противогазы (2 шт)",
-                    "Топор (туристический)", "Нож (охотничий)", "Мачете", "Пистолет (травматический)",
-                    "Пистолет (боевой, 9 мм)", "Охотничье ружьё (двустволка)", "Арбалет/лук (охотничий)",
-                    "Патроны (мало, 20 шт)", "Патроны (много, 100 шт)", "Патроны (очень много, 300 шт)", "Болты для арбалета (20 шт)",
-                    "Мультитул (швейцарский нож)", "Набор отвёрток/ключей", "Молоток/гвоздодёр",
-                    "Ножовка/пила", "Верёвка (50 м, альпинистская)", "Скотч/изолента (много)",
-                    "Консервы мясные (10 банок)", "Консервы рыбные/овощные (15 банок)", "Крупы (мешок, 20 кг)",
-                    "Сухпайки (армейские, 10 шт)", "Вода питьевая (20 л)", "Очиститель воды (таблетки, запас)",
-                    "Палатка (трёхместная)", "Спальник (зимний)", "Тёплая одежда (комплект)",
-                    "Непромокаемый костюм", "Фонарик (динамо-машинка)", "Рация (портативная, 2 шт)",
-                    "Солнечная батарея (складная)",
-                    "Книги (энциклопедия выживания)", "Семена овощей (набор)", "Спички (50 коробков)", "Зажигалки (кремниевые, 10 шт)"
-                ],
-                backstory: [
-                    "Потерял всю семью в катастрофе", "Сам виновен в гибели людей (нечаянно)",
-                    "Выжил единственный из своего отряда", "Пережил клиническую смерть", "Был заложником/в плену",
-                    "Спас ребёнка из пожара", "Награждён медалью за отвагу", "Вытащил людей из-под завалов",
-                    "Рисковал жизнью спасая других",
-                    "Сидел в тюрьме (кража)", "Сидел в тюрьме (убийство по самообороне)", "Был в банде/ОПГ",
-                    "Дезертир из армии",
-                    "Был бездомным (3 года)", "Был алкоголиком (завязал)", "Был наркозависимым (чистый сейчас)",
-                    "Жил в лесу отшельником",
-                    "Был сталкером (лазил в Чернобыль)", "Работал в морге/патологоанатом",
-                    "Участвовал в раскопках массовых захоронений"
-                ],
-                features: [
-                    "Татуировки на всё тело (криминальные)", "Шрамы на лице (боевые)",
-                    "Шрам через всё лицо (потерял глаз)", "Ожоги на руках и шее",
-                    "Нет глаза (стеклянный протез)", "Нет кисти (крюк/протез)", "Нет ноги (протез/костыль)",
-                    "Нет пальцев на руке",
-                    "Очень низкий рост (карлик)", "Очень высокий рост (гигант)",
-                    "Сильное ожирение (проблемы с движением)", "Сильное истощение (дистрофия)",
-                    "Заикается", "Шепелявит/картавит", "Очень тихий/громкий голос"
-                ]
-            };
+        // Простые данные (сократил для надёжности)
+        const DATA = {
+            professions: ["Врач", "Инженер", "Военный", "Повар", "Сварщик"],
+            health: ["Здоров", "Астма", "Диабет", "Плохое зрение"],
+            mental: ["Уравновешенный", "Клаустрофобия", "Паника"],
+            character: ["Лидер", "Добрый", "Эгоист"],
+            skills: ["Рыбалка", "Охота", "Ремонт"],
+            luggage: ["Аптечка", "Топор", "Нож"],
+            backstory: ["Потерял семью", "Спас ребёнка"],
+            features: ["Шрам", "Тату"]
+        };
 
-            const TRAITS = [
-                { key: 'profession', label: 'Профессия', icon: '💼' },
-                { key: 'health', label: 'Здоровье', icon: '❤️' },
-                { key: 'mental', label: 'Психика', icon: '🧠' },
-                { key: 'character', label: 'Характер', icon: '⚡' },
-                { key: 'skills', label: 'Навыки', icon: '🔧' },
-                { key: 'luggage', label: 'Багаж', icon: '🎒' },
-                { key: 'backstory', label: 'Прошлое', icon: '📜' },
-                { key: 'features', label: 'Особенности', icon: '👤' }
-            ];
+        const TRAITS = [
+            { key: 'profession', label: 'Профессия', icon: '💼' },
+            { key: 'health', label: 'Здоровье', icon: '❤️' },
+            { key: 'mental', label: 'Психика', icon: '🧠' },
+            { key: 'character', label: 'Характер', icon: '⚡' },
+            { key: 'skills', label: 'Навыки', icon: '🔧' },
+            { key: 'luggage', label: 'Багаж', icon: '🎒' },
+            { key: 'backstory', label: 'Прошлое', icon: '📜' },
+            { key: 'features', label: 'Особенности', icon: '👤' }
+        ];
 
-            // ========================================
-            // Telegram WebApp
-            // ========================================
-            const tg = window.Telegram?.WebApp;
-            if (tg) {
-                tg.expand();
-                tg.ready();
+        // Состояние
+        let character = null;
+        let opened = [];
+        let order = [];
+
+        // Получаем элементы
+        const loadingEl = document.getElementById('loading');
+        const gameEl = document.getElementById('game');
+        const nameEl = document.getElementById('characterName');
+        const traitsEl = document.getElementById('traits');
+        const openedCountEl = document.getElementById('openedCount');
+        const progressFillEl = document.getElementById('progressFill');
+        const progressPercentEl = document.getElementById('progressPercent');
+
+        // Случайный элемент
+        function random(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+
+        // Перемешать массив
+        function shuffle(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
             }
+            return copy;
+        }
 
-            const hasHaptic = tg && tg.HapticFeedback;
+        // Генерация персонажа
+        function generateCharacter() {
+            const char = {};
+            TRAITS.forEach(t => {
+                char[t.key] = random(DATA[t.key]);
+            });
+            return char;
+        }
 
-            // ========================================
-            // Состояние приложения
-            // ========================================
-            let state = {
-                character: null,
-                opened: [],
-                order: []
-            };
-
-            // ========================================
-            // DOM элементы
-            // ========================================
-            const loadingScreen = document.getElementById('loadingScreen');
-            const gameScreen = document.getElementById('gameScreen');
-            const characterName = document.getElementById('characterName');
-            const traitsContainer = document.getElementById('traits');
-            const counterText = document.getElementById('counterText');
-            const progressFill = document.getElementById('progressFill');
-            const progressPercent = document.getElementById('progressPercent');
-            const toastContainer = document.getElementById('toastContainer');
-
-            // ========================================
-            // Утилиты
-            // ========================================
-            function random(arr) {
-                return arr[Math.floor(Math.random() * arr.length)];
-            }
-
-            function shuffle(arr) {
-                const copy = [...arr];
-                for (let i = copy.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [copy[i], copy[j]] = [copy[j], copy[i]];
-                }
-                return copy;
-            }
-
-            function showToast(message, type = 'info') {
-                const toast = document.createElement('div');
-                toast.className = `toast ${type}`;
-                toast.textContent = message;
-                toastContainer.appendChild(toast);
-                setTimeout(() => toast.remove(), 2000);
-            }
-
-            function haptic(type) {
-                if (!hasHaptic) return;
-                try {
-                    if (type === 'success') tg.HapticFeedback.notificationOccurred('success');
-                    else if (type === 'impact') tg.HapticFeedback.impactOccurred('medium');
-                    else if (type === 'selection') tg.HapticFeedback.selectionChanged();
-                } catch (e) {}
-            }
-
-            // ========================================
-            // Генерация персонажа
-            // ========================================
-            function generateCharacter() {
-                const char = {};
-                TRAITS.forEach(t => {
-                    char[t.key] = random(DATA[t.key]);
-                });
-                return char;
-            }
-
-            // ========================================
-            // Сохранение/загрузка
-            // ========================================
-            function saveToStorage() {
-                if (!state.character) return;
-                try {
-                    const data = {
-                        character: state.character,
-                        opened: state.opened,
-                        order: state.order,
-                        timestamp: Date.now()
-                    };
-                    localStorage.setItem('bunker_save', JSON.stringify(data));
-                } catch (e) {}
-            }
-
-            function loadFromStorage() {
-                try {
-                    const data = localStorage.getItem('bunker_save');
-                    if (!data) return false;
-                    
-                    const parsed = JSON.parse(data);
-                    if (!parsed.character || !parsed.order) return false;
-                    
-                    // Проверяем, что сохранение не старше 7 дней
-                    if (Date.now() - parsed.timestamp > 7 * 24 * 60 * 60 * 1000) {
-                        localStorage.removeItem('bunker_save');
-                        return false;
+        // Обновление интерфейса
+        function render() {
+            if (!character || !order) return;
+            
+            // Имя
+            nameEl.textContent = character.features || 'Выживший';
+            
+            // Счётчик
+            const openedCount = opened.length;
+            const total = TRAITS.length;
+            openedCountEl.textContent = openedCount;
+            
+            // Прогресс
+            const percent = Math.round((openedCount / total) * 100);
+            progressFillEl.style.width = percent + '%';
+            progressPercentEl.textContent = percent + '%';
+            
+            // Отрисовка характеристик
+            traitsEl.innerHTML = '';
+            
+            order.forEach(key => {
+                const trait = TRAITS.find(t => t.key === key);
+                if (!trait) return;
+                
+                const isOpen = opened.includes(key);
+                const value = character[key];
+                
+                const div = document.createElement('div');
+                div.className = 'trait' + (isOpen ? ' open' : '');
+                div.onclick = () => {
+                    if (isOpen) {
+                        // Закрыть
+                        opened = opened.filter(k => k !== key);
+                    } else {
+                        // Открыть
+                        opened.push(key);
                     }
-                    
-                    state.character = parsed.character;
-                    state.opened = parsed.opened || [];
-                    state.order = parsed.order;
-                    return true;
-                } catch (e) {
-                    return false;
-                }
-            }
-
-            // ========================================
-            // Обновление UI
-            // ========================================
-            function updateCounter() {
-                const opened = state.opened.length;
-                const total = TRAITS.length;
-                counterText.textContent = `${opened}/${total}`;
+                    render(); // Перерисовать
+                };
                 
-                const percent = Math.round((opened / total) * 100);
-                progressFill.style.width = `${percent}%`;
-                progressPercent.textContent = `${percent}%`;
-            }
-
-            function renderTraits() {
-                if (!state.character || !state.order) return;
-                
-                traitsContainer.innerHTML = '';
-                
-                state.order.forEach(key => {
-                    const trait = TRAITS.find(t => t.key === key);
-                    if (!trait) return;
-                    
-                    const isOpen = state.opened.includes(key);
-                    const value = state.character[key];
-                    
-                    const div = document.createElement('div');
-                    div.className = `trait ${isOpen ? 'open' : ''}`;
-                    div.onclick = () => toggleTrait(key);
-                    
-                    div.innerHTML = `
-                        <div class="trait-left">
-                            <span class="trait-icon">${trait.icon}</span>
-                            <div class="trait-content">
-                                <div class="trait-label">${trait.label}</div>
-                                <div class="trait-value ${!isOpen ? 'hidden' : ''}">
-                                    ${isOpen ? value : '❓ ???'}
-                                </div>
+                div.innerHTML = `
+                    <div class="trait-left">
+                        <span class="trait-icon">${trait.icon}</span>
+                        <div>
+                            <div class="trait-label">${trait.label}</div>
+                            <div class="trait-value ${!isOpen ? 'hidden-value' : ''}">
+                                ${isOpen ? value : '❓ ???'}
                             </div>
                         </div>
-                        <span class="trait-status">${isOpen ? '✅' : '🔒'}</span>
-                    `;
-                    
-                    traitsContainer.appendChild(div);
-                });
+                    </div>
+                    <span>${isOpen ? '✅' : '🔒'}</span>
+                `;
                 
-                updateCounter();
-            }
+                traitsEl.appendChild(div);
+            });
+        }
 
-            function toggleTrait(key) {
-                const index = state.opened.indexOf(key);
-                
-                if (index === -1) {
-                    // Открываем
-                    state.opened.push(key);
-                    haptic('success');
-                    const trait = TRAITS.find(t => t.key === key);
-                    showToast(`${trait?.label} открыта`, 'success');
-                } else {
-                    // Закрываем (если нужно - можно запретить закрытие)
-                    // Я сделаю возможность закрывать, вдруг надо
-                    state.opened.splice(index, 1);
-                    haptic('selection');
-                }
-                
-                renderTraits();
-                saveToStorage();
-            }
+        // Новый персонаж
+        function newCharacter() {
+            character = generateCharacter();
+            opened = [];
+            order = shuffle(TRAITS.map(t => t.key));
+            render();
+        }
 
-            function resetAll() {
-                state.opened = [];
-                renderTraits();
-                haptic('selection');
-                showToast('Все характеристики скрыты', 'info');
-                saveToStorage();
-            }
+        // Сброс
+        function resetAll() {
+            opened = [];
+            render();
+        }
 
-            function newCharacter() {
-                state.character = generateCharacter();
-                state.opened = [];
-                state.order = shuffle(TRAITS.map(t => t.key));
-                
-                // Имя из особенности (как в примере)
-                characterName.textContent = state.character.features || 'Выживший';
-                
-                renderTraits();
-                haptic('impact');
-                showToast('Новый персонаж создан', 'success');
-                saveToStorage();
-            }
+        // Запуск
+        function init() {
+            console.log('Запуск...');
+            
+            // Создаём первого персонажа
+            newCharacter();
+            
+            // Прячем загрузку, показываем игру
+            loadingEl.style.display = 'none';
+            gameEl.classList.remove('hidden');
+            
+            // Назначаем кнопки
+            document.getElementById('newBtn').onclick = () => {
+                if (confirm('Новый персонаж?')) newCharacter();
+            };
+            
+            document.getElementById('resetBtn').onclick = () => {
+                if (confirm('Сбросить открытые?')) resetAll();
+            };
+        }
 
-            // ========================================
-            // Инициализация
-            // ========================================
-            function init() {
-                // Пробуем загрузить сохранение
-                const loaded = loadFromStorage();
-                
-                if (loaded && state.character) {
-                    characterName.textContent = state.character.features || 'Выживший';
-                    renderTraits();
-                } else {
-                    // Создаём первого персонажа
-                    newCharacter();
-                }
-                
-                // Показываем игровой экран
-                loadingScreen.style.display = 'none';
-                gameScreen.style.display = 'block';
-                
-                // Настраиваем кнопки
-                document.getElementById('newCharacterBtn').onclick = () => {
-                    if (confirm('Создать нового персонажа?')) {
-                        newCharacter();
-                    }
-                };
-                
-                document.getElementById('resetBtn').onclick = () => {
-                    if (confirm('Скрыть все открытые характеристики?')) {
-                        resetAll();
-                    }
-                };
-            }
-
-            // Запускаем после загрузки страницы
-            window.addEventListener('load', init);
-        })();
+        // Ждём загрузку страницы
+        window.onload = init;
     </script>
 </body>
 </html>
