@@ -1026,50 +1026,91 @@ const resetState = () => {
 // ИГРОВАЯ ЛОГИКА
 // ============================================
 const startGame = async () => {
-    const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
-    const roomData = roomSnap.data();
-    const players = Object.values(roomData.players || {}).filter(p => p);
-
-    if (players.length < 2) {
-        toast('Нужно минимум 2 игрока!', 'error');
+    console.log('🔵 startGame: вызвана функция');
+    
+    // Проверка Firebase
+    if (!firebaseConnected) {
+        console.error('❌ Firebase не подключён');
+        toast('Firebase не подключён!', 'error');
         return;
     }
-
-    const bunker = Generators.bunker();
-    const disaster = Generators.disaster();
-
-    const playersUpdate = {};
-    players.forEach(p => {
-        playersUpdate[`players.${p.id}.character`] = Generators.character(p.name);
-    });
-
-    await updateRoom({
-        phase: 'reveal',
-        bunker,
-        disaster,
-        ...playersUpdate
-    });
-
-    // 🔴 Локальное обновление UI (не ждём подписку)
-    state.gameData = {
-        ...roomData,
-        phase: 'reveal',
-        bunker,
-        disaster,
-        players: { ...roomData.players }
-    };
-    players.forEach(p => {
-        state.gameData.players[p.id] = {
-            ...p,
-            character: Generators.character(p.name)
-        };
-    });
-
-    toast('Игра началась! Изучите свои карты', 'info');
-    haptic.success();
     
-    // Обновляем UI явно
-    updateUI(state.gameData);
+    // Проверка roomId
+    if (!state.roomId) {
+        console.error('❌ roomId не установлен');
+        toast('Ошибка: нет комнаты', 'error');
+        return;
+    }
+    
+    console.log('🔵 roomId:', state.roomId);
+    
+    try {
+        const roomSnap = await getDoc(doc(db, 'rooms', state.roomId));
+        console.log('🔵 roomSnap.exists:', roomSnap.exists());
+        
+        if (!roomSnap.exists()) {
+            toast('Комната не найдена!', 'error');
+            return;
+        }
+        
+        const roomData = roomSnap.data();
+        const players = Object.values(roomData.players || {}).filter(p => p);
+        
+        console.log('🔵 players:', players.length, players.map(p => p.name));
+        
+        if (players.length < 2) {
+            toast('Нужно минимум 2 игрока!', 'error');
+            return;
+        }
+
+        const bunker = Generators.bunker();
+        const disaster = Generators.disaster();
+        
+        console.log('🔵 bunker:', bunker);
+        console.log('🔵 disaster:', disaster);
+
+        const playersUpdate = {};
+        players.forEach(p => {
+            playersUpdate[`players.${p.id}.character`] = Generators.character(p.name);
+        });
+
+        console.log('🔵 updateRoom вызывается...');
+        
+        await updateRoom({
+            phase: 'reveal',
+            bunker,
+            disaster,
+            ...playersUpdate
+        });
+        
+        console.log('🔵 updateRoom завершён');
+
+        // 🔴 Локальное обновление UI (не ждём подписку)
+        state.gameData = {
+            ...roomData,
+            phase: 'reveal',
+            bunker,
+            disaster,
+            players: { ...roomData.players }
+        };
+        players.forEach(p => {
+            state.gameData.players[p.id] = {
+                ...p,
+                character: Generators.character(p.name)
+            };
+        });
+
+        console.log('🔵 updateUI вызывается...');
+        updateUI(state.gameData);
+        console.log('🔵 updateUI завершён');
+
+        toast('Игра началась! Изучите свои карты', 'info');
+        haptic.success();
+        
+    } catch (e) {
+        console.error('❌ Ошибка в startGame:', e);
+        toast('Ошибка: ' + e.message, 'error');
+    }
 };
 
 const startVote = async () => {
