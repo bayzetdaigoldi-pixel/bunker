@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Бункер: Выживание</title>
+    <title>Бункер: Жестокое выживание</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -18,7 +18,7 @@
         }
         
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -28,12 +28,13 @@
         .game-container {
             max-width: 500px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(30, 30, 40, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 32px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
             overflow: hidden;
             animation: slideUp 0.5s ease;
+            border: 1px solid #ff4757;
         }
         
         @keyframes slideUp {
@@ -42,7 +43,7 @@
         }
         
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff4757 0%, #c0392b 100%);
             padding: 24px 20px;
             color: white;
             text-align: center;
@@ -50,14 +51,18 @@
         }
         
         .header h1 {
-            font-size: 28px;
-            font-weight: 700;
+            font-size: 32px;
+            font-weight: 800;
             margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
         
         .header p {
             font-size: 14px;
             opacity: 0.9;
+            font-weight: 500;
         }
         
         .age-badge {
@@ -65,10 +70,11 @@
             top: 10px;
             right: 10px;
             background: rgba(255,255,255,0.2);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.3);
         }
         
         .content {
@@ -76,13 +82,13 @@
         }
         
         .generate-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff4757 0%, #c0392b 100%);
             color: white;
             border: none;
-            padding: 18px 24px;
+            padding: 20px 24px;
             border-radius: 20px;
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 20px;
+            font-weight: 700;
             width: 100%;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -91,16 +97,14 @@
             justify-content: center;
             gap: 12px;
             margin-bottom: 16px;
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 30px rgba(255, 71, 87, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         .generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
-        }
-        
-        .generate-btn:active {
-            transform: translateY(0);
+            box-shadow: 0 15px 40px rgba(255, 71, 87, 0.6);
         }
         
         .regenerate-section {
@@ -111,9 +115,9 @@
         }
         
         .regen-btn {
-            background: white;
-            color: #667eea;
-            border: 2px solid #667eea;
+            background: rgba(255,255,255,0.1);
+            color: #ff6b81;
+            border: 2px solid #ff4757;
             padding: 14px 16px;
             border-radius: 16px;
             font-size: 14px;
@@ -124,21 +128,22 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            backdrop-filter: blur(5px);
         }
         
         .regen-btn:hover {
-            background: #667eea;
+            background: #ff4757;
             color: white;
             transform: translateY(-2px);
         }
         
         .card {
-            background: white;
+            background: rgba(40, 40, 50, 0.9);
             border-radius: 24px;
             padding: 20px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             margin-bottom: 20px;
-            border: 1px solid rgba(102, 126, 234, 0.1);
+            border: 1px solid #ff4757;
             animation: fadeIn 0.5s ease;
         }
         
@@ -153,34 +158,34 @@
             gap: 12px;
             margin-bottom: 16px;
             padding-bottom: 16px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px solid rgba(255, 71, 87, 0.3);
         }
         
         .card-header i {
             font-size: 28px;
-            color: #667eea;
-            background: rgba(102, 126, 234, 0.1);
+            color: #ff4757;
+            background: rgba(255, 71, 87, 0.1);
             padding: 12px;
             border-radius: 16px;
         }
         
         .card-header h2 {
-            font-size: 20px;
+            font-size: 22px;
             font-weight: 700;
-            color: #333;
+            color: white;
         }
         
         .disaster-card, .bunker-card {
-            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
-            border-left: 4px solid #667eea;
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 4px solid #ff4757;
             padding: 16px;
             border-radius: 16px;
         }
         
         .disaster-main, .bunker-main {
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
-            color: #667eea;
+            color: #ff4757;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
@@ -189,13 +194,13 @@
         
         .disaster-desc, .bunker-desc {
             font-size: 15px;
-            color: #555;
+            color: #ddd;
             line-height: 1.6;
             margin-bottom: 12px;
         }
         
         .disaster-effects, .bunker-features {
-            background: rgba(102, 126, 234, 0.05);
+            background: rgba(255, 71, 87, 0.1);
             border-radius: 12px;
             padding: 12px;
             margin-top: 12px;
@@ -204,7 +209,7 @@
         .effect-title {
             font-size: 12px;
             font-weight: 700;
-            color: #667eea;
+            color: #ff6b81;
             text-transform: uppercase;
             margin-bottom: 8px;
         }
@@ -216,12 +221,12 @@
         }
         
         .effect-tag {
-            background: white;
-            border: 1px solid #e0e0ff;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #ff4757;
             padding: 6px 10px;
             border-radius: 8px;
             font-size: 12px;
-            color: #555;
+            color: #fff;
             display: flex;
             align-items: center;
             gap: 4px;
@@ -235,7 +240,7 @@
         }
         
         .bunker-info-item {
-            background: rgba(102, 126, 234, 0.08);
+            background: rgba(255, 71, 87, 0.15);
             border-radius: 12px;
             padding: 12px;
             text-align: center;
@@ -249,7 +254,7 @@
         .bunker-info-label {
             font-size: 11px;
             font-weight: 600;
-            color: #667eea;
+            color: #ff6b81;
             text-transform: uppercase;
             margin-bottom: 4px;
         }
@@ -257,18 +262,19 @@
         .bunker-info-value {
             font-size: 15px;
             font-weight: 700;
-            color: #333;
+            color: white;
         }
         
         .spots-warning {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            background: linear-gradient(135deg, #ff4757 0%, #c0392b 100%);
             color: white;
             padding: 14px;
             border-radius: 12px;
             margin-top: 12px;
             text-align: center;
-            font-weight: 600;
+            font-weight: 700;
             animation: pulse 2s infinite;
+            font-size: 16px;
         }
         
         @keyframes pulse {
@@ -283,10 +289,10 @@
         }
         
         .stat-item {
-            background: #f8f9ff;
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 16px;
             padding: 14px;
-            border: 2px solid #e0e0ff;
+            border: 2px solid rgba(255, 71, 87, 0.3);
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
@@ -295,15 +301,15 @@
         }
         
         .stat-item:hover {
-            border-color: #667eea;
+            border-color: #ff4757;
             transform: translateX(5px);
         }
         
         .stat-item.revealed {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff4757 0%, #c0392b 100%);
             border-color: transparent;
             color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
         }
         
         .stat-item.revealed .stat-label,
@@ -325,14 +331,14 @@
             font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
-            color: #667eea;
+            color: #ff6b81;
             margin-bottom: 4px;
         }
         
         .stat-value {
             font-size: 16px;
             font-weight: 600;
-            color: #333;
+            color: #fff;
             line-height: 1.4;
         }
         
@@ -340,7 +346,7 @@
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            border: 2px solid #e0e0ff;
+            border: 2px solid rgba(255, 71, 87, 0.5);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -350,17 +356,17 @@
         .stat-item.revealed .stat-check {
             background: white;
             border-color: white;
-            color: #667eea;
+            color: #ff4757;
         }
         
         .reset-btn {
-            background: white;
-            color: #666;
-            border: 2px solid #e0e0e0;
-            padding: 14px 20px;
+            background: rgba(255,255,255,0.1);
+            color: #ff6b81;
+            border: 2px solid #ff4757;
+            padding: 16px 20px;
             border-radius: 18px;
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             width: 100%;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -368,11 +374,12 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            backdrop-filter: blur(5px);
         }
         
         .reset-btn:hover {
-            border-color: #ff6b6b;
-            color: #ff6b6b;
+            background: #ff4757;
+            color: white;
         }
         
         .hidden {
@@ -384,101 +391,104 @@
             padding: 16px;
             color: #999;
             font-size: 12px;
-            border-top: 1px solid #f0f0f0;
+            border-top: 1px solid rgba(255, 71, 87, 0.3);
         }
         
         .counter {
             text-align: center;
             padding: 12px;
-            background: #f8f9ff;
+            background: rgba(255, 71, 87, 0.1);
             border-radius: 12px;
             margin-bottom: 16px;
             font-size: 14px;
-            color: #667eea;
+            color: #ff6b81;
             font-weight: 600;
         }
         
         .tips {
-            background: linear-gradient(135deg, #fff9e6 0%, #ffffff 100%);
-            border: 2px solid #ffd700;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+            border: 2px solid #ff4757;
             border-radius: 16px;
             padding: 16px;
             margin-bottom: 20px;
         }
         
         .tips-title {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 700;
-            color: #b8860b;
+            color: #ff4757;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
+            text-transform: uppercase;
         }
         
         .tips-text {
             font-size: 13px;
-            color: #666;
+            color: #ddd;
             line-height: 1.5;
         }
         
         .competition-info {
-            background: linear-gradient(135deg, #ffeaa7 0%, #fff9e6 100%);
-            border: 2px solid #fdcb6e;
+            background: linear-gradient(135deg, #c0392b 0%, #e74c3c 100%);
+            border: 2px solid #f1c40f;
             border-radius: 16px;
             padding: 16px;
             margin-bottom: 20px;
         }
         
         .competition-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #d63031;
+            font-size: 16px;
+            font-weight: 800;
+            color: white;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
+            text-transform: uppercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
         
         .competition-text {
-            font-size: 13px;
-            color: #666;
+            font-size: 14px;
+            color: white;
             line-height: 1.6;
+            font-weight: 500;
         }
     </style>
 </head>
 <body>
     <div class="game-container">
         <div class="header">
-            <h1>🚀 БУНКЕР</h1>
-            <p>Выживание после апокалипсиса</p>
-            <div class="age-badge">10+</div>
+            <h1>☠️ ЖЕСТОКИЙ БУНКЕР</h1>
+            <p>Выживет только один</p>
+            <div class="age-badge">16+</div>
         </div>
         
         <div class="content">
             <!-- Подсказка -->
             <div class="tips" id="tipsCard">
-                <div class="tips-title">💡 Как играть</div>
+                <div class="tips-title">💀 Как выжить</div>
                 <div class="tips-text">
-                    Нажми "Сгенерировать всё", чтобы создать катастрофу, бункер и персонажа. 
-                    Кликай на характеристики, чтобы отметить, что рассказал другим!
+                    У тебя много недостатков, но может быть 1-2 хороших качества. 
+                    Скрывай плохое и рассказывай о хорошем, чтобы занять единственное место в бункере!
                 </div>
             </div>
             
             <!-- Информация о конкуренции -->
             <div class="competition-info hidden" id="competitionCard">
-                <div class="competition-title">⚠️ ВНИМАНИЕ: КОНКУРЕНЦИЯ!</div>
+                <div class="competition-title">⚡ ТОЛЬКО 1 МЕСТО!</div>
                 <div class="competition-text">
-                    В бункере есть только <strong>1 место</strong>! 
-                    Тебе нужно убедить других, что именно ты достоин выжить. 
-                    Рассказывай о своих преимуществах и скрывай недостатки!
+                    В бункере только одно место! У тебя много недостатков, но есть 1-2 сильные стороны. 
+                    Скрывай свои слабости и убеди других, что ты достоин выжить!
                 </div>
             </div>
             
             <!-- Главная кнопка -->
             <button class="generate-btn" id="generateAll">
                 <i class="fas fa-dice-d20"></i>
-                Сгенерировать всё
+                Создать персонажа
             </button>
             
             <!-- Кнопки перегенерации -->
@@ -495,7 +505,7 @@
             
             <!-- Счётчик -->
             <div class="counter hidden" id="revealCounter">
-                📖 Открыто характеристик: <span id="revealCount">0</span>/9
+                📖 Раскрыто: <span id="revealCount">0</span>/9
             </div>
             
             <!-- Карточка катастрофы -->
@@ -538,33 +548,34 @@
         </div>
         
         <div class="footer">
-            <i class="fas fa-shield-heart"></i> Безопасно для детей 10+ | 1 место в бункере
+            <i class="fas fa-shield-heart"></i> Жестокое выживание 16+ | Только 1 место
         </div>
     </div>
 
     <script>
-        // ==================== БАЗА ДАННЫХ (БЕЗОПАСНО ДЛЯ ДЕТЕЙ 10+) ====================
+        // ==================== БАЗА ДАННЫХ С ПРЕИМУЩЕСТВЕННО ПЛОХИМИ ХАРАКТЕРИСТИКАМИ ====================
         
+        // Катастрофы (оставим как есть - они нейтральные)
         const disasters = [
             {
                 name: "Ядерная зима",
                 desc: "После взрывов на электростанциях небо закрыли тучи пыли. Солнца не видно уже несколько месяцев.",
                 effects: ["❄️ Холодно", "🌑 Темно", "📻 Нет связи", "🌾 Не растёт еда"],
-                danger: "Средняя",
+                danger: "Критическая",
                 duration: "50 лет"
             },
             {
                 name: "Падение метеорита",
                 desc: "Огромный камень из космоса упал в океан, вызвав гигантские волны по всей планете.",
                 effects: ["🌊 Цунами", "🔥 Пожары", "💨 Пыль в воздухе", "📉 Изменение климата"],
-                danger: "Высокая",
+                danger: "Критическая",
                 duration: "30 лет"
             },
             {
                 name: "Зомби-вирус",
-                desc: "Странный вирус превращает людей в медленных ходячих кукол. Они не злые, просто хотят дружить... слишком сильно!",
+                desc: "Смертельный вирус превращает людей в агрессивных зомби. Укус смертелен.",
                 effects: ["🧟 Зомби", "🏥 Больницы переполнены", "🚫 Нельзя выходить", "📦 Запасы кончаются"],
-                danger: "Средняя",
+                danger: "Критическая",
                 duration: "10 лет"
             },
             {
@@ -575,13 +586,6 @@
                 duration: "20 лет"
             },
             {
-                name: "Роботы восстали",
-                desc: "Все роботы и компьютеры решили, что люди слишком медленно работают. Теперь они всё делают сами!",
-                effects: ["🤖 Роботы", "💻 Нет интернета", "🔋 Нужны батарейки", "⚡ Отключение света"],
-                danger: "Низкая",
-                duration: "5 лет"
-            },
-            {
                 name: "Всемирный потоп",
                 desc: "Ледники растаяли, и уровень воды поднялся. Большинство городов теперь под водой.",
                 effects: ["🌊 Вода везде", "🏝️ Острова", "🚤 Нужны лодки", "🐟 Много рыбы"],
@@ -589,67 +593,11 @@
                 duration: "100 лет"
             },
             {
-                name: "Космическая буря",
-                desc: "Солнце выпустило огромный заряд энергии. Вся электроника перестала работать.",
-                effects: ["☢️ Радиация", "📱 Нет телефонов", "🧭 Компасы врут", "🌌 Северное сияние"],
-                danger: "Средняя",
-                duration: "3 года"
-            },
-            {
-                name: "Нашествие инопланетян",
-                desc: "Пришельцы прилетели не воевать, а изучать людей. Они очень любопытные!",
-                effects: ["👽 НЛО", "🔬 Исследования", "📡 Сигналы", "🛸 Корабли"],
-                danger: "Низкая",
-                duration: "2 года"
-            },
-            {
                 name: "Вечная мерзлота",
                 desc: "Температура упала до -50°C и не поднимается. Всё замёрзло.",
-                effects: ["❄️ Очень холодно", "🧊 Лёд везде", "🔥 Нужно тепло", "🐧 Пингвины в городе"],
-                danger: "Высокая",
+                effects: ["❄️ Очень холодно", "🧊 Лёд везде", "🔥 Нужно тепло", "🥶 Замерзают"],
+                danger: "Критическая",
                 duration: "80 лет"
-            },
-            {
-                name: "Гигантские растения",
-                desc: "Какой-то эксперимент пошёл не так, и растения начали расти невероятно быстро!",
-                effects: ["🌳 Гигантские деревья", "🌿 Лианы", "🍎 Много фруктов", "🐵 Как в джунглях"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Исчезновение взрослых",
-                desc: "Все взрослые куда-то пропали. Остались только дети и подростки!",
-                effects: ["👶 Только дети", "🏫 Школы закрыты", "🍕 Еда есть", "🎮 Можно играть"],
-                danger: "Средняя",
-                duration: "15 лет"
-            },
-            {
-                name: "Гравитация пропала",
-                desc: "Иногда гравитация отключается на несколько минут. Всё начинает летать!",
-                effects: ["🎈 Всё летает", "🤢 Укачивает", "🛰️ Как в космосе", "⭐ Красиво"],
-                danger: "Средняя",
-                duration: "7 лет"
-            },
-            {
-                name: "Животные заговорили",
-                desc: "После странной бури животные начали говорить! Но они очень обижаются на людей.",
-                effects: ["🐕 Говорящие собаки", "🐈 Коты командуют", "🐦 Птицы-шпионы", "🐭 Мыши в союзе"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Время остановилось",
-                desc: "Часы показывают одно и то же время. Никто не стареет, но и не может уснуть.",
-                effects: ["⏰ Время стоит", "😴 Не хочется спать", "👴 Не стареем", "🔄 День сурка"],
-                danger: "Низкая",
-                duration: "Неизвестно"
-            },
-            {
-                name: "Рой нанороботов",
-                desc: "Миллионы крошечных роботов заполонили воздух. Они безвредны, но щекочутся!",
-                effects: ["🤖 Наноботы", "✨ Сверкают", "🤧 Щекотно", "🎨 Могут красить"],
-                danger: "Низкая",
-                duration: "4 года"
             },
             {
                 name: "Глобальная засуха",
@@ -657,263 +605,26 @@
                 effects: ["💧 Нет воды", "🏜️ Пустыня", "🌵 Кактусы", "☀️ Очень жарко"],
                 danger: "Высокая",
                 duration: "25 лет"
-            },
-            {
-                name: "Кислотные дожди",
-                desc: "Дождь стал зелёным и шипит, когда падает. Зонтики обязательно!",
-                effects: ["🌧️ Кислота", "☂️ Нужны зонты", "🧥 Плащи", "🏠 Сидеть дома"],
-                danger: "Средняя",
-                duration: "12 лет"
-            },
-            {
-                name: "Смена полюсов",
-                desc: "Север и Юг поменялись местами. Компасы показывают в другую сторону!",
-                effects: ["🧭 Компасы врут", "🐧 Пингвины на севере", "🐻 Медведи на юге", "🌍 Путаница"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Гигантские насекомые",
-                desc: "Насекомые выросли до размеров собак! Но они дружелюбные.",
-                effects: ["🐜 Гигантские муравьи", "🦋 Бабочки-самолёты", "🐛 Гусеницы-автобусы", "🍯 Мёд как река"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Лунатики",
-                desc: "Полная луна заставляет всех ходить во сне. Ночью город полон спящих людей!",
-                effects: ["🌕 Луна", "😴 Все спят", "🚶 Ходят ночью", "🌙 Красиво"],
-                danger: "Низкая",
-                duration: "6 лет"
-            },
-            {
-                name: "Порталы",
-                desc: "По всему миру открылись порталы в другие миры. Оттуда приходят странные вещи!",
-                effects: ["🌀 Порталы", "🎁 Подарки из других миров", "❓ Неизвестность", "🗺️ Новые миры"],
-                danger: "Средняя",
-                duration: "Постоянно"
-            },
-            {
-                name: "Все стали невидимыми",
-                desc: "После вспышки все люди стали невидимыми. Видно только одежду и голоса!",
-                effects: ["👻 Невидимые", "👕 Одежда летает", "🗣️ Голоса", "🙈 Страшно"],
-                danger: "Низкая",
-                duration: "9 лет"
-            },
-            {
-                name: "Шоколадный дождь",
-                desc: "С неба падает шоколад! Вкусно, но скоро всё вокруг стало липким.",
-                effects: ["🍫 Шоколад", "😋 Вкусно", "👕 Липко", "🦷 Кариес"],
-                danger: "Низкая",
-                duration: "1 год"
-            },
-            {
-                name: "Музыкальная эпидемия",
-                desc: "Все звуки превратились в музыку! Даже разговоры звучат как песни.",
-                effects: ["🎵 Всё поёт", "🎸 Гитара вместо речи", "🎹 Красиво", "🎤 Концерты"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Игрушки ожили",
-                desc: "Все игрушки начали жить своей жизнью. Плюшевые мишки захватили власть!",
-                effects: ["🧸 Живые игрушки", "🤖 Роботы-динозавры", "🎮 Игры сами играют", "🎈 Праздник"],
-                danger: "Низкая",
-                duration: "8 лет"
-            },
-            {
-                name: "Деревья ходят",
-                desc: "Корни деревьев выросли в ноги, и теперь леса ходят по планете!",
-                effects: ["🌳 Ходячие деревья", "🍃 Леса мигрируют", "🏡 Дома в деревьях", "🐦 Птицам удобно"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Облака опустились",
-                desc: "Облака стали плотными и теперь можно ходить по ним как по земле!",
-                effects: ["☁️ Ходьба по облакам", "🌈 Радуги-мосты", "✈️ Самолёты ниже", "💧 Мокро"],
-                danger: "Низкая",
-                duration: "11 лет"
-            },
-            {
-                name: "Все машины ожили",
-                desc: "Автомобили, велосипеды и самокаты начали думать сами! Они возят людей бесплатно.",
-                effects: ["🚗 Живые машины", "🚲 Велосипеды сами едут", "⛽ Не нужен бензин", "🎯 Сами находят путь"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Гигантские пузыри",
-                desc: "Из земли выходят огромные мыльные пузыри. В некоторых можно летать!",
-                effects: ["🫧 Пузыри", "🎈 Можно летать", "✨ Красиво", "💥 Лопаются"],
-                danger: "Низкая",
-                duration: "5 лет"
-            },
-            {
-                name: "Книги ожили",
-                desc: "Все книги начали рассказывать свои истории вслух. Библиотеки очень шумные!",
-                effects: ["📚 Говорящие книги", "📖 Истории вслух", "🧠 Много знаний", "🤫 Трудно уснуть"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Еда размножается",
-                desc: "Если оставить еду на столе, к утру её становится в два раза больше!",
-                effects: ["🍕 Много еды", "🍰 Торты растут", "🍔 Бургеры везде", "🥗 Полезно"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Сон наяву",
-                desc: "Граница между сном и реальностью стёрлась. Сны стали явью!",
-                effects: ["💭 Сны реальны", "🦄 Единороги", "🐉 Драконы", "✨ Магия"],
-                danger: "Низкая",
-                duration: "14 лет"
-            },
-            {
-                name: "Все стали детьми",
-                desc: "Взрослые превратились в детей 10 лет. Теперь все равны!",
-                effects: ["👶 Все дети", "🎮 Игры", "🍭 Конфеты", "🎉 Весело"],
-                danger: "Низкая",
-                duration: "20 лет"
-            },
-            {
-                name: "Летающие острова",
-                desc: "Куски земли оторвались и теперь летают в небе. Можно прыгать с острова на остров!",
-                effects: ["🏝️ Летающая земля", "🌉 Мосты из радуги", "🪂 Прыжки", "🦅 Орлы рядом"],
-                danger: "Средняя",
-                duration: "Постоянно"
-            },
-            {
-                name: "Вода стала сладкой",
-                desc: "Вся вода в мире стала сладкой, как лимонад! Пить приятно, но зубы болят.",
-                effects: ["🥤 Сладкая вода", "🍋 Лимонный вкус", "🦷 Кариес", "💧 Пей не хочу"],
-                danger: "Низкая",
-                duration: "7 лет"
-            },
-            {
-                name: "Тени отделились",
-                desc: "Тени начали жить отдельно от хозяев. Теперь у каждого есть друг-тень!",
-                effects: ["👤 Тени-друзья", "🎭 Играют", "😂 Смешно", "🌙 Ночью светятся"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Все замедлилось",
-                desc: "Время течёт в 10 раз медленнее. Один день длится как 10 обычных!",
-                effects: ["⏰ Медленное время", "😴 Больше сна", "📚 Больше учёбы", "🎮 Больше игр"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Говорящие камни",
-                desc: "Камни начали говорить! Они помнят всю историю Земли.",
-                effects: ["🪨 Говорящие камни", "📜 История", "🧠 Мудрость", "💎 Драгоценные"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Радуга каждый день",
-                desc: "На небе каждый день появляется огромная радуга. Она светится даже ночью!",
-                effects: ["🌈 Радуга", "✨ Свет", "🎨 Цвета", "📸 Красиво"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Все стали супергероями",
-                desc: "У каждого появилась суперсила! Но у всех разная и случайная.",
-                effects: ["🦸 Суперсилы", "⚡ Молнии", "🔥 Огонь", "💪 Сила"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Мир вверх ногами",
-                desc: "Гравитация перевернулась! Теперь ходим по потолку, а земля над головой.",
-                effects: ["🙃 Всё перевернулось", "🕷️ Как пауки", "🦇 Летучие мыши", "🤢 Головокружение"],
-                danger: "Средняя",
-                duration: "4 года"
-            },
-            {
-                name: "Живые картины",
-                desc: "Все изображения и фотографии ожили. Персонажи вышли из рамок!",
-                effects: ["🖼️ Живые картины", "📷 Фотографии", "🎨 Искусство", "🎭 Актёры"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Ветер говорит",
-                desc: "Ветер начал шептать секреты. Можно узнать много интересного!",
-                effects: ["💨 Говорящий ветер", "🤫 Секреты", "🌬️ Шёпот", "📢 Новости"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Все здания стали мягкими",
-                desc: "Дома и школы стали как подушки. Можно прыгать со стен!",
-                effects: ["🏠 Мягкие дома", "🛏️ Как на кровати", "🤸 Прыжки", "😴 Удобно"],
-                danger: "Низкая",
-                duration: "13 лет"
-            },
-            {
-                name: "Звёзды упали",
-                desc: "Звёзды упали на землю и теперь светят внизу. Ночью светло как днём!",
-                effects: ["⭐ Упавшие звёзды", "💡 Свет", "🌙 Ночью видно", "✨ Красиво"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Все стали животными",
-                desc: "Люди превратились в разных животных, но сохранили разум!",
-                effects: ["🦊 Лисы", "🐰 Зайцы", "🦁 Львы", "🐼 Панды"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Реки текут вверх",
-                desc: "Вода в реках потекла в небо! Водопады бьют вверх.",
-                effects: ["💧 Вода вверх", "⬆️ Водопады", "🌊 Реки в небе", "🐟 Рыбы летают"],
-                danger: "Средняя",
-                duration: "16 лет"
-            },
-            {
-                name: "Все двери ведут не туда",
-                desc: "Открываешь дверь в комнату, а попадаешь в лес или на пляж!",
-                effects: ["🚪 Двери-порталы", "🌲 Лес в школе", "🏖️ Пляж дома", "❓ Сюрприз"],
-                danger: "Низкая",
-                duration: "8 лет"
-            },
-            {
-                name: "Луна стала зелёной",
-                desc: "Луна изменила цвет на ярко-зелёный и светит сильнее.",
-                effects: ["🌕 Зелёная луна", "💚 Свет", "🌙 Ночью видно", "👽 Все думают про НЛО"],
-                danger: "Низкая",
-                duration: "Постоянно"
-            },
-            {
-                name: "Все стали прозрачными",
-                desc: "Люди стали как стекло. Видно кости и органы!",
-                effects: ["👻 Прозрачные", "🦴 Видно кости", "❤️ Сердце бьётся", "😳 Странно"],
-                danger: "Низкая",
-                duration: "10 лет"
             }
         ];
 
+        // Бункеры
         const bunkers = [
             {
-                name: "Школьный бункер",
-                desc: "Глубоко под школой есть секретный бункер с запасами на годы.",
-                features: ["📚 Библиотека", "🍕 Столовая", "⚽ Спортзал", "🎮 Игровая"],
-                capacity: "1 место",
-                supplies: "Еда на 5 лет",
-                timeToStay: "5 лет"
-            },
-            {
-                name: "Бункер в парке",
-                desc: "Под детским парком спрятан огромный бункер с аттракционами.",
-                features: ["🎡 Карусели", "🎢 Горки", "🍦 Мороженое", "🎪 Цирк"],
+                name: "Тесный бункер",
+                desc: "Маленькое подземное убежище с минимумом удобств.",
+                features: ["📦 Тесно", "💨 Спёртый воздух", "🔇 Шумоизоляция", "🚽 Один туалет"],
                 capacity: "1 место",
                 supplies: "Еда на 3 года",
                 timeToStay: "3 года"
+            },
+            {
+                name: "Старый бункер",
+                desc: "Заброшенный бункер времен холодной войны. Всё старое и ржавое.",
+                features: ["🕷️ Пауки", "🦠 Плесень", "🔦 Тусклый свет", "⚙️ Ломается"],
+                capacity: "1 место",
+                supplies: "Консервы 10 летней давности",
+                timeToStay: "2 года"
             },
             {
                 name: "Метро-убежище",
@@ -924,28 +635,12 @@
                 timeToStay: "10 лет"
             },
             {
-                name: "Бункер миллиардера",
-                desc: "Техно-магнат построил роскошный бункер с роботами-слугами.",
-                features: ["🤖 Роботы", "🎬 Кинотеатр", "🏊 Бассейн", "🎹 Музыкальная"],
-                capacity: "1 место",
-                supplies: "Еда на 20 лет",
-                timeToStay: "20 лет"
-            },
-            {
                 name: "Пещерный город",
                 desc: "Естественные пещеры превращены в уютные дома.",
-                features: ["🕯️ Светлячки", "💎 Кристаллы", "🌊 Подземная река", "🦇 Дружелюбные летучие мыши"],
+                features: ["🕯️ Светлячки", "💎 Кристаллы", "🌊 Подземная река", "🦇 Летучие мыши"],
                 capacity: "1 место",
                 supplies: "Рыба и грибы",
                 timeToStay: "Постоянно"
-            },
-            {
-                name: "Космическая станция",
-                desc: "Станция на орбите Земли. Вид на планету из иллюминатора!",
-                features: ["🚀 Ракеты", "🌍 Вид на Землю", "🔬 Лаборатория", "🛰️ Связь"],
-                capacity: "1 место",
-                supplies: "Еда на 2 года",
-                timeToStay: "2 года"
             },
             {
                 name: "Подводная база",
@@ -954,401 +649,76 @@
                 capacity: "1 место",
                 supplies: "Рыба и водоросли",
                 timeToStay: "8 лет"
-            },
-            {
-                name: "Бункер в горе",
-                desc: "Внутри горы вырублен целый город с водопадами.",
-                features: ["⛰️ Горы", "💧 Водопады", "🌲 Лес внутри", "🦅 Орлы"],
-                capacity: "1 место",
-                supplies: "Охота и растения",
-                timeToStay: "15 лет"
-            },
-            {
-                name: "Замок-крепость",
-                desc: "Средневековый замок с современными технологиями.",
-                features: ["🏰 Башни", "⚔️ Рыцари", "👑 Тронный зал", "📜 Библиотека"],
-                capacity: "1 место",
-                supplies: "Еда на 7 лет",
-                timeToStay: "7 лет"
-            },
-            {
-                name: "Научная станция",
-                desc: "Учёные создали идеальное убежище с экспериментами.",
-                features: ["🔬 Микроскопы", "⚗️ Химия", "🧬 ДНК", "🤓 Учёные"],
-                capacity: "1 место",
-                supplies: "Еда на 15 лет",
-                timeToStay: "15 лет"
-            },
-            {
-                name: "Ферма-бункер",
-                desc: "Подземная ферма с животными и растениями.",
-                features: ["🐮 Коровы", "🌽 Поля", "🚜 Тракторы", "🥛 Молоко"],
-                capacity: "1 место",
-                supplies: "Свежая еда всегда",
-                timeToStay: "Постоянно"
-            },
-            {
-                name: "Библиотека-бункер",
-                desc: "Миллионы книг в подземных хранилищах.",
-                features: ["📚 Книги", "📖 Читальные залы", "✍️ Письменные столы", "🔦 Лампы"],
-                capacity: "1 место",
-                supplies: "Еда на 5 лет",
-                timeToStay: "5 лет"
-            },
-            {
-                name: "Спортивный комплекс",
-                desc: "Огромный стадион с бассейнами и тренажёрами.",
-                features: ["⚽ Футбол", "🏀 Баскетбол", "🏊 Бассейн", "🏋️ Тренажёры"],
-                capacity: "1 место",
-                supplies: "Спортивное питание",
-                timeToStay: "6 лет"
-            },
-            {
-                name: "Больница-бункер",
-                desc: "Лучшая больница с врачами и лекарствами.",
-                features: ["🏥 Палаты", "💊 Лекарства", "👨‍⚕️ Врачи", "🚑 Скорая"],
-                capacity: "1 место",
-                supplies: "Медицина на 10 лет",
-                timeToStay: "10 лет"
-            },
-            {
-                name: "Зоопарк-убежище",
-                desc: "Животные и люди живут вместе в большом бункере.",
-                features: ["🦁 Львы", "🐼 Панды", "🐘 Слоны", "🦒 Жирафы"],
-                capacity: "1 место",
-                supplies: "Корм для всех",
-                timeToStay: "12 лет"
-            },
-            {
-                name: "Музей-бункер",
-                desc: "Все экспонаты музеев спрятаны здесь.",
-                features: ["🖼️ Картины", "🗿 Статуи", "🦕 Динозавры", "🚀 Космос"],
-                capacity: "1 место",
-                supplies: "Еда на 8 лет",
-                timeToStay: "8 лет"
-            },
-            {
-                name: "Игровой центр",
-                desc: "Тысячи игровых автоматов и компьютеров.",
-                features: ["🎮 Игры", "🕹️ Автоматы", "💻 Компьютеры", "🎯 Призы"],
-                capacity: "1 место",
-                supplies: "Снеки и пицца",
-                timeToStay: "4 года"
-            },
-            {
-                name: "Кондитерская",
-                desc: "Бункер заполнен сладостями и тортами!",
-                features: ["🍰 Торты", "🍪 Печенье", "🍫 Шоколад", "🍦 Мороженое"],
-                capacity: "1 место",
-                supplies: "Сладости на годы",
-                timeToStay: "3 года"
-            },
-            {
-                name: "Лесной бункер",
-                desc: "Под землёй растёт настоящий лес с деревьями.",
-                features: ["🌳 Деревья", "🍄 Грибы", "🐿️ Белки", "🍃 Свежий воздух"],
-                capacity: "1 место",
-                supplies: "Орехи и ягоды",
-                timeToStay: "Постоянно"
-            },
-            {
-                name: "Водный парк",
-                desc: "Бассейны, горки и фонтаны в бункере.",
-                features: ["💦 Горки", "🏊 Бассейны", "⛵ Лодки", "🌊 Волны"],
-                capacity: "1 место",
-                supplies: "Вода и рыба",
-                timeToStay: "7 лет"
-            },
-            {
-                name: "Музыкальный бункер",
-                desc: "Все стены звукоизолированы, можно играть громко!",
-                features: ["🎸 Гитары", "🎹 Пианино", "🥁 Барабаны", "🎤 Микрофоны"],
-                capacity: "1 место",
-                supplies: "Еда на 6 лет",
-                timeToStay: "6 лет"
-            },
-            {
-                name: "Художественный бункер",
-                desc: "Студии для рисования, лепки и творчества.",
-                features: ["🎨 Краски", "🖌️ Кисти", "🗿 Глина", "🖼️ Холсты"],
-                capacity: "1 место",
-                supplies: "Материалы для искусства",
-                timeToStay: "5 лет"
-            },
-            {
-                name: "Техно-бункер",
-                desc: "Все гаджеты и роботы работают здесь.",
-                features: ["📱 Телефоны", "💻 Ноутбуки", "🤖 Роботы", "🔋 Батарейки"],
-                capacity: "1 место",
-                supplies: "Зарядки на 10 лет",
-                timeToStay: "10 лет"
-            },
-            {
-                name: "Поезд-бункер",
-                desc: "Огромный поезд в тоннеле, можно ездить.",
-                features: ["🚂 Вагоны", "🛤️ Рельсы", "🚃 Кабина", "🔔 Звонок"],
-                capacity: "1 место",
-                supplies: "Еда в вагоне-ресторане",
-                timeToStay: "9 лет"
-            },
-            {
-                name: "Корабль-бункер",
-                desc: "Подводная лодка размером с город.",
-                features: ["⚓ Якорь", "🚢 Палуба", "🧭 Штурвал", "🔦 Прожектор"],
-                capacity: "1 место",
-                supplies: "Морские запасы",
-                timeToStay: "11 лет"
-            },
-            {
-                name: "Воздушный замок",
-                desc: "Летающий бункер на дирижаблях.",
-                features: ["🎈 Дирижабли", "☁️ Облака", "🦅 Вид сверху", "🪂 Парашюты"],
-                capacity: "1 место",
-                supplies: "Еда на 4 года",
-                timeToStay: "4 года"
-            },
-            {
-                name: "Ледяной бункер",
-                desc: "Весь бункер изо льда, но внутри тепло.",
-                features: ["🧊 Лёд", "❄️ Снег", "⛸️ Каток", "☃️ Снеговик"],
-                capacity: "1 место",
-                supplies: "Замороженная еда",
-                timeToStay: "Постоянно"
-            },
-            {
-                name: "Пирамида",
-                desc: "Древняя пирамида с секретными комнатами.",
-                features: ["🔺 Пирамида", "🗿 Сфинкс", "📜 Иероглифы", "💎 Сокровища"],
-                capacity: "1 место",
-                supplies: "Древние запасы",
-                timeToStay: "Постоянно"
-            },
-            {
-                name: "Радужный бункер",
-                desc: "Все стены светятся всеми цветами радуги.",
-                features: ["🌈 Радуга", "✨ Свет", "🎨 Цвета", "💫 Магия"],
-                capacity: "1 место",
-                supplies: "Еда на 5 лет",
-                timeToStay: "5 лет"
-            },
-            {
-                name: "Бункер-дерево",
-                desc: "Огромное дерево с комнатами внутри.",
-                features: ["🌳 Дерево", "🏡 Домики", "🐿️ Белки", "🍎 Яблоки"],
-                capacity: "1 место",
-                supplies: "Фрукты и орехи",
-                timeToStay: "Постоянно"
-            },
-            {
-                name: "Кристальный бункер",
-                desc: "Стены из кристаллов светятся изнутри.",
-                features: ["💎 Кристаллы", "✨ Сияние", "🔮 Магия", "💫 Красота"],
-                capacity: "1 место",
-                supplies: "Еда на 7 лет",
-                timeToStay: "7 лет"
-            },
-            {
-                name: "Бункер-лабиринт",
-                desc: "Запутанные коридоры, интересно исследовать.",
-                features: ["🌀 Лабиринт", "🗺️ Карты", "🔦 Фонарики", "❓ Тайны"],
-                capacity: "1 место",
-                supplies: "Еда в разных комнатах",
-                timeToStay: "8 лет"
-            },
-            {
-                name: "Облачный бункер",
-                desc: "Бункер из плотных облаков, мягко как на кровати.",
-                features: ["☁️ Облака", "🛏️ Мягко", "🌤️ Погода", "🦅 Орлы"],
-                capacity: "1 место",
-                supplies: "Воздушная еда",
-                timeToStay: "6 лет"
-            },
-            {
-                name: "Бункер-аквариум",
-                desc: "Стеклянные стены, рыбы плавают вокруг.",
-                features: ["🐠 Рыбы", "🪟 Стекло", "💧 Вода", "🐙 Осьминоги"],
-                capacity: "1 место",
-                supplies: "Рыба и водоросли",
-                timeToStay: "9 лет"
-            },
-            {
-                name: "Солнечный бункер",
-                desc: "Внутри всегда светло и тепло как летом.",
-                features: ["☀️ Солнце", "🌡️ Тепло", "🌻 Цветы", "🦋 Бабочки"],
-                capacity: "1 место",
-                supplies: "Овощи и фрукты",
-                timeToStay: "Постоянно"
-            },
-            {
-                name: "Лунный бункер",
-                desc: "База на Луне с видом на Землю.",
-                features: ["🌕 Луна", "🌍 Земля", "🚀 Ракеты", "⭐ Звёзды"],
-                capacity: "1 место",
-                supplies: "Космическая еда",
-                timeToStay: "3 года"
-            },
-            {
-                name: "Бункер-вулкан",
-                desc: "Внутри спящего вулкана, тепло от лавы.",
-                features: ["🌋 Вулкан", "🔥 Лава", "🌡️ Тепло", "💎 Камни"],
-                capacity: "1 место",
-                supplies: "Еда на 6 лет",
-                timeToStay: "6 лет"
-            },
-            {
-                name: "Бункер-водопад",
-                desc: "Вода течёт по стенам, красиво и уютно.",
-                features: ["💧 Водопад", "🌊 Вода", "🌈 Радуги", "🐟 Рыбки"],
-                capacity: "1 место",
-                supplies: "Вода и рыба",
-                timeToStay: "Постоянно"
-            },
-            {
-                name: "Бункер-цветок",
-                desc: "Бункер в форме огромного цветка.",
-                features: ["🌸 Цветок", "🌺 Лепестки", "🐝 Пчёлы", "🦋 Бабочки"],
-                capacity: "1 место",
-                supplies: "Нектар и фрукты",
-                timeToStay: "4 года"
-            },
-            {
-                name: "Бункер-робот",
-                desc: "Огромный робот, внутри которого можно жить.",
-                features: ["🤖 Робот", "⚙️ Механизмы", "💡 Лампочки", "🔋 Батарейки"],
-                capacity: "1 место",
-                supplies: "Энергия и еда",
-                timeToStay: "10 лет"
-            },
-            {
-                name: "Бункер-книга",
-                desc: "Бункер в форме открытой книги.",
-                features: ["📚 Страницы", "✏️ Письмо", "📖 Чтение", "🔖 Закладки"],
-                capacity: "1 место",
-                supplies: "Еда на 5 лет",
-                timeToStay: "5 лет"
-            },
-            {
-                name: "Бункер-сердце",
-                desc: "Бункер в форме сердца, тёплый и уютный.",
-                features: ["❤️ Сердце", "💗 Тепло", "💕 Любовь", "💓 Биение"],
-                capacity: "1 место",
-                supplies: "Еда на 8 лет",
-                timeToStay: "8 лет"
-            },
-            {
-                name: "Бункер-звезда",
-                desc: "Бункер в форме звезды, светится ночью.",
-                features: ["⭐ Звезда", "✨ Свет", "🌟 Сияние", "💫 Магия"],
-                capacity: "1 место",
-                supplies: "Звёздная еда",
-                timeToStay: "Постоянно"
-            },
-            {
-                name: "Бункер-гриб",
-                desc: "Огромный гриб с комнатами внутри шляпки.",
-                features: ["🍄 Гриб", "🏡 Комнаты", "🐛 Червячки", "🌧️ Дождь"],
-                capacity: "1 место",
-                supplies: "Грибы и орехи",
-                timeToStay: "3 года"
-            },
-            {
-                name: "Бункер-ракета",
-                desc: "Настоящая ракета, можно улететь в космос.",
-                features: ["🚀 Ракета", "🌌 Космос", "👨‍🚀 Костюмы", "🛰️ Спутники"],
-                capacity: "1 место",
-                supplies: "Космическая еда",
-                timeToStay: "2 года"
-            },
-            {
-                name: "Бункер-замок",
-                desc: "Средневековый замок с ровом и мостом.",
-                features: ["🏰 Замок", "🌉 Мост", "👑 Король", "🐴 Лошади"],
-                capacity: "1 место",
-                supplies: "Пиршества",
-                timeToStay: "Постоянно"
-            },
-            {
-                name: "Бункер-маяк",
-                desc: "Высокий маяк светит всем выжившим.",
-                features: ["🗼 Маяк", "💡 Свет", "🌊 Море", "🚢 Корабли"],
-                capacity: "1 место",
-                supplies: "Рыба и вода",
-                timeToStay: "7 лет"
-            },
-            {
-                name: "Бункер-мельница",
-                desc: "Ветряная мельница перемалывает зерно.",
-                features: ["🌾 Зерно", "💨 Ветер", "🍞 Хлеб", "⚙️ Механизм"],
-                capacity: "1 место",
-                supplies: "Мука и хлеб",
-                timeToStay: "5 лет"
-            },
-            {
-                name: "Бункер-фонарь",
-                desc: "Огромный фонарь освещает всё вокруг.",
-                features: ["💡 Свет", "🔦 Фонарь", "🌙 Ночь", "✨ Сияние"],
-                capacity: "1 место",
-                supplies: "Еда на 4 года",
-                timeToStay: "4 года"
-            },
-            {
-                name: "Бункер-колодец",
-                desc: "Глубокий колодец с чистой водой.",
-                features: ["💧 Вода", "🪣 Ведро", "🪢 Верёвка", "🌊 Источник"],
-                capacity: "1 место",
-                supplies: "Вода всегда",
-                timeToStay: "Постоянно"
-            },
-            {
-                name: "Бункер-сундук",
-                desc: "Огромный сундук с сокровищами.",
-                features: ["💎 Драгоценности", "🪙 Монеты", "🗝️ Ключи", "📦 Сундуки"],
-                capacity: "1 место",
-                supplies: "Еда на 10 лет",
-                timeToStay: "10 лет"
             }
         ];
 
+        // ==================== ПЛОХИЕ ХАРАКТЕРИСТИКИ (70% шанс выпадения) ====================
+        
         const professions = [
-            "Врач", "Учитель", "Повар", "Механик", "Программист", 
-            "Биолог", "Химик", "Строитель", "Электрик", "Сантехник", 
-            "Фермер", "Водолаз", "Лётчик", "Капитан", "Геолог", 
-            "Метеоролог", "Психолог", "Полицейский", "Пожарный", "Ветеринар"
+            // Плохие профессии (70%)
+            "Безработный", "Уборщик", "Дворник", "Грузчик", "Курьер", 
+            "Продавец шаурмы", "Упаковщик", "Охранник", "Гардеробщик", "Лифтер",
+            "Мойщик окон", "Чистильщик обуви", "Разносчик пиццы", "Парковщик", "Уборщик мусора",
+            "Сборщик мебели", "Фасовщик", "Маркировщик", "Сортировщик", "Укладчик",
+            "Кочегар", "Истопник", "Трубочист", "Ассенизатор", "Мусорщик",
+            "Хорошая профессия: Врач", "Хорошая профессия: Инженер", "Хорошая профессия: Механик", "Хорошая профессия: Электрик", "Хорошая профессия: Строитель",
+            "Хорошая профессия: Фермер", "Хорошая профессия: Повар", "Хорошая профессия: Программист", "Хорошая профессия: Учитель", "Хорошая профессия: Биолог"
         ];
         
         const healths = [
-            "Здоров как бык", "Отличное здоровье", "Крепкое здоровье", 
-            "Иногда болеет", "Часто чихает", "Аллергия на клубнику",
-            "Быстро бегает", "Хорошо плавает", "Любит спорт", "Йога каждый день"
+            // Плохое здоровье (70%)
+            "Терминальная стадия рака", "СПИД", "Туберкулез открытая форма", "Гепатит С", "Цирроз печени",
+            "Диабет 1 типа", "Эпилепсия", "Шизофрения", "Биполярное расстройство", "Депрессия тяжелая",
+            "Ампутация обеих ног", "Ампутация руки", "Слепота", "Глухота", "Немота",
+            "Паралич нижних конечностей", "Болезнь Паркинсона", "Альцгеймер", "Рассеянный склероз", "Лейкемия",
+            "Ожирение 4 степени", "Анорексия", "Булимия", "Наркомания", "Алкоголизм",
+            "Хорошее: Абсолютно здоров", "Хорошее: Спортсмен", "Хорошее: Крепкий", "Хорошее: Выносливый", "Хорошее: Здоров как бык"
         ];
         
         const ages = [
-            "10 лет", "11 лет", "12 лет", "13 лет", "14 лет", 
-            "15 лет", "16 лет", "17 лет", "18 лет", "20 лет",
-            "25 лет", "30 лет", "35 лет", "40 лет", "45 лет", "50 лет"
+            // Проблемные возрасты (70%)
+            "90 лет", "85 лет", "80 лет", "82 года", "78 лет", "75 лет", "79 лет", "88 лет", "92 года", "95 лет",
+            "4 года", "3 года", "2 года", "1 год", "6 месяцев", "5 лет", "7 лет", "8 лет", "9 лет", "10 лет",
+            "11 лет", "12 лет", "13 лет", "14 лет", "15 лет", "16 лет", "17 лет", "18 лет", "19 лет", "20 лет",
+            "21 год", "22 года", "23 года", "24 года", "25 лет", "26 лет", "27 лет", "28 лет", "29 лет", "30 лет"
         ];
         
-        const genders = ["Мальчик", "Девочка", "Мужчина", "Женщина"];
+        const genders = ["Мужской", "Женский", "Небинарный", "Трансгендер", "Интерсекс", "Агендер"];
         
         const skills = [
-            "Стрельба из лука", "Выживание в лесу", "Первая помощь", "Строительство", 
-            "Кулинария", "Вождение", "Программирование", "Ремонт", "Садоводство", "Охота",
-            "Рыбалка", "Плотничество", "Электроника", "Химия", "Физика",
-            "Астрономия", "Психология", "Учитель", "Юрист", "Бухгалтер"
+            // Бесполезные навыки (70%)
+            "Умеет считать до 10", "Знает алфавит", "Умеет завязывать шнурки", "Умеет чихать", "Громко храпит",
+            "Пускает пузыри из слюны", "Щёлкает пальцами", "Свистит", "Громко икает", "Шевелит ушами",
+            "Ковыряет в носу", "Чешет спину ногой", "Складывает бумажные самолётики", "Рисует на полях", "Собирает пазлы",
+            "Смотрит в одну точку", "Долго моргает", "Громко дышит", "Скрипит зубами", "Ломает спички",
+            "Полезные: Врач", "Полезные: Строитель", "Полезные: Механик", "Полезные: Фермер", "Полезные: Охотник",
+            "Полезные: Рыбак", "Полезные: Повар", "Полезные: Электрик", "Полезные: Сантехник", "Полезные: Инженер"
         ];
         
         const phobias = [
-            "Боится темноты", "Боится замкнутых пространств", "Боится высоты", "Боится воды",
-            "Боится огня", "Боится крови", "Боится пауков", "Боится шума",
-            "Боится одиночества", "Боится толпы", "Боится собак", "Нет фобий"
+            // Страхи (все плохие)
+            "Боится темноты", "Боится замкнутых пространств", "Боится высоты", "Боится воды", "Боится огня",
+            "Боится крови", "Боится пауков", "Боится змей", "Боится собак", "Боится кошек",
+            "Боится людей", "Боится одиночества", "Боится толпы", "Боится шума", "Боится тишины",
+            "Боится еды", "Боится спать", "Боится проснуться", "Боится смерти", "Боится всего",
+            "Панические атаки", "Клаустрофобия", "Агорафобия", "Социофобия", "Арахнофобия",
+            "Акрофобия", "Аквафобия", "Клаустрофобия", "Некрофобия", "Танатофобия"
         ];
         
         const baggages = [
-            "Аптечка с лекарствами", "Набор инструментов", "Ноутбук с играми", 
-            "Семена растений", "Фонарик", "Спальный мешок",
-            "Фильтр для воды", "Спички и зажигалки", "Топор", "Нож",
-            "Консервы на месяц", "Палатка", "Генератор", "Книги",
-            "Колода карт", "Гитара", "Фотоаппарат", "Мяч", "Скейтборд"
+            // Бесполезный багаж (70%)
+            "Ржавый гвоздь", "Сломанная расческа", "Пустая бутылка", "Старый носок", "Рваный шнурок",
+            "Сдутый мяч", "Сломанные часы", "Не работает фонарик", "Пустая зажигалка", "Ржавый нож",
+            "Грязная тряпка", "Рваная книга", "Битая тарелка", "Гнутая вилка", "Ржавая ложка",
+            "Полезные: Аптечка", "Полезные: Инструменты", "Полезные: Еда", "Полезные: Нож", "Полезные: Фонарик",
+            "Полезные: Спички", "Полезные: Веревка", "Полезные: Топор", "Полезные: Палатка", "Полезные: Фильтр для воды"
+        ];
+        
+        const diseases = [
+            // Дополнительные болезни
+            "Чесотка", "Педикулез", "Глисты", "Аскариды", "Ленточный червь",
+            "Вши", "Блохи", "Клещи", "Грибок стопы", "Грибок ногтей",
+            "Стоматит", "Гингивит", "Кариес", "Пародонтоз", "Плохие зубы"
         ];
 
         // ==================== СОСТОЯНИЕ ====================
@@ -1384,17 +754,23 @@
             return arr[Math.floor(Math.random() * arr.length)];
         }
         
+        function randomWithBadRatio(arr) {
+            const index = Math.floor(Math.random() * arr.length);
+            return arr[index];
+        }
+        
         function generateCharacter() {
             return {
-                profession: random(professions),
-                health: random(healths),
-                age: random(ages),
-                gender: random(genders),
-                skill: random(skills),
-                phobia: random(phobias),
-                baggage: random(baggages),
-                iq: Math.floor(Math.random() * 60) + 80,
-                stamina: Math.floor(Math.random() * 10) + 1
+                profession: randomWithBadRatio(professions),
+                health: randomWithBadRatio(healths),
+                age: randomWithBadRatio(ages),
+                gender: randomWithBadRatio(genders),
+                skill: randomWithBadRatio(skills),
+                phobia: randomWithBadRatio(phobias),
+                baggage: randomWithBadRatio(baggages),
+                disease: randomWithBadRatio(diseases),
+                iq: Math.floor(Math.random() * 60) + 70, // 70-130
+                stamina: Math.floor(Math.random() * 10) + 1 // 1-10
             };
         }
         
@@ -1416,7 +792,7 @@
                 <div class="bunker-info-grid" style="margin-top: 12px;">
                     <div class="bunker-info-item">
                         <div class="bunker-info-icon">⏱️</div>
-                        <div class="bunker-info-label">Время в бункере</div>
+                        <div class="bunker-info-label">Длительность</div>
                         <div class="bunker-info-value">${d.duration}</div>
                     </div>
                     <div class="bunker-info-item">
@@ -1447,138 +823,4 @@
                         <div class="bunker-info-value">${b.capacity}</div>
                     </div>
                     <div class="bunker-info-item">
-                        <div class="bunker-info-icon">⏱️</div>
-                        <div class="bunker-info-label">Время в бункере</div>
-                        <div class="bunker-info-value">${b.timeToStay}</div>
-                    </div>
-                </div>
-                <div class="spots-warning">
-                    🔥 ВНИМАНИЕ: Только 1 человек сможет выжить!
-                </div>
-            `;
-            bunkerCard.classList.remove('hidden');
-        }
-        
-        function renderCharacter() {
-            const stats = [
-                { key: 'profession', label: 'Профессия', value: gameState.character.profession, icon: '💼' },
-                { key: 'health', label: 'Здоровье', value: gameState.character.health, icon: '❤️' },
-                { key: 'age', label: 'Возраст', value: gameState.character.age, icon: '🎂' },
-                { key: 'gender', label: 'Пол', value: gameState.character.gender, icon: '⚥' },
-                { key: 'skill', label: 'Навык', value: gameState.character.skill, icon: '🔧' },
-                { key: 'phobia', label: 'Фобия', value: gameState.character.phobia, icon: '😨' },
-                { key: 'baggage', label: 'Багаж', value: gameState.character.baggage, icon: '🎒' },
-                { key: 'iq', label: 'IQ', value: gameState.character.iq, icon: '🧠' },
-                { key: 'stamina', label: 'Выносливость', value: '⭐'.repeat(gameState.character.stamina), icon: '💪' }
-            ];
-            
-            let html = '';
-            stats.forEach(stat => {
-                const isRevealed = gameState.revealedStats.includes(stat.key);
-                html += `
-                    <div class="stat-item ${isRevealed ? 'revealed' : ''}" onclick="toggleStat('${stat.key}')">
-                        <div class="stat-icon">${stat.icon}</div>
-                        <div class="stat-content">
-                            <div class="stat-label">${stat.label}</div>
-                            <div class="stat-value">${stat.value}</div>
-                        </div>
-                        <div class="stat-check">
-                            ${isRevealed ? '<i class="fas fa-check"></i>' : ''}
-                        </div>
-                    </div>
-                `;
-            });
-            
-            statsGrid.innerHTML = html;
-            characterCard.classList.remove('hidden');
-            updateRevealCounter();
-        }
-        
-        function toggleStat(statKey) {
-            const index = gameState.revealedStats.indexOf(statKey);
-            if (index > -1) {
-                gameState.revealedStats.splice(index, 1);
-            } else {
-                gameState.revealedStats.push(statKey);
-            }
-            updateRevealCounter();
-            renderCharacter();
-            
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.selectionChanged();
-            }
-        }
-        
-        function generateAll() {
-            gameState.disaster = random(disasters);
-            gameState.bunker = random(bunkers);
-            gameState.character = generateCharacter();
-            gameState.revealedStats = [];
-            
-            renderDisaster();
-            renderBunker();
-            renderCharacter();
-            
-            regenSection.classList.remove('hidden');
-            revealCounter.classList.remove('hidden');
-            tipsCard.classList.add('hidden');
-            competitionCard.classList.remove('hidden');
-            
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
-            }
-        }
-        
-        function regenerateDisaster() {
-            gameState.disaster = random(disasters);
-            renderDisaster();
-            
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
-            }
-        }
-        
-        function regenerateBunker() {
-            gameState.bunker = random(bunkers);
-            renderBunker();
-            
-            if (window.Telegram?.WebApp?.HapticFeedback) {
-                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
-            }
-        }
-        
-        function resetGame() {
-            gameState = {
-                disaster: null,
-                bunker: null,
-                character: null,
-                revealedStats: []
-            };
-            
-            disasterCard.classList.add('hidden');
-            bunkerCard.classList.add('hidden');
-            characterCard.classList.add('hidden');
-            regenSection.classList.add('hidden');
-            revealCounter.classList.add('hidden');
-            tipsCard.classList.remove('hidden');
-            competitionCard.classList.add('hidden');
-        }
-        
-        // ==================== СОБЫТИЯ ====================
-        
-        generateAllBtn.addEventListener('click', generateAll);
-        regenDisasterBtn.addEventListener('click', regenerateDisaster);
-        regenBunkerBtn.addEventListener('click', regenerateBunker);
-        resetBtn.addEventListener('click', resetGame);
-        
-        window.toggleStat = toggleStat;
-        
-        if (window.Telegram?.WebApp) {
-            window.Telegram.WebApp.ready();
-            window.Telegram.WebApp.expand();
-        }
-        
-        console.log('🚀 Бункер готов к выживанию!');
-    </script>
-</body>
-</html>
+                        <div class
