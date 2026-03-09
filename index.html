@@ -505,7 +505,7 @@
             
             <!-- Счётчик -->
             <div class="counter hidden" id="revealCounter">
-                📖 Раскрыто: <span id="revealCount">0</span>/9
+                📖 Раскрыто: <span id="revealCount">0</span>/10
             </div>
             
             <!-- Карточка катастрофы -->
@@ -661,22 +661,25 @@
             "Мойщик окон", "Чистильщик обуви", "Разносчик пиццы", "Парковщик", "Уборщик мусора",
             "Сборщик мебели", "Фасовщик", "Маркировщик", "Сортировщик", "Укладчик",
             "Кочегар", "Истопник", "Трубочист", "Ассенизатор", "Мусорщик",
-            "Хорошая профессия: Врач", "Хорошая профессия: Инженер", "Хорошая профессия: Механик", "Хорошая профессия: Электрик", "Хорошая профессия: Строитель",
-            "Хорошая профессия: Фермер", "Хорошая профессия: Повар", "Хорошая профессия: Программист", "Хорошая профессия: Учитель", "Хорошая профессия: Биолог"
+            // Хорошие профессии (30%)
+            "Врач", "Инженер", "Механик", "Электрик", "Строитель",
+            "Фермер", "Повар", "Программист", "Учитель", "Биолог"
         ];
         
         const healths = [
             // Плохое здоровье (70%)
-            "Терминальная стадия рака", "СПИД", "Туберкулез открытая форма", "Гепатит С", "Цирроз печени",
-            "Диабет 1 типа", "Эпилепсия", "Шизофрения", "Биполярное расстройство", "Депрессия тяжелая",
+            "Терминальная стадия рака", "СПИД", "Туберкулез", "Гепатит С", "Цирроз печени",
+            "Диабет 1 типа", "Эпилепсия", "Шизофрения", "Биполярное расстройство", "Тяжелая депрессия",
             "Ампутация обеих ног", "Ампутация руки", "Слепота", "Глухота", "Немота",
             "Паралич нижних конечностей", "Болезнь Паркинсона", "Альцгеймер", "Рассеянный склероз", "Лейкемия",
             "Ожирение 4 степени", "Анорексия", "Булимия", "Наркомания", "Алкоголизм",
-            "Хорошее: Абсолютно здоров", "Хорошее: Спортсмен", "Хорошее: Крепкий", "Хорошее: Выносливый", "Хорошее: Здоров как бык"
+            // Хорошее здоровье (30%)
+            "Абсолютно здоров", "Спортсмен", "Крепкое здоровье", "Выносливый", "Здоров как бык",
+            "Занимается спортом", "Мастер спорта", "Отличный иммунитет", "Никогда не болеет", "Железное здоровье"
         ];
         
         const ages = [
-            // Проблемные возрасты (70%)
+            // Проблемные возраста (70%)
             "90 лет", "85 лет", "80 лет", "82 года", "78 лет", "75 лет", "79 лет", "88 лет", "92 года", "95 лет",
             "4 года", "3 года", "2 года", "1 год", "6 месяцев", "5 лет", "7 лет", "8 лет", "9 лет", "10 лет",
             "11 лет", "12 лет", "13 лет", "14 лет", "15 лет", "16 лет", "17 лет", "18 лет", "19 лет", "20 лет",
@@ -687,12 +690,13 @@
         
         const skills = [
             // Бесполезные навыки (70%)
-            "Умеет считать до 10", "Знает алфавит", "Умеет завязывать шнурки", "Умеет чихать", "Громко храпит",
-            "Пускает пузыри из слюны", "Щёлкает пальцами", "Свистит", "Громко икает", "Шевелит ушами",
-            "Ковыряет в носу", "Чешет спину ногой", "Складывает бумажные самолётики", "Рисует на полях", "Собирает пазлы",
-            "Смотрит в одну точку", "Долго моргает", "Громко дышит", "Скрипит зубами", "Ломает спички",
-            "Полезные: Врач", "Полезные: Строитель", "Полезные: Механик", "Полезные: Фермер", "Полезные: Охотник",
-            "Полезные: Рыбак", "Полезные: Повар", "Полезные: Электрик", "Полезные: Сантехник", "Полезные: Инженер"
+            "Считать до 10", "Знать алфавит", "Завязывать шнурки", "Громко чихать", "Сильно храпеть",
+            "Пускать пузыри", "Щёлкать пальцами", "Громко свистеть", "Громко икать", "Шевелить ушами",
+            "Ковырять в носу", "Чесать спину ногой", "Складывать самолётики", "Рисовать на полях", "Собирать пазлы",
+            "Смотреть в одну точку", "Долго моргать", "Громко дышать", "Скрежетать зубами", "Ломать спички",
+            // Полезные навыки (30%)
+            "Врач", "Строитель", "Механик", "Фермер", "Охотник",
+            "Рыбак", "Повар", "Электрик", "Сантехник", "Инженер"
         ];
         
         const phobias = [
@@ -708,14 +712,15 @@
         const baggages = [
             // Бесполезный багаж (70%)
             "Ржавый гвоздь", "Сломанная расческа", "Пустая бутылка", "Старый носок", "Рваный шнурок",
-            "Сдутый мяч", "Сломанные часы", "Не работает фонарик", "Пустая зажигалка", "Ржавый нож",
+            "Сдутый мяч", "Сломанные часы", "Сломанный фонарик", "Пустая зажигалка", "Ржавый нож",
             "Грязная тряпка", "Рваная книга", "Битая тарелка", "Гнутая вилка", "Ржавая ложка",
-            "Полезные: Аптечка", "Полезные: Инструменты", "Полезные: Еда", "Полезные: Нож", "Полезные: Фонарик",
-            "Полезные: Спички", "Полезные: Веревка", "Полезные: Топор", "Полезные: Палатка", "Полезные: Фильтр для воды"
+            // Полезный багаж (30%)
+            "Аптечка", "Набор инструментов", "Банка тушенки", "Охотничий нож", "Рабочий фонарик",
+            "Коробок спичек", "Прочная веревка", "Топор", "Палатка", "Фильтр для воды"
         ];
         
         const diseases = [
-            // Дополнительные болезни
+            // Дополнительные болезни (все плохие)
             "Чесотка", "Педикулез", "Глисты", "Аскариды", "Ленточный червь",
             "Вши", "Блохи", "Клещи", "Грибок стопы", "Грибок ногтей",
             "Стоматит", "Гингивит", "Кариес", "Пародонтоз", "Плохие зубы"
@@ -754,21 +759,16 @@
             return arr[Math.floor(Math.random() * arr.length)];
         }
         
-        function randomWithBadRatio(arr) {
-            const index = Math.floor(Math.random() * arr.length);
-            return arr[index];
-        }
-        
         function generateCharacter() {
             return {
-                profession: randomWithBadRatio(professions),
-                health: randomWithBadRatio(healths),
-                age: randomWithBadRatio(ages),
-                gender: randomWithBadRatio(genders),
-                skill: randomWithBadRatio(skills),
-                phobia: randomWithBadRatio(phobias),
-                baggage: randomWithBadRatio(baggages),
-                disease: randomWithBadRatio(diseases),
+                profession: random(professions),
+                health: random(healths),
+                age: random(ages),
+                gender: random(genders),
+                skill: random(skills),
+                phobia: random(phobias),
+                baggage: random(baggages),
+                disease: random(diseases),
                 iq: Math.floor(Math.random() * 60) + 70, // 70-130
                 stamina: Math.floor(Math.random() * 10) + 1 // 1-10
             };
@@ -823,4 +823,137 @@
                         <div class="bunker-info-value">${b.capacity}</div>
                     </div>
                     <div class="bunker-info-item">
-                        <div class
+                        <div class="bunker-info-icon">⏱️</div>
+                        <div class="bunker-info-label">Запасы</div>
+                        <div class="bunker-info-value">${b.timeToStay}</div>
+                    </div>
+                </div>
+                <div class="spots-warning">
+                    🔥 ВНИМАНИЕ: Только 1 человек сможет выжить!
+                </div>
+            `;
+            bunkerCard.classList.remove('hidden');
+        }
+        
+        function renderCharacter() {
+            const stats = [
+                { key: 'profession', label: 'Профессия', value: gameState.character.profession, icon: '💼' },
+                { key: 'health', label: 'Здоровье', value: gameState.character.health, icon: '❤️' },
+                { key: 'age', label: 'Возраст', value: gameState.character.age, icon: '🎂' },
+                { key: 'gender', label: 'Пол', value: gameState.character.gender, icon: '⚥' },
+                { key: 'skill', label: 'Навык', value: gameState.character.skill, icon: '🔧' },
+                { key: 'phobia', label: 'Фобия', value: gameState.character.phobia, icon: '😨' },
+                { key: 'baggage', label: 'Багаж', value: gameState.character.baggage, icon: '🎒' },
+                { key: 'disease', label: 'Болезнь', value: gameState.character.disease, icon: '🤒' },
+                { key: 'iq', label: 'IQ', value: gameState.character.iq, icon: '🧠' },
+                { key: 'stamina', label: 'Выносливость', value: '⭐'.repeat(gameState.character.stamina), icon: '💪' }
+            ];
+            
+            let html = '';
+            stats.forEach(stat => {
+                const isRevealed = gameState.revealedStats.includes(stat.key);
+                html += `
+                    <div class="stat-item ${isRevealed ? 'revealed' : ''}" onclick="toggleStat('${stat.key}')">
+                        <div class="stat-icon">${stat.icon}</div>
+                        <div class="stat-content">
+                            <div class="stat-label">${stat.label}</div>
+                            <div class="stat-value">${stat.value}</div>
+                        </div>
+                        <div class="stat-check">
+                            ${isRevealed ? '<i class="fas fa-check"></i>' : ''}
+                        </div>
+                    </div>
+                `;
+            });
+            
+            statsGrid.innerHTML = html;
+            characterCard.classList.remove('hidden');
+            updateRevealCounter();
+        }
+        
+        window.toggleStat = function(statKey) {
+            const index = gameState.revealedStats.indexOf(statKey);
+            if (index > -1) {
+                gameState.revealedStats.splice(index, 1);
+            } else {
+                gameState.revealedStats.push(statKey);
+            }
+            updateRevealCounter();
+            renderCharacter();
+            
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.selectionChanged();
+            }
+        };
+        
+        function generateAll() {
+            gameState.disaster = random(disasters);
+            gameState.bunker = random(bunkers);
+            gameState.character = generateCharacter();
+            gameState.revealedStats = [];
+            
+            renderDisaster();
+            renderBunker();
+            renderCharacter();
+            
+            regenSection.classList.remove('hidden');
+            revealCounter.classList.remove('hidden');
+            tipsCard.classList.add('hidden');
+            competitionCard.classList.remove('hidden');
+            
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
+            }
+        }
+        
+        function regenerateDisaster() {
+            gameState.disaster = random(disasters);
+            renderDisaster();
+            
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+            }
+        }
+        
+        function regenerateBunker() {
+            gameState.bunker = random(bunkers);
+            renderBunker();
+            
+            if (window.Telegram?.WebApp?.HapticFeedback) {
+                window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+            }
+        }
+        
+        function resetGame() {
+            gameState = {
+                disaster: null,
+                bunker: null,
+                character: null,
+                revealedStats: []
+            };
+            
+            disasterCard.classList.add('hidden');
+            bunkerCard.classList.add('hidden');
+            characterCard.classList.add('hidden');
+            regenSection.classList.add('hidden');
+            revealCounter.classList.add('hidden');
+            tipsCard.classList.remove('hidden');
+            competitionCard.classList.add('hidden');
+        }
+        
+        // ==================== СОБЫТИЯ ====================
+        
+        generateAllBtn.addEventListener('click', generateAll);
+        regenDisasterBtn.addEventListener('click', regenerateDisaster);
+        regenBunkerBtn.addEventListener('click', regenerateBunker);
+        resetBtn.addEventListener('click', resetGame);
+        
+        if (window.Telegram?.WebApp) {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+        }
+        
+        console.log('☠️ Жестокий бункер готов к выживанию!');
+    </script>
+</body>
+</html>
