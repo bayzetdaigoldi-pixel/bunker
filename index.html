@@ -3,127 +3,475 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Р”Р»СЏ РјРѕРµР№ Р»СЋР±РёРјРѕР№ рџ’•</title>
+    <title>Для тебя, моя хорошая ❤️</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Georgia', serif;
-            background: linear-gradient(135deg, #1a0a2e 0%, #16213e 50%, #0f3460 100%);
-            min-height: 100vh; overflow-x: hidden; color: #fff;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: linear-gradient(145deg, #2b1b3a 0%, #1d2b4e 70%, #1a3b5c 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #f0e7ff;
+            position: relative;
         }
-        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
-        .star { position: absolute; background: #fff; border-radius: 50%; animation: twinkle 2s infinite; }
-        @keyframes twinkle { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+
+        /* Анимированные звезды */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff6b0;
+            animation: twinkle 3s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scale(0.8);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+                background-color: #ffe68f;
+            }
+        }
+
+        /* Плавающие сердечки */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 1.8rem;
+            opacity: 0;
+            animation: floatUp 18s linear infinite;
+            user-select: none;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.8;
+            }
+
+            90% {
+                opacity: 0.6;
+                transform: translateY(-10vh) rotate(360deg) scale(1.2);
+            }
+
+            100% {
+                transform: translateY(-20vh) rotate(720deg) scale(0.2);
+                opacity: 0;
+            }
+        }
+
+        /* Прогресс бар */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #ff9aa2, #ffc8a2, #b5ead7, #c7ceff);
+            transition: width 0.5s cubic-bezier(0.65, 0, 0.35, 1);
+            z-index: 100;
+            box-shadow: 0 0 15px #ffb7c5;
+        }
+
         .container {
-            position: relative; z-index: 1; min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-        .slide { display: none; text-align: center; max-width: 800px; animation: fadeIn 1s ease; }
-        .slide.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        h1 { font-size: 3em; margin-bottom: 30px; text-shadow: 0 0 20px #ff6b9d, 0 0 40px #ff6b9d; animation: glow 2s ease-in-out infinite; }
-        @keyframes glow { 0%, 100% { text-shadow: 0 0 20px #ff6b9d, 0 0 40px #ff6b9d; } 50% { text-shadow: 0 0 30px #ff6b9d, 0 0 60px #ff6b9d, 0 0 80px #ff6b9d; } }
-        p { font-size: 1.4em; line-height: 1.8; margin-bottom: 25px; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
-        .heart { font-size: 4em; animation: heartbeat 1.5s infinite; display: inline-block; cursor: pointer; transition: transform 0.3s; }
-        .heart:hover { transform: scale(1.2); }
-        @keyframes heartbeat { 0%, 100% { transform: scale(1); } 25%, 75% { transform: scale(1.1); } }
-        .btn { background: linear-gradient(45deg, #ff6b9d, #ff8fa3); border: none; padding: 15px 40px; font-size: 1.2em; color: #fff; border-radius: 50px; cursor: pointer; margin-top: 30px; transition: all 0.3s; box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4); }
-        .btn:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(255, 107, 157, 0.6); }
-        .input-answer { background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 107, 157, 0.5); padding: 15px 25px; font-size: 1.1em; border-radius: 30px; color: #fff; text-align: center; margin-top: 20px; outline: none; transition: all 0.3s; }
-        .input-answer:focus { border-color: #ff6b9d; box-shadow: 0 0 20px rgba(255, 107, 157, 0.5); }
-        .input-answer::placeholder { color: rgba(255, 255, 255, 0.6); }
-        .error-message { color: #ff6b9d; font-size: 1em; margin-top: 15px; display: none; animation: shake 0.5s; }
-        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-        .floating-hearts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
-        .floating-heart { position: absolute; font-size: 2em; animation: floatUp 15s linear infinite; opacity: 0.6; }
-        @keyframes floatUp { from { transform: translateY(100vh) rotate(0deg); opacity: 0; } 10%, 90% { opacity: 0.6; } to { transform: translateY(-100vh) rotate(360deg); opacity: 0; } }
-        .final-message { background: rgba(255, 107, 157, 0.1); padding: 40px; border-radius: 20px; border: 2px solid rgba(255, 107, 157, 0.3); box-shadow: 0 0 50px rgba(255, 107, 157, 0.3); }
-        .name-placeholder { color: #ff6b9d; font-weight: bold; }
-        .progress-bar { position: fixed; top: 0; left: 0; height: 4px; background: linear-gradient(90deg, #ff6b9d, #ff8fa3); transition: width 0.5s; z-index: 100; }
+
+        .slide {
+            display: none;
+            text-align: center;
+            max-width: 750px;
+            background: rgba(255, 240, 250, 0.1);
+            backdrop-filter: blur(8px);
+            padding: 40px 50px;
+            border-radius: 60px 20px 60px 20px;
+            border: 1px solid rgba(255, 200, 220, 0.4);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 2px rgba(255, 180, 200, 0.3) inset;
+            animation: fadeInScale 0.8s ease;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeInScale {
+            0% {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 25px;
+            font-weight: 400;
+            text-shadow: 0 0 15px #ffb3c6, 0 0 30px #ff9eb5;
+            color: #fff6f0;
+            letter-spacing: 2px;
+        }
+
+        p {
+            font-size: 1.4em;
+            line-height: 1.7;
+            margin-bottom: 25px;
+            color: #fadee6;
+            font-weight: 300;
+        }
+
+        .heart {
+            font-size: 5em;
+            display: inline-block;
+            cursor: pointer;
+            filter: drop-shadow(0 0 20px #ff5e7c);
+            transition: transform 0.3s;
+            margin: 20px 0;
+        }
+
+        .heart:hover {
+            transform: scale(1.1) rotate(3deg);
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 200, 220, 0.8);
+            padding: 16px 45px;
+            font-size: 1.3em;
+            color: #fff0f3;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+            backdrop-filter: blur(5px);
+            font-weight: 500;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 20px rgba(255, 150, 180, 0.3);
+        }
+
+        .btn:hover {
+            background: rgba(255, 140, 170, 0.4);
+            border-color: #ffb3c6;
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(255, 120, 160, 0.5);
+        }
+
+        .input-answer {
+            background: rgba(255, 240, 250, 0.15);
+            border: 2px solid rgba(255, 200, 220, 0.6);
+            padding: 15px 30px;
+            font-size: 1.2em;
+            border-radius: 40px;
+            color: #fff;
+            text-align: center;
+            margin-top: 20px;
+            outline: none;
+            transition: all 0.3s;
+            width: 80%;
+            backdrop-filter: blur(5px);
+        }
+
+        .input-answer:focus {
+            border-color: #ffa5b9;
+            box-shadow: 0 0 30px rgba(255, 165, 185, 0.6);
+            background: rgba(255, 240, 250, 0.3);
+        }
+
+        .input-answer::placeholder {
+            color: rgba(255, 220, 235, 0.8);
+            font-style: italic;
+        }
+
+        .error-message {
+            color: #ffc2d1;
+            font-size: 1.1em;
+            margin-top: 15px;
+            display: none;
+            text-shadow: 0 0 5px #ff3b5c;
+        }
+
+        .final-message {
+            background: rgba(255, 200, 220, 0.15);
+            padding: 40px;
+            border-radius: 50px 20px 50px 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .name-placeholder {
+            color: #ffd9e6;
+            font-weight: 600;
+            text-decoration: underline wavy #ff99bb 2px;
+            text-underline-offset: 8px;
+        }
+
+        /* Специальный эффект для главного признания */
+        .big-confession {
+            font-size: 3.2em;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fbc2c2, #fdd9c2, #cef0cb, #bddbff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px #ff88aa;
+            margin: 30px 0;
+        }
     </style>
 </head>
 <body>
     <div class="stars" id="stars"></div>
     <div class="floating-hearts" id="floatingHearts"></div>
     <div class="progress-bar" id="progressBar"></div>
+
     <div class="container">
+        <!-- Слайд 1: Начало -->
         <div class="slide active" data-step="1">
-            <div class="heart">рџ’ќ</div>
-            <h1>РџСЂРёРІРµС‚, РјРѕСЏ Р»СЋР±РёРјР°СЏ!</h1>
-            <p>Р­С‚РѕС‚ РјР°Р»РµРЅСЊРєРёР№ РєРІРµСЃС‚ СЃРѕР·РґР°РЅ СЃРїРµС†РёР°Р»СЊРЅРѕ РґР»СЏ С‚РµР±СЏ.</p>
-            <p>Р“РѕС‚РѕРІР° Р»Рё С‚С‹ РїСЂРѕР№С‚Рё С‡РµСЂРµР· Р·РІС‘Р·РґС‹ Рё СЃРµСЂРґС†Р°, С‡С‚РѕР±С‹ СѓР·РЅР°С‚СЊ С‡С‚Рѕ-С‚Рѕ РѕСЃРѕР±РµРЅРЅРѕРµ?</p>
-            <button class="btn" onclick="nextSlide()">РќР°С‡Р°С‚СЊ РїСѓС‚РµС€РµСЃС‚РІРёРµ вњЁ</button>
+            <div class="heart">❤️</div>
+            <h1>Привет, моя хорошая...</h1>
+            <p>Я приготовил для тебя маленькое путешествие. Оно о нас, о звёздах и о том, что я храню в сердце.</p>
+            <p>Готова начать?</p>
+            <button class="btn" onclick="nextSlide()">Да, я рядом ✨</button>
         </div>
+
+        <!-- Слайд 2: Ввод имени -->
         <div class="slide" data-step="2">
-            <h1>рџЊџ Р’РѕРїСЂРѕСЃ РїРµСЂРІС‹Р№ рџЊџ</h1>
-            <p>РџРѕРјРЅРёС€СЊ Р»Рё С‚С‹ С‚РѕС‚ РјРѕРјРµРЅС‚, РєРѕРіРґР° РЅР°С€Рё РІР·РіР»СЏРґС‹ РІСЃС‚СЂРµС‚РёР»РёСЃСЊ РІРїРµСЂРІС‹Рµ?</p>
-            <p>РЇ РїРѕРјРЅСЋ РІСЃС‘... РєР°Р¶РґСѓСЋ СЃРµРєСѓРЅРґСѓ, РєР°Р¶РґСѓСЋ СѓР»С‹Р±РєСѓ, РєР°Р¶РґС‹Р№ С‚РІРѕР№ РІР·РіР»СЏРґ.</p>
-            <p><strong>РќР°РїРёС€Рё СЃРІРѕС‘ РёРјСЏ</strong>, С‡С‚РѕР±С‹ РїСЂРѕРґРѕР»Р¶РёС‚СЊ:</p>
-            <input type="text" class="input-answer" id="answer1" placeholder="РўРІРѕС‘ РїСЂРµРєСЂР°СЃРЅРѕРµ РёРјСЏ">
-            <p class="error-message" id="error1">РџРѕРїСЂРѕР±СѓР№ РµС‰С‘ СЂР°Р·, Р»СЋР±РёРјР°СЏ рџ’•</p>
-            <button class="btn" onclick="checkAnswer1()">РџСЂРѕРґРѕР»Р¶РёС‚СЊ рџ’«</button>
+            <h1>🌟 Первая звёздочка 🌟</h1>
+            <p>Помнишь тот день, когда мы встретились взглядами? Для меня тогда всё изменилось.</p>
+            <p>Напиши, пожалуйста, своё имя, чтобы я знал, что это точно ты:</p>
+            <input type="text" class="input-answer" id="answer1" placeholder="Твоё прекрасное имя">
+            <p class="error-message" id="error1">Попробуй ещё раз, я жду ❤️</p>
+            <button class="btn" onclick="checkAnswer1()">Дальше, милая 💫</button>
         </div>
+
+        <!-- Слайд 3: Комплименты (имя подставляется) -->
         <div class="slide" data-step="3">
-            <h1>рџ’– РўС‹ Р·РЅР°РµС€СЊ, С‡С‚Рѕ С‚С‹ РґР»СЏ РјРµРЅСЏ?</h1>
-            <p>РўС‹ вЂ” <span class="name-placeholder">РјРѕС‘ СЃРѕР»РЅС†Рµ</span> РІ СЃР°РјС‹Рµ С‚С‘РјРЅС‹Рµ РґРЅРё.</p>
-            <p>РўС‹ вЂ” <span class="name-placeholder">РјРѕСЏ РјРµР»РѕРґРёСЏ</span>, РєРѕС‚РѕСЂР°СЏ Р·РІСѓС‡РёС‚ РІ СЃРµСЂРґС†Рµ РїРѕСЃС‚РѕСЏРЅРЅРѕ.</p>
-            <p>РўС‹ вЂ” <span class="name-placeholder">РјРѕСЏ РІСЃРµР»РµРЅРЅР°СЏ</span>, РІ РєРѕС‚РѕСЂРѕР№ СЏ С…РѕС‡Сѓ РѕСЃС‚Р°С‚СЊСЃСЏ РЅР°РІСЃРµРіРґР°.</p>
-            <div class="heart" style="font-size: 5em;">рџ’—</div>
-            <button class="btn" onclick="nextSlide()">Р”Р°Р»СЊС€Рµ, РјРѕСЏ С…РѕСЂРѕС€Р°СЏ рџЊё</button>
+            <h1>💖 Ты знаешь, кто ты для меня?</h1>
+            <p>Ты — <span class="name-placeholder">Солнышко</span>, которое согревает даже в самый хмурый день.</p>
+            <p>Ты — <span class="name-placeholder">Музыка</span>, под которую хочется жить и мечтать.</p>
+            <p>Ты — <span class="name-placeholder">Моя Вселенная</span>, в которой я нашел свой покой.</p>
+            <div class="heart">💗</div>
+            <button class="btn" onclick="nextSlide()">Ты самая лучшая 🌷</button>
         </div>
+
+        <!-- Слайд 4: Загадка -->
         <div class="slide" data-step="4">
-            <h1>рџЋЁ Р—Р°РіР°РґРєР° Р»СЋР±РІРё</h1>
-            <p>РЈ РјРµРЅСЏ РµСЃС‚СЊ РІРѕРїСЂРѕСЃ Рє С‚РµР±Рµ, РјРѕСЏ РјСѓРґСЂР°СЏ:</p>
-            <p style="font-style: italic; color: #ff8fa3;">В«Р§С‚Рѕ СЃС‚Р°РЅРѕРІРёС‚СЃСЏ Р±РѕР»СЊС€Рµ, РєРѕРіРґР° РёРј РґРµР»РёС€СЊСЃСЏ?В»</p>
-            <input type="text" class="input-answer" id="answer2" placeholder="РўРІРѕР№ РѕС‚РІРµС‚">
-            <p class="error-message" id="error2">РџРѕРґСѓРјР°Р№ РµС‰С‘ РЅРµРјРЅРѕРіРѕ рџ’­</p>
-            <button class="btn" onclick="checkAnswer2()">РћС‚РІРµС‚РёС‚СЊ рџ’Ў</button>
+            <h1>🎀 Загадка для тебя</h1>
+            <p>У меня есть вопрос, моя умница:</p>
+            <p style="font-style: italic; color: #fbc0cb; font-size: 1.6em;">«Что становится только больше, когда им делишься с другим?»</p>
+            <input type="text" class="input-answer" id="answer2" placeholder="Твой ответ">
+            <p class="error-message" id="error2">Подумай ещё немного... это очень теплое чувство 💭</p>
+            <button class="btn" onclick="checkAnswer2()">Ответить 💌</button>
         </div>
+
+        <!-- Слайд 5: Правильный ответ -->
         <div class="slide" data-step="5">
-            <h1>рџЊ№ РџСЂР°РІРёР»СЊРЅРѕ! Р­С‚Рѕ Р»СЋР±РѕРІСЊ! рџЊ№</h1>
-            <p>Р РјРѕСЏ Р»СЋР±РѕРІСЊ Рє С‚РµР±Рµ СЂР°СЃС‚С‘С‚ СЃ РєР°Р¶РґС‹Рј РґРЅС‘Рј.</p>
-            <p>РЎ РєР°Р¶РґРѕР№ С‚РІРѕРµР№ СѓР»С‹Р±РєРѕР№...</p>
-            <p>РЎ РєР°Р¶РґС‹Рј С‚РІРѕРёРј РІР·РіР»СЏРґРѕРј...</p>
-            <p>РЎ РєР°Р¶РґС‹Рј РјРѕРјРµРЅС‚РѕРј, РїСЂРѕРІРµРґС‘РЅРЅС‹Рј РІРјРµСЃС‚Рµ...</p>
-            <div class="heart" style="font-size: 5em;">рџ’ћ</div>
-            <button class="btn" onclick="nextSlide()">РЈР·РЅР°С‚СЊ РіР»Р°РІРЅСѓСЋ С‚Р°Р№РЅСѓ рџ”®</button>
+            <h1>💞 Верно! Это Любовь! 💞</h1>
+            <p>И моя любовь к тебе растет с каждым днем.</p>
+            <p>С твоим смехом, с твоими глазами, с нашими моментами.</p>
+            <div class="heart">💘</div>
+            <button class="btn" onclick="nextSlide()">Открыть сердце 🗝️</button>
         </div>
+
+        <!-- Слайд 6: Главное признание -->
         <div class="slide" data-step="6">
-            <h1>рџ’Њ РЎР°РјРѕРµ РІР°Р¶РЅРѕРµ РїСЂРёР·РЅР°РЅРёРµ</h1>
-            <p>РЇ С…РѕС‡Сѓ, С‡С‚РѕР±С‹ С‚С‹ Р·РЅР°Р»Р°...</p>
-            <p style="font-size: 1.6em; color: #ff8fa3; text-shadow: 0 0 20px #ff6b9d;">РЇ Р›Р®Р‘Р›Р® РўР•Р‘РЇ</p>
-            <p>Р‘РµР·СѓРјРЅРѕ. РќР°РІСЃРµРіРґР°. Р”Рѕ Р±РµСЃРєРѕРЅРµС‡РЅРѕСЃС‚Рё Рё РѕР±СЂР°С‚РЅРѕ.</p>
-            <p>РўС‹ вЂ” Р»СѓС‡С€РµРµ, С‡С‚Рѕ СЃР»СѓС‡Р°Р»РѕСЃСЊ РІ РјРѕРµР№ Р¶РёР·РЅРё.</p>
-            <div class="heart" style="font-size: 6em;">вќ¤пёЏ</div>
-            <button class="btn" onclick="nextSlide()">Р¤РёРЅР°Р»СЊРЅС‹Р№ СЃРµРєСЂРµС‚ рџЋЃ</button>
+            <h1>💫 Самое важное 💫</h1>
+            <p>Я хочу, чтобы ты знала и никогда не забывала...</p>
+            <div class="big-confession">Я ЛЮБЛЮ ТЕБЯ</div>
+            <p>Искренне. Сильно. Навсегда.</p>
+            <p>Ты — лучшее, что когда-либо со мной случалось.</p>
+            <div class="heart">❤️‍🔥</div>
+            <button class="btn" onclick="nextSlide()">Финальный аккорд 🎼</button>
         </div>
+
+        <!-- Слайд 7: Финал -->
         <div class="slide" data-step="7">
             <div class="final-message">
-                <h1>рџЊє РўС‹ вЂ” РјРѕС‘ РІСЃС‘ рџЊє</h1>
-                <p>РЎРїР°СЃРёР±Рѕ, С‡С‚Рѕ С‚С‹ РµСЃС‚СЊ.</p>
-                <p>РЎРїР°СЃРёР±Рѕ, С‡С‚Рѕ С‚С‹ СЃРѕ РјРЅРѕР№.</p>
-                <p>РЎРїР°СЃРёР±Рѕ, С‡С‚Рѕ С‚С‹ вЂ” СЌС‚Рѕ РўР«.</p>
+                <h1>🌺 Ты — моё всё 🌺</h1>
+                <p>Спасибо, что ты есть у меня.</p>
+                <p>Спасибо за твою улыбку.</p>
+                <p>Спасибо за то, что ты — это ТЫ.</p>
                 <br>
-                <p style="font-size: 1.8em; color: #ff8fa3;">РЇ Р›Р®Р‘Р›Р® РўР•Р‘РЇ Р‘Р•РЎРљРћРќР•Р§РќРћ! рџ’•</p>
-                <br>
-                <p>РўРІРѕР№ РЅР°РІСЃРµРіРґР°...</p>
-                <div class="heart" style="font-size: 5em;">рџ’–</div>
+                <p style="font-size: 2em; color: #fcd1d1;">Твой человек.</p>
+                <div class="heart" style="font-size: 5em;">💖</div>
             </div>
-            <button class="btn" onclick="restartQuest()">РџСЂРѕР№С‚Рё РµС‰С‘ СЂР°Р· рџ”„</button>
+            <button class="btn" onclick="restartQuest()">Пройти заново 🔄</button>
         </div>
     </div>
+
     <script>
-        let currentSlide = 1; const totalSlides = 7; let userName = 'Р»СЋР±РёРјР°СЏ';
-        function createStars() { const sc = document.getElementById('stars'); for (let i = 0; i < 100; i++) { const s = document.createElement('div'); s.className = 'star'; s.style.left = Math.random() * 100 + '%'; s.style.top = Math.random() * 100 + '%'; s.style.width = (Math.random() * 3 + 1) + 'px'; s.style.height = s.style.width; s.style.animationDelay = Math.random() * 2 + 's'; sc.appendChild(s); } }
-        function createFloatingHearts() { const hc = document.getElementById('floatingHearts'); const hearts = ['рџ’•', 'рџ’–', 'рџ’—', 'рџ’“', 'рџ’ћ', 'рџ’', 'вќ¤пёЏ', 'рџ©·']; for (let i = 0; i < 15; i++) { const h = document.createElement('div'); h.className = 'floating-heart'; h.textContent = hearts[Math.floor(Math.random() * hearts.length)]; h.style.left = Math.random() * 100 + '%'; h.style.animationDuration = (Math.random() * 10 + 10) + 's'; h.style.animationDelay = Math.random() * 15 + 's'; hc.appendChild(h); } }
-        function updateProgress() { document.getElementById('progressBar').style.width = (currentSlide / totalSlides) * 100 + '%'; }
-        function nextSlide() { document.querySelector('.slide[data-step="' + currentSlide + '"]').classList.remove('active'); currentSlide++; if (currentSlide > totalSlides) currentSlide = totalSlides; document.querySelector('.slide[data-step="' + currentSlide + '"]').classList.add('active'); updateProgress(); }
-        function checkAnswer1() { const input = document.getElementById('answer1'); const error = document.getElementById('error1'); const value = input.value.trim(); if (value.length > 0) { userName = value; updateNamePlaceholders(); error.style.display = 'none'; nextSlide(); } else { error.style.display = 'block'; setTimeout(() => error.style.display = 'none', 2000); } }
-        function updateNamePlaceholders() { document.querySelectorAll('.name-placeholder').forEach(el => { el.textContent = userName; }); }
-        function checkAnswer2() { const input = document.getElementById('answer2'); const error = document.getElementById('error2'); const value = input.value.trim().toLowerCase(); const correct = ['Р»СЋР±РѕРІСЊ', 'love', 'СЃРµСЂРґС†Рµ', 'С‡СѓРІСЃС‚РІР°', 'СЌРјРѕС†РёРё', 'СЃС‡Р°СЃС‚СЊРµ', 'СЂР°РґРѕСЃС‚СЊ']; if (correct.some(a => value.includes(a))) { error.style.display = 'none'; nextSlide(); } else { error.style.display = 'block'; setTimeout(() => error.style.display = 'none', 2000); } }
-        function restartQuest() { currentSlide = 1; document.querySelectorAll('.slide').forEach(s => s.classList.remove('active')); document.querySelector('.slide[data-step="1"]').classList.add('active'); document.getElementById('answer1').value = ''; document.getElementById('answer2').value = ''; updateProgress(); }
-        document.addEventListener('keypress', function(e) { if (e.key === 'Enter') { if (currentSlide === 2) checkAnswer1(); if (currentSlide === 4) checkAnswer2(); } });
-        createStars(); createFloatingHearts(); updateProgress();
+        let currentSlide = 1;
+        const totalSlides = 7;
+        let userName = 'любимая'; // Значение по умолчанию
+
+        // Функция создания звезд
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 120; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                let size = Math.random() * 4 + 1;
+                star.style.width = size + 'px';
+                star.style.height = size + 'px';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Функция создания плавающих сердечек
+        function createFloatingHearts() {
+            const heartsContainer = document.getElementById('floatingHearts');
+            const heartsArray = ['❤️', '🧡', '💛', '💚', '💙', '💜', '🩷', '💖', '💗', '💓', '💕', '💞'];
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = heartsArray[Math.floor(Math.random() * heartsArray.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                heart.style.animationDelay = Math.random() * 10 + 's';
+                heart.style.fontSize = (Math.random() * 2 + 1) + 'rem';
+                heartsContainer.appendChild(heart);
+            }
+        }
+
+        // Обновление прогресс-бара
+        function updateProgress() {
+            document.getElementById('progressBar').style.width = (currentSlide / totalSlides) * 100 + '%';
+        }
+
+        // Переход к следующему слайду
+        function nextSlide() {
+            if (currentSlide < totalSlides) {
+                document.querySelector('.slide[data-step="' + currentSlide + '"]').classList.remove('active');
+                currentSlide++;
+                document.querySelector('.slide[data-step="' + currentSlide + '"]').classList.add('active');
+                updateProgress();
+            }
+        }
+
+        // Проверка первого ответа (имя)
+        function checkAnswer1() {
+            const input = document.getElementById('answer1');
+            const error = document.getElementById('error1');
+            const value = input.value.trim();
+
+            if (value.length > 0) {
+                userName = value; // Сохраняем имя
+                updateNamePlaceholders(); // Обновляем все места с именем
+                error.style.display = 'none';
+                nextSlide();
+            } else {
+                error.style.display = 'block';
+                // Автоматически скрыть ошибку через 2 секунды
+                setTimeout(() => {
+                    error.style.display = 'none';
+                }, 2000);
+            }
+        }
+
+        // Обновление плейсхолдеров имени на всех слайдах
+        function updateNamePlaceholders() {
+            document.querySelectorAll('.name-placeholder').forEach(el => {
+                el.textContent = userName;
+            });
+        }
+
+        // Проверка второго ответа (загадка)
+        function checkAnswer2() {
+            const input = document.getElementById('answer2');
+            const error = document.getElementById('error2');
+            const value = input.value.trim().toLowerCase();
+
+            // Список правильных ответов (можно дополнить)
+            const correctAnswers = ['любовь', 'love', 'сердце', 'тепло', 'счастье', 'нежность', 'забота', 'доброта', 'ласка', 'чувства'];
+
+            // Проверяем, есть ли хотя бы одно слово из правильных в ответе
+            const isCorrect = correctAnswers.some(word => value.includes(word));
+
+            if (isCorrect) {
+                error.style.display = 'none';
+                nextSlide();
+            } else {
+                error.style.display = 'block';
+                setTimeout(() => {
+                    error.style.display = 'none';
+                }, 2000);
+            }
+        }
+
+        // Перезапуск квеста
+        function restartQuest() {
+            currentSlide = 1;
+            document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+            document.querySelector('.slide[data-step="1"]').classList.add('active');
+            // Очистить поля ввода
+            document.getElementById('answer1').value = '';
+            document.getElementById('answer2').value = '';
+            // Сбросить имя на значение по умолчанию
+            userName = 'любимая';
+            updateNamePlaceholders();
+            updateProgress();
+        }
+
+        // Обработчик нажатия Enter для быстрого ответа
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (currentSlide === 2) checkAnswer1();
+                if (currentSlide === 4) checkAnswer2();
+            }
+        });
+
+        // Инициализация
+        createStars();
+        createFloatingHearts();
+        updateProgress();
+
+        // Обновить имена при загрузке (на случай, если в слайде 3 уже есть name-placeholder)
+        updateNamePlaceholders();
     </script>
 </body>
 </html>
