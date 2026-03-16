@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>для тебя</title>
+    <title>для алисы</title>
     <style>
         * {
             margin: 0;
@@ -12,302 +12,240 @@
         }
 
         body {
-            background: #f4f2ef;
+            background: #f4f2f0;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            color: #1e1e1e;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #1a1a1a;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 580px;
             width: 100%;
-            padding: 24px;
-            position: relative;
+            padding: 20px;
         }
 
         .slide {
             display: none;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 40px;
             padding: 48px 40px;
-            border: 1px solid rgba(255, 255, 255, 0.6);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
-            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.08);
             opacity: 0;
+            transition: 0.3s;
         }
 
         .slide.active {
             display: block;
             opacity: 1;
-            animation: show 0.5s ease-out;
+            animation: fade 0.4s ease;
         }
 
-        @keyframes show {
-            from {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fade {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h1 {
-            font-size: 2.4rem;
-            font-weight: 450;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
+            font-size: 2.2rem;
+            font-weight: 440;
+            letter-spacing: -0.02em;
+            margin-bottom: 28px;
             color: #1a1a1a;
-            line-height: 1.2;
         }
 
         p {
             font-size: 1.3rem;
-            line-height: 1.6;
+            line-height: 1.7;
             color: #3a3a3a;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
             font-weight: 350;
         }
 
-        .small-text {
-            font-size: 1rem;
-            color: #7a7a7a;
-            margin-top: 32px;
-        }
-
         .btn {
-            background: #2c2c2c;
+            background: #1a1a1a;
             color: white;
             border: none;
-            padding: 16px 36px;
+            padding: 16px 38px;
             font-size: 1.1rem;
-            border-radius: 60px;
+            border-radius: 100px;
             font-weight: 450;
             cursor: pointer;
-            transition: all 0.2s ease;
-            margin-top: 16px;
-            display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.15s;
+            margin-top: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .btn:hover {
-            background: #3d3d3d;
+            background: #333;
             transform: scale(0.97);
         }
 
-        .btn.outline {
+        .btn.light {
             background: transparent;
-            color: #2c2c2c;
-            border: 1.5px solid #2c2c2c;
-        }
-
-        .btn.outline:hover {
-            background: #f0f0f0;
+            color: #1a1a1a;
+            border: 1.5px solid #1a1a1a;
         }
 
         .input-answer {
             width: 100%;
             padding: 16px 24px;
             font-size: 1.2rem;
-            background: rgba(255, 255, 255, 0.8);
-            border: 1px solid #d0d0d0;
+            background: white;
+            border: 1px solid #d4d4d4;
             border-radius: 40px;
-            margin: 20px 0 16px;
+            margin: 20px 0;
             font-family: inherit;
-            transition: 0.2s;
         }
 
         .input-answer:focus {
             outline: none;
-            border-color: #8a8a8a;
-            background: white;
+            border-color: #999;
         }
 
-        .error-message {
-            color: #b34a4a;
-            font-size: 0.95rem;
-            margin-top: 8px;
-            display: none;
-        }
-
-        .heart-deco {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            opacity: 0.8;
-        }
-
-        .progress-line {
+        .progress {
             position: fixed;
             top: 0;
             left: 0;
             height: 3px;
-            background: #2c2c2c;
-            transition: width 0.3s ease;
+            background: #1a1a1a;
+            transition: width 0.3s;
             z-index: 10;
         }
 
-        .final-block {
-            text-align: center;
+        .heart-big {
+            font-size: 3.8rem;
+            margin-bottom: 20px;
+            opacity: 0.8;
         }
 
-        .big-message {
-            font-size: 3.5rem;
-            font-weight: 450;
+        .final-message {
+            font-size: 3rem;
+            font-weight: 440;
             letter-spacing: -0.02em;
-            line-height: 1.3;
+            line-height: 1.2;
             margin: 40px 0 30px;
-            color: #1e1e1e;
         }
 
-        .name-highlight {
-            font-weight: 500;
-            color: #1e1e1e;
-            text-decoration: underline 2px #d4d4d4;
-            text-underline-offset: 6px;
+        .small-note {
+            color: #7a7a7a;
+            font-size: 0.95rem;
+            margin-top: 40px;
         }
 
         @media (max-width: 500px) {
-            .slide {
-                padding: 36px 28px;
-            }
-            
-            h1 {
-                font-size: 2rem;
-            }
-            
-            p {
-                font-size: 1.2rem;
-            }
-            
-            .big-message {
-                font-size: 2.8rem;
-            }
+            .slide { padding: 36px 24px; }
+            h1 { font-size: 1.9rem; }
+            p { font-size: 1.2rem; }
+            .final-message { font-size: 2.5rem; }
         }
     </style>
 </head>
 <body>
-    <div class="progress-line" id="progressBar"></div>
+    <div class="progress" id="progress"></div>
 
     <div class="container">
         <!-- 1 -->
         <div class="slide active" data-step="1">
-            <div class="heart-deco">🫧</div>
-            <h1>Это для тебя</h1>
-            <p>Просто несколько строчек. Без лишних вопросов, без неловкости.</p>
-            <p>Здесь всё, что я хочу сказать.</p>
-            <button class="btn" onclick="nextSlide()">читать дальше</button>
+            <div class="heart-big">🕊️</div>
+            <h1>Алиса</h1>
+            <p>Я просто хотел сказать тебе кое-что. Без повода. Без дат. Просто сегодня.</p>
+            <p>Ты можешь просто читать. Или закрыть. Но если останешься — я буду рад.</p>
+            <button class="btn" onclick="next()">остаюсь</button>
         </div>
 
         <!-- 2 -->
         <div class="slide" data-step="2">
-            <h1>Я помню</h1>
-            <p>Как ты улыбаешься, когда думаешь, что никто не видит.</p>
-            <p>Как ты смотришь в окно, когда задумываешься.</p>
-            <p>Эти мелочи — они мои любимые.</p>
-            <button class="btn" onclick="nextSlide()">ещё</button>
+            <h1>Я помню как ты</h1>
+            <p>Смеёшься над глупостями. Злишься, когда холодно. Молчишь, когда устала.</p>
+            <p>Помню как ты поправляешь волосы, когда нервничаешь. И как закрываешь глаза, когда слушаешь музыку.</p>
+            <p>Я запоминаю тебя. Каждый день.</p>
+            <button class="btn" onclick="next()">дальше</button>
         </div>
 
         <!-- 3 -->
         <div class="slide" data-step="3">
-            <h1>Ты — это</h1>
-            <p>• Твои привычки, о которых ты не рассказываешь<br>
-            • Твои мысли, которые ты оставляешь при себе<br>
-            • Твоя тишина, когда ты устала</p>
-            <p>И это всё мне бесконечно дорого.</p>
-            <button class="btn" onclick="nextSlide()">дальше</button>
+            <h1>Мне в тебе нравится всё</h1>
+            <p>Даже то, что ты в себе не любишь. Даже то, что прячешь.</p>
+            <p>Твои странности. Твоя усталость по вечерам. Твои дурацкие шутки.</p>
+            <p>Ты — целиком. Без вариантов.</p>
+            <button class="btn" onclick="next()">и это тоже</button>
         </div>
 
         <!-- 4 -->
         <div class="slide" data-step="4">
-            <h1>Я хочу знать</h1>
-            <p>Что сделает твой день лучше прямо сейчас?</p>
-            <input type="text" class="input-answer" id="answer1" placeholder="напиши что угодно...">
-            <p class="error-message" id="error1">напиши, если хочешь :)</p>
-            <button class="btn" onclick="checkAnswer1()">ответить</button>
-            <div class="small-text">(можно просто нажать кнопку)</div>
+            <h1>Знаешь, о чём я часто думаю?</h1>
+            <p>О том, как ты засыпаешь. Просыпаешься. Пьёшь кофе. Дышишь.</p>
+            <p>О том, что ты где-то сейчас читаешь это, и я улыбаюсь.</p>
+            <p>Потому что ты есть.</p>
+            <button class="btn" onclick="next()">🌙</button>
         </div>
 
         <!-- 5 -->
         <div class="slide" data-step="5">
-            <h1>Спасибо</h1>
-            <p>За то, что ты есть. За то, что ты такая, какая есть.</p>
-            <p>Без условий, без «но».</p>
-            <button class="btn" onclick="nextSlide()">самое важное</button>
+            <h1>Я не умею говорить красиво</h1>
+            <p>Но я умею чувствовать. И чувствую я тебя. Каждый день. Каждую минуту. Каждую мысль.</p>
+            <p>Ты стала частью меня. Не спрашивая разрешения. Просто вошла и всё.</p>
+            <button class="btn" onclick="next()">самое главное</button>
         </div>
 
-        <!-- 6 финал -->
+        <!-- 6 -->
         <div class="slide" data-step="6">
-            <div class="final-block">
-                <div class="big-message">я тебя люблю</div>
-                <p style="font-size: 1.4rem;">просто так. просто потому что ты — это ты.</p>
-                <div style="font-size: 4rem; margin: 40px 0 20px;">❤️</div>
-                <p style="color: #5a5a5a;">навсегда твой.</p>
+            <div style="text-align: center;">
+                <div class="final-message">я тебя люблю</div>
+                <p style="font-size: 1.5rem; margin: 20px 0;">не за что-то. просто так.</p>
+                <p style="font-size: 1.2rem; color: #5a5a5a;">ты — это всё, что мне нужно.</p>
+                <div style="font-size: 4rem; margin: 40px 0;">❤️</div>
+                <p style="color: #6a6a6a;">навсегда твой,</p>
+                <p style="font-size: 1.2rem; margin-top: 8px;">[твоё имя]</p>
                 
-                <button class="btn outline" onclick="restartQuest()" style="margin-top: 60px;">начать сначала</button>
+                <button class="btn light" onclick="restart()" style="margin-top: 60px;">сначала</button>
             </div>
         </div>
     </div>
 
     <script>
-        let currentSlide = 1;
-        const totalSlides = 6;
+        let step = 1;
+        const total = 6;
+        const progress = document.getElementById('progress');
 
-        function updateProgress() {
-            const progress = (currentSlide / totalSlides) * 100;
-            document.getElementById('progressBar').style.width = progress + '%';
+        function update() {
+            progress.style.width = (step / total) * 100 + '%';
         }
 
-        function nextSlide() {
-            if (currentSlide < totalSlides) {
-                document.querySelector('.slide[data-step="' + currentSlide + '"]').classList.remove('active');
-                currentSlide++;
-                document.querySelector('.slide[data-step="' + currentSlide + '"]').classList.add('active');
-                updateProgress();
+        function next() {
+            if (step < total) {
+                document.querySelector(`.slide[data-step="${step}"]`).classList.remove('active');
+                step++;
+                document.querySelector(`.slide[data-step="${step}"]`).classList.add('active');
+                update();
             }
         }
 
-        function checkAnswer1() {
-            const input = document.getElementById('answer1');
-            const error = document.getElementById('error1');
-            
-            // даже если пусто — пропускаем, это не важно
-            error.style.display = 'none';
-            nextSlide();
-        }
-
-        function restartQuest() {
-            currentSlide = 1;
+        function restart() {
+            step = 1;
             document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
             document.querySelector('.slide[data-step="1"]').classList.add('active');
-            document.getElementById('answer1').value = '';
-            updateProgress();
+            update();
         }
 
-        // enter
-        document.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && currentSlide === 4) {
-                checkAnswer1();
-            }
-        });
+        update();
 
-        updateProgress();
-
-        // несколько тихих точек на фоне
+        // красивый фон
         const bg = document.createElement('div');
         bg.style.position = 'fixed';
         bg.style.top = '0';
         bg.style.left = '0';
         bg.style.width = '100%';
         bg.style.height = '100%';
+        bg.style.background = 'radial-gradient(circle at 80% 30%, rgba(210, 220, 240, 0.3) 0%, transparent 60%)';
         bg.style.pointerEvents = 'none';
         bg.style.zIndex = '-1';
-        bg.style.background = 'radial-gradient(circle at 30% 40%, rgba(230,240,255,0.3) 0%, transparent 40%)';
         document.body.appendChild(bg);
     </script>
 </body>
