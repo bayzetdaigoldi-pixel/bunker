@@ -12,30 +12,30 @@
         }
 
         body {
-            background: #f4f2f0;
+            background: #f2f0ed;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #1a1a1a;
+            color: #1e1e1e;
         }
 
         .container {
-            max-width: 580px;
+            max-width: 560px;
             width: 100%;
             padding: 20px;
         }
 
         .slide {
             display: none;
-            background: rgba(255, 255, 255, 0.75);
+            background: rgba(255, 255, 255, 0.8);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 40px;
             padding: 48px 40px;
             border: 1px solid rgba(255, 255, 255, 0.5);
-            box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 25px 50px -20px rgba(0, 0, 0, 0.1);
             opacity: 0;
             transition: 0.3s;
         }
@@ -52,16 +52,16 @@
         }
 
         h1 {
-            font-size: 2.2rem;
-            font-weight: 440;
+            font-size: 2rem;
+            font-weight: 500;
             letter-spacing: -0.02em;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
             color: #1a1a1a;
         }
 
         p {
-            font-size: 1.3rem;
-            line-height: 1.7;
+            font-size: 1.25rem;
+            line-height: 1.6;
             color: #3a3a3a;
             margin-bottom: 24px;
             font-weight: 350;
@@ -71,14 +71,13 @@
             background: #1a1a1a;
             color: white;
             border: none;
-            padding: 16px 38px;
-            font-size: 1.1rem;
+            padding: 14px 34px;
+            font-size: 1rem;
             border-radius: 100px;
             font-weight: 450;
             cursor: pointer;
             transition: 0.15s;
-            margin-top: 20px;
-            border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 16px;
         }
 
         .btn:hover {
@@ -92,57 +91,36 @@
             border: 1.5px solid #1a1a1a;
         }
 
-        .input-answer {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 1.2rem;
-            background: white;
-            border: 1px solid #d4d4d4;
-            border-radius: 40px;
-            margin: 20px 0;
-            font-family: inherit;
-        }
-
-        .input-answer:focus {
-            outline: none;
-            border-color: #999;
-        }
-
         .progress {
             position: fixed;
             top: 0;
             left: 0;
             height: 3px;
-            background: #1a1a1a;
+            background: #7f9fbb;
             transition: width 0.3s;
             z-index: 10;
         }
 
-        .heart-big {
-            font-size: 3.8rem;
-            margin-bottom: 20px;
-            opacity: 0.8;
-        }
-
         .final-message {
-            font-size: 3rem;
-            font-weight: 440;
+            font-size: 2.8rem;
+            font-weight: 450;
             letter-spacing: -0.02em;
             line-height: 1.2;
-            margin: 40px 0 30px;
+            margin: 30px 0 20px;
         }
 
-        .small-note {
-            color: #7a7a7a;
-            font-size: 0.95rem;
-            margin-top: 40px;
+        .divider {
+            width: 40px;
+            height: 2px;
+            background: #c0c0c0;
+            margin: 30px auto;
         }
 
         @media (max-width: 500px) {
-            .slide { padding: 36px 24px; }
-            h1 { font-size: 1.9rem; }
-            p { font-size: 1.2rem; }
-            .final-message { font-size: 2.5rem; }
+            .slide { padding: 36px 28px; }
+            h1 { font-size: 1.8rem; }
+            p { font-size: 1.15rem; }
+            .final-message { font-size: 2.3rem; }
         }
     </style>
 </head>
@@ -152,57 +130,77 @@
     <div class="container">
         <!-- 1 -->
         <div class="slide active" data-step="1">
-            <div class="heart-big">🕊️</div>
-            <h1>Алиса</h1>
-            <p>Я просто хотел сказать тебе кое-что. Без повода. Без дат. Просто сегодня.</p>
-            <p>Ты можешь просто читать. Или закрыть. Но если останешься — я буду рад.</p>
-            <button class="btn" onclick="next()">остаюсь</button>
+            <h1>Карина</h1>
+            <p>Я не умею красиво говорить. Поэтому просто напишу как есть.</p>
+            <p>Тут несколько слайдов. О нас. О тебе. Обо мне.</p>
+            <button class="btn" onclick="next()">дальше</button>
         </div>
 
         <!-- 2 -->
         <div class="slide" data-step="2">
-            <h1>Я помню как ты</h1>
-            <p>Смеёшься над глупостями. Злишься, когда холодно. Молчишь, когда устала.</p>
-            <p>Помню как ты поправляешь волосы, когда нервничаешь. И как закрываешь глаза, когда слушаешь музыку.</p>
-            <p>Я запоминаю тебя. Каждый день.</p>
-            <button class="btn" onclick="next()">дальше</button>
+            <h1>Помнишь тот автобус?</h1>
+            <p>Ты ехала с учёбы. Я написал. Предложил встречаться.</p>
+            <p>До сих пор помню, как тряслись руки, пока ждал ответ.</p>
+            <p>Ты сказала "да". И это был лучший день.</p>
+            <button class="btn" onclick="next()">🚌</button>
         </div>
 
         <!-- 3 -->
         <div class="slide" data-step="3">
-            <h1>Мне в тебе нравится всё</h1>
-            <p>Даже то, что ты в себе не любишь. Даже то, что прячешь.</p>
-            <p>Твои странности. Твоя усталость по вечерам. Твои дурацкие шутки.</p>
-            <p>Ты — целиком. Без вариантов.</p>
-            <button class="btn" onclick="next()">и это тоже</button>
+            <h1>Твои глаза</h1>
+            <p>Голубые.</p>
+            <p>Когда ты злишься, они темнеют. Когда смеёшься — светятся.</p>
+            <p>Я могу смотреть в них бесконечно. Даже когда молчим.</p>
+            <button class="btn" onclick="next()">💙</button>
         </div>
 
         <!-- 4 -->
         <div class="slide" data-step="4">
-            <h1>Знаешь, о чём я часто думаю?</h1>
-            <p>О том, как ты засыпаешь. Просыпаешься. Пьёшь кофе. Дышишь.</p>
-            <p>О том, что ты где-то сейчас читаешь это, и я улыбаюсь.</p>
-            <p>Потому что ты есть.</p>
-            <button class="btn" onclick="next()">🌙</button>
+            <h1>Ты и музыка</h1>
+            <p>Ты не слушаешь — ты танцуешь.</p>
+            <p>Даже если просто стоишь на месте, внутри ты уже двигаешься.</p>
+            <p>Я люблю за этим наблюдать.</p>
+            <button class="btn" onclick="next()">🎵</button>
         </div>
 
         <!-- 5 -->
         <div class="slide" data-step="5">
-            <h1>Я не умею говорить красиво</h1>
-            <p>Но я умею чувствовать. И чувствую я тебя. Каждый день. Каждую минуту. Каждую мысль.</p>
-            <p>Ты стала частью меня. Не спрашивая разрешения. Просто вошла и всё.</p>
-            <button class="btn" onclick="next()">самое главное</button>
+            <h1>Сладкое и роллы</h1>
+            <p>Твоя слабость. И твоё счастье.</p>
+            <p>Я запоминаю, что ты любишь. Каждый твой "хочу" — в голове.</p>
+            <p>Чтобы однажды просто взять и сделать.</p>
+            <button class="btn" onclick="next()">🍣</button>
         </div>
 
         <!-- 6 -->
         <div class="slide" data-step="6">
+            <h1>Аквапарк, Термолэнд, отдых</h1>
+            <p>То, о чём мы говорили. Куда хотим вместе.</p>
+            <p>Пока не получается. Но я не забыл. И не забуду.</p>
+            <p>Мы туда поедем. Обязательно.</p>
+            <button class="btn" onclick="next()">🌊</button>
+        </div>
+
+        <!-- 7 -->
+        <div class="slide" data-step="7">
+            <h1>Мы ссоримся</h1>
+            <p>Постоянно. Иногда по делу, иногда нет.</p>
+            <p>Но даже в самые злые моменты я не хочу быть ни с кем другим.</p>
+            <p>Только с тобой.</p>
+            <button class="btn" onclick="next()">дальше</button>
+        </div>
+
+        <!-- 8 -->
+        <div class="slide" data-step="8">
             <div style="text-align: center;">
-                <div class="final-message">я тебя люблю</div>
-                <p style="font-size: 1.5rem; margin: 20px 0;">не за что-то. просто так.</p>
-                <p style="font-size: 1.2rem; color: #5a5a5a;">ты — это всё, что мне нужно.</p>
-                <div style="font-size: 4rem; margin: 40px 0;">❤️</div>
-                <p style="color: #6a6a6a;">навсегда твой,</p>
-                <p style="font-size: 1.2rem; margin-top: 8px;">[твоё имя]</p>
+                <div class="final-message">я люблю тебя</div>
+                <div class="divider"></div>
+                <p>Не за что-то. Просто люблю.</p>
+                <p>Когда ты танцуешь, когда злишься, когда молчишь.</p>
+                <p>Когда ешь роллы и когда не хочешь никого видеть.</p>
+                <p>Ты — моя.</p>
+                <div style="font-size: 3rem; margin: 40px 0 20px;">💙</div>
+                <p>Федечка</p>
                 
                 <button class="btn light" onclick="restart()" style="margin-top: 60px;">сначала</button>
             </div>
@@ -211,7 +209,7 @@
 
     <script>
         let step = 1;
-        const total = 6;
+        const total = 8;
         const progress = document.getElementById('progress');
 
         function update() {
@@ -236,14 +234,13 @@
 
         update();
 
-        // красивый фон
         const bg = document.createElement('div');
         bg.style.position = 'fixed';
         bg.style.top = '0';
         bg.style.left = '0';
         bg.style.width = '100%';
         bg.style.height = '100%';
-        bg.style.background = 'radial-gradient(circle at 80% 30%, rgba(210, 220, 240, 0.3) 0%, transparent 60%)';
+        bg.style.background = 'radial-gradient(circle at 30% 50%, rgba(180, 210, 235, 0.2) 0%, transparent 60%)';
         bg.style.pointerEvents = 'none';
         bg.style.zIndex = '-1';
         document.body.appendChild(bg);
